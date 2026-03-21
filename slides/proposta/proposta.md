@@ -4,15 +4,17 @@ theme: gaia
 paginate: true
 size: 16:9
 ---
-# Análise de Desempenho da Inferência  
+
+# Análise de Desempenho da Inferência
+
 ## de um Modelo de Linguagem Distribuído em Múltiplas GPUs
 
 Rafael Silva de Souza  
 Matheus Augusto Tregnago  
-Lucas Fraga Balbinot  
+Lucas Fraga Balbinot
 
 Universidade Federal do Rio Grande do Sul  
-Instituto de Informática  
+Instituto de Informática
 
 ---
 
@@ -29,6 +31,16 @@ Esses modelos possuem **bilhões de parâmetros**, exigindo grande capacidade co
 
 ---
 
+# Objeto Computacional
+
+Execução da inferência do modelo Llama 3.1 8B com PyTorch e CUDA no ambiente PCAD da UFRGS.
+
+A análise será feita por medição do desempenho em diferentes GPUs, considerando métricas como latência, throughput e utilização de recursos.
+
+Os dados serão obtidos por experimentos controlados, variando parâmetros como tamanho do prompt e número de tokens gerados.
+
+---
+
 # Modelos de Linguagem Modernos
 
 LLMs modernos são baseados na arquitetura **Transformer**.
@@ -38,7 +50,6 @@ LLMs modernos são baseados na arquitetura **Transformer**.
 - Uso de **mecanismos de atenção (attention)**
 - Processamento paralelo de sequências
 - Escalabilidade para bilhões de parâmetros
-
 
 ---
 
@@ -102,14 +113,25 @@ Características:
 
 Experimentos realizados no ambiente:
 
-**PCAD – Plataforma de Computação de Alto Desempenho**  
-Universidade Federal do Rio Grande do Sul
+**PCAD – Plataforma de Computação de Alto Desempenho**
 
 Infraestrutura:
 
 - GPUs NVIDIA
 - CUDA
 - Ferramentas de profiling
+
+---
+
+# GPUs utlizadas
+
+Planeja-se utilizar diferentes GPUs para verificar suas métricas e compará-las.
+
+Nós previstos:
+
+- Beagle – nó com duas GPUs de menor capacidade computacional
+- Tupi – nó com 2 a 3 GPUs de alto desempenho
+- Grace – nó com uma GPU com memória suficiente para execução completa do modelo, utilizada como baseline
 
 ---
 
@@ -135,17 +157,36 @@ Essas ferramentas permitem observar:
 
 Tempo total para gerar uma resposta:
 
-latency = t_fim - t_inicio
+latency = T<sub>end</sub> - T<sub>start</sub>
+<br>
 
+<div align="center">
+  <img src="images/end-to-end-request-latency.png" width="600">
+</div>
 
 ---
 
-### Throughput
+### Tokens per Second
 
 Número de tokens gerados por segundo:
 
-throughput = tokens / tempo
+TPS = Total_output_tokens / (T<sub>end</sub> - T<sub>start</sub>)
+<br>
 
+<div align="center">
+  <img src="images/event-timeline-benchmarking-run.png" width="600">
+</div>
+
+---
+
+### Time to First Token
+
+Tempo até o primeiro token.
+<br>
+
+<div align="center">
+  <img src="images/time-to-first-token-process.png" width="600">
+</div>
 
 ---
 
@@ -158,8 +199,6 @@ Serão analisados:
 - largura de banda de memória
 - tempo de execução de kernels CUDA
 
-Objetivo: identificar **gargalos de hardware**.
-
 ---
 
 # Escalabilidade
@@ -167,7 +206,6 @@ Objetivo: identificar **gargalos de hardware**.
 Para avaliar o paralelismo será medido o **speedup**:
 
 Speedup(N) = T(1) / T(N)
-
 
 onde:
 
@@ -181,7 +219,6 @@ onde:
 A eficiência do paralelismo será calculada por:
 
 Efficiency(N) = Speedup(N) / N
-
 
 Permite avaliar se o uso de múltiplas GPUs é eficiente.
 
@@ -222,4 +259,10 @@ Este trabalho busca contribuir para:
 
 # Obrigado!
 
-Perguntas?
+---
+
+# Referências
+
+<a>https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/</a>
+<a>https://docs.nvidia.com/nim/benchmarking/llm/latest/index.html</a>
+<a>https://gppd-hpc.inf.ufrgs.br/</a>
