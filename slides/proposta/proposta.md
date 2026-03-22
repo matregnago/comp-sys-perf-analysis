@@ -50,7 +50,7 @@ Esses modelos possuem **bilhões de parâmetros**, exigindo grande capacidade co
 
 # Objeto Computacional
 
-Execução da **inferência** do modelo **Llama 3.1 8B** (Meta) particionado entre múltiplas GPUs no ambiente **PCAD** da UFRGS.
+Execução da **inferência** do modelo **Llama 3.1 8B** (Meta) particionado entre múltiplas GPUs no ambiente **PCAD** da UFRGS. A análise será realizada por **medição direta** no hardware do **PCAD**.
 
 **Características do modelo:**
 - ~8 bilhões de parâmetros, 32 camadas Transformer
@@ -114,6 +114,7 @@ Mantido pelo LPPD (Laboratório de Processamento Paralelo e Distribuído), vincu
 | **tupi** | 1 × GeForce RTX 4090 | 24 GB |
 | **beagle** | 2 × GeForce GTX 1080 Ti | 11 GB |
 
+O **particionamento do modelo** entre GPUs será feito com ferramentas do ecossistema **PyTorch**.
 
 ---
 
