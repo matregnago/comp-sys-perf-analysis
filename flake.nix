@@ -21,6 +21,7 @@
         buildInputs = with pkgs; [
           marp-cli
           texliveFull
+          chromium
         ];
       };
     }
