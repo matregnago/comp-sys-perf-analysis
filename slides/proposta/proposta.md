@@ -14,15 +14,27 @@ style: |
     margin: 0 auto;
     font-size: 22px;
   }
-  .small { font-size: 18px; }
+  .small { font-size: 24px; }
+  section.title-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 60px 80px;
+  }
+
 ---
 
-### Análise de Desempenho da Inferência de um Modelo de Linguagem Particionado em Múltiplas GPUs
+<!-- _class: title-slide -->
 
-Alunos: Lucas Fraga Balbinot, Matheus Augusto Tregnago, Rafael Silva de Souza
+## Análise de Desempenho da Inferência de um Modelo de Linguagem Particionado em Múltiplas GPUs
 
+Lucas Fraga Balbinot, Matheus Augusto Tregnago, Rafael Silva de Souza
+
+<div class="small">
 Universidade Federal do Rio Grande do Sul — Instituto de Informática
 CMP223 — Análise de Desempenho de Sistemas Computacionais
+</div>
 
 ---
 
@@ -38,10 +50,15 @@ Esses modelos possuem **bilhões de parâmetros**, exigindo grande capacidade co
 
 # Objeto Computacional
 
-Execução da **inferência** do modelo **Llama 3.1 8B** no ambiente **PCAD** da UFRGS.
+Execução da **inferência** do modelo **Llama 3.1 8B** (Meta) particionado entre múltiplas GPUs no ambiente **PCAD** da UFRGS.
 
-- ~8 bilhões de parâmetros
-- ~16 GB de pesos
+**Características do modelo:**
+- ~8 bilhões de parâmetros, 32 camadas Transformer
+- ~16 GB de pesos em FP16
+
+**O que será analisado:**
+- Impacto do **particionamento** entre GPUs no desempenho
+- Comportamento interno das GPUs durante a inferência
 
 ---
 
@@ -196,7 +213,15 @@ Além das métricas de inferência, analisaremos o comportamento **interno da GP
 
 # Referências
 
+<div class="small">
+
+- VASWANI, A. et al. *Attention is All You Need*. 2017.
+- BOMMASANI, R. et al. *On the Opportunities and Risks of Foundation Models*. 2021.
+- PASZKE, A. et al. *PyTorch: An Imperative Style Deep Learning Library*. 2019.
+- NVIDIA. *CUDA C Programming Guide*. 2023.
 - NVIDIA. *LLM Inference Benchmarking: Fundamental Concepts*. https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/
 - NVIDIA. *NIM LLM Benchmarking Guide*. https://docs.nvidia.com/nim/benchmarking/llm/latest/index.html
 - NVIDIA. *DCGM User Guide — Metrics*. https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/feature-overview.html
 - PCAD. https://gppd-hpc.inf.ufrgs.br/
+
+</div>
