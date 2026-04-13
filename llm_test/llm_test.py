@@ -1,0 +1,83 @@
+import time
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# =========================
+# CONFIG
+# =========================
+MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
+
+PROMPT = "Explique complexidade de algoritmos de forma simples."
+MAX_NEW_TOKENS = 100
+
+# =========================
+# SYSTEM INFO
+# =========================
+print("=== SYSTEM INFO ===")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"GPU count: {torch.cuda.device_count()}")
+
+if torch.cuda.is_available():
+    print(f"GPU 0: {torch.cuda.get_device_name(0)}")
+
+# =========================
+# LOAD MODEL (IMPORTANT PART)
+# =========================
+print("\nLoading tokenizer...")
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+print("Loading model (this may take time)...")
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    torch_dtype=torch.float16,
+    device_map="auto"
+)
+
+model.eval()
+
+# =========================
+# TOKENIZE
+# =========================
+inputs = tokenizer(PROMPT, return_tensors="pt")
+inputs = {k: v.to(model.device) for k, v in inputs.items()}
+
+# =========================
+# INFERENCE + TIMING
+# =========================
+print("\nRunning inference...")
+
+start_time = time.time()
+
+with torch.no_grad():
+    output = model.generate(
+        **inputs,
+        max_new_tokens=MAX_NEW_TOKENS,
+        do_sample=False
+    )
+
+end_time = time.time()
+
+# =========================
+# METRICS
+# =========================
+input_tokens = inputs["input_ids"].shape[1]
+output_tokens = output.shape[1]
+
+generated_tokens = output_tokens - input_tokens
+total_time = end_time - start_time
+
+tps = generated_tokens / total_time
+
+# =========================
+# RESULTS
+# =========================
+print("\n=== OUTPUT ===")
+print(tokenizer.decode(output[0], skip_special_tokens=True))
+
+print("\n=== METRICS ===")
+print(f"Input tokens: {input_tokens}")
+print(f"Generated tokens: {generated_tokens}")
+print(f"Total latency (E2E): {total_time:.4f} s")
+print(f"Throughput (TPS): {tps:.2f} tokens/s")
