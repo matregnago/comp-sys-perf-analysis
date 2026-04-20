@@ -1,3 +1,16 @@
 .direnv
 .ipynb_checkpoints
 .env
+.venv/
+results/
+results_vllm/
+results_local/
+aiperf_results/
+*.nsys-rep
+metrics_*.csv
+metrics_*.json
+telemetry_*.csv
+reqs.txt
+reqs_vllm.txt
+base
+PLAN.md

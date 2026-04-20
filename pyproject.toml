@@ -1,0 +1,19 @@
+[project]
+name = "comp-sys-perf-analysis"
+version = "0.1.0"
+description = "CMP223 — inferência Llama 3.1 8B particionada (vLLM + aiperf no PCAD)"
+requires-python = "==3.13.*"
+dependencies = [
+    "vllm>=0.19,<0.20",
+    "aiperf>=0.7,<0.8",
+]
+# Local: `uv sync --extra dev`
+[project.optional-dependencies]
+dev = [
+    "jupyter",
+    "notebook",
+    "ipykernel",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+]

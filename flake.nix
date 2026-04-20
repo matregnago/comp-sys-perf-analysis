@@ -1,55 +1,58 @@
 {
-  description = "Comp sys perf analysis";
+  description = "";
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-        python-env = pkgs.python3.withPackages (p: [
-          p.jupyter
-          p.notebook
-          p.pandas
-          p.matplotlib
-          p.numpy
-          p.seaborn
-          p.torch
-          p.transformers
-          p.vllm
+
+  outputs = { nixpkgs, ... }:
+  let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+
+    cudaCommon = with pkgs; [
+      python313
+      uv
+      cudaPackages.cudatoolkit
+      cudaPackages.cuda_nvcc
+      cudaPackages.nsight_systems
+      cudaPackages.nsight_compute
+      gcc
+      git
+    ];
+
+    cudaShellHook = ''
+      export CUDA_HOME=${pkgs.cudaPackages.cudatoolkit}
+      # Driver libcuda.so vem do host: /usr/lib/wsl/lib (WSL) ou
+      # /usr/lib/x86_64-linux-gnu (Linux normal/PCAD). Path inexistente é ignorado
+      # pelo loader, entao incluir os dois e' seguro nos dois lugares.
+      export LD_LIBRARY_PATH=/usr/lib/wsl/lib:/usr/lib/x86_64-linux-gnu:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc            # libstdc++, libgcc_s
+        pkgs.zlib                    # libz   (numpy)
+        pkgs.zstd                    # libzstd (torch)
+        pkgs.libGL                   # libGL  (opencv/torchvision)
+        pkgs.glib                    # libgthread (opencv)
+      ]}:$LD_LIBRARY_PATH
+      export PATH=${pkgs.cudaPackages.cudatoolkit}/bin:$PATH
+    '';
+  in
+  {
+    devShells.${system} = {
+      pcad = pkgs.mkShell {
+        packages = cudaCommon;
+        shellHook = cudaShellHook;
+      };
+      default = pkgs.mkShell {
+        packages = cudaCommon ++ (with pkgs; [
+          marp-cli
+          texliveFull
+          chromium                  
         ]);
-      in
-      {
-        devShells = {
-          default = pkgs.mkShell {
-            packages = [ python-env ];
-            buildInputs = with pkgs; [
-              marp-cli
-              texliveFull
-              chromium
-              basedpyright
-              python311Packages.python
-            ];
-          };
-          pcad = pkgs.mkShell {
-            packages = [ python-env ];
-            buildInputs = with pkgs; [
-              cudaPackages.nsight_compute
-              cudaPackages.nsight_systems
-              cudaPackages.cudatoolkit
-            ];
-          };
-        };
-      }
-    );
+        shellHook = cudaShellHook;
+      };
+    };
+  };
 }
