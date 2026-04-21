@@ -1,67 +1,72 @@
 #!/bin/bash
 set -euo pipefail
 
+[[ -f flake.nix ]] || { echo "rode da raiz do projeto"; exit 1; }
+
+# Import das configuracoes
+. scripts/config.sh
+
 : "${RESULTS_DIR:?RESULTS_DIR obrigatório}"
 : "${VENV_PATH:?VENV_PATH obrigatório}"
 
-MODEL="${MODEL:-meta-llama/Meta-Llama-3.1-8B-Instruct}"
-MAX_MODEL_LEN="${MAX_MODEL_LEN:-4096}"
-GPU_MEM_UTIL="${GPU_MEM_UTIL:-0.85}"
-PORT="${PORT:-8000}"
-ISL="${ISL:-128}"
-OSL="${OSL:-128}"
-REQUEST_COUNT="${REQUEST_COUNT:-30}"
-CONCURRENCY_LIST="${CONCURRENCY_LIST:-1 4 8}"
-
 mkdir -p "$RESULTS_DIR"
-source "$VENV_PATH/bin/activate"
 
-# Telemetria nvidia-smi
-TELEMETRY_CSV="$RESULTS_DIR/telemetry.csv"
+# Diretorio necessario. Da erro se tirar
+mkdir -p "$RESULTS_DIR/.mplcache"
+
+# Inicia a telemetria com o nvidia-smi
 nvidia-smi \
     --query-gpu=timestamp,index,utilization.gpu,utilization.memory,memory.used,memory.total,power.draw,temperature.gpu,clocks.current.sm,clocks.current.memory \
     --format=csv,nounits \
-    --loop-ms=100 > "$TELEMETRY_CSV" &
+    --loop-ms="$NVSMI_INTERVAL_MS" > "$TELEMETRY_CSV" &
 NVSMI_PID=$!
-echo "=== nvidia-smi PID=$NVSMI_PID -> $TELEMETRY_CSV ==="
 
+echo "Configuracoes carregadas do nvidia-smi:"
+echo "nvidia-smi PID -> $NVSMI_PID"
+echo "Arquivo de saida -> $TELEMETRY_CSV"
+
+# Mata os processos do vLLM e nvidia-smi
 cleanup() {
-    echo "=== Cleanup: SIGINT em vLLM (pra nsys finalizar) + kill nvidia-smi ==="
+    echo "Executando cleanup no nvidia-smi e no vLLM"
     [ -n "${VLLM_PID:-}" ] && kill -INT $VLLM_PID 2>/dev/null || true
     [ -n "${NVSMI_PID:-}" ] && kill $NVSMI_PID 2>/dev/null || true
     wait 2>/dev/null || true
 }
+# Mata os processos caso o job finalize ou ocorra algum erro
 trap cleanup EXIT
 
-VLLM_LOG="$RESULTS_DIR/vllm_server.log"
 VLLM_ARGS=(
     "$MODEL"
     --max-model-len "$MAX_MODEL_LEN"
     --gpu-memory-utilization "$GPU_MEM_UTIL"
+    --host "$HOST"
     --port "$PORT"
-    --host 127.0.0.1
 )
 
+# Onicializa o vLLM e o nsys (caso a flag NSYS esteja habilitada)
 if [ "${NSYS:-0}" = "1" ]; then
-    NSYS_OUT="$RESULTS_DIR/vllm_trace"
-    echo "=== NSYS=1: envolvendo vLLM com nsys -> ${NSYS_OUT}.nsys-rep ==="
+    echo "Habilitando nsys para o vLLM"
     nsys profile \
         --output="$NSYS_OUT" \
         --force-overwrite=true \
         --trace=cuda,nvtx,cudnn,cublas,nccl \
         --sample=none \
-        vllm serve "${VLLM_ARGS[@]}" > "$VLLM_LOG" 2>&1 &
+        uv run --no-sync vllm serve "${VLLM_ARGS[@]}" > "$VLLM_LOG" 2>&1 &
 else
-    vllm serve "${VLLM_ARGS[@]}" > "$VLLM_LOG" 2>&1 &
+    uv run --no-sync vllm serve "${VLLM_ARGS[@]}" > "$VLLM_LOG" 2>&1 &
 fi
 VLLM_PID=$!
-echo "=== vLLM PID=$VLLM_PID, model=$MODEL, log=$VLLM_LOG ==="
 
-# Health poll (timeout 10 min)
-echo "=== Aguardando vLLM ficar pronto ==="
-for i in $(seq 1 120); do
-    if curl -sf "http://127.0.0.1:$PORT/v1/models" > /dev/null 2>&1; then
-        echo "=== vLLM pronto apos ${i}x5s ==="
+echo "Configuracoes carregadas do vLLM:"
+echo "vLLM PID -> $VLLM_PID"
+echo "model -> $MODEL"
+echo "log -> $VLLM_LOG"
+
+# Espera e verifica periodicamente a inicializacao do servidor do vLLM
+echo "Aguardando vLLM ficar pronto..."
+for i in $(seq 1 "$HEALTH_POLL_TRIES"); do
+    if curl -sf "http://$HOST:$PORT/v1/models" > /dev/null 2>&1; then
+        echo "vLLM pronto apos ${i}x${HEALTH_POLL_SLEEP}s"
         break
     fi
     if ! kill -0 $VLLM_PID 2>/dev/null; then
@@ -69,30 +74,27 @@ for i in $(seq 1 120); do
         tail -50 "$VLLM_LOG"
         exit 1
     fi
-    sleep 5
+    sleep "$HEALTH_POLL_SLEEP"
 done
 
-if ! curl -sf "http://127.0.0.1:$PORT/v1/models" > /dev/null 2>&1; then
-    echo "ERRO: vLLM nao ficou pronto em 10 min"
+# Timeout caso o servidor do vLLM nao fique pronto ate o tempo limite
+if ! curl -sf "http://$HOST:$PORT/v1/models" > /dev/null 2>&1; then
+    echo "ERRO: vLLM nao ficou pronto no tempo limite"
     tail -80 "$VLLM_LOG"
     exit 1
 fi
 
-# Matriz aiperf
-for c in $CONCURRENCY_LIST; do
-    echo "=== aiperf concurrency=$c ==="
-    aiperf profile \
-        --model "$MODEL" \
-        --endpoint-type chat \
-        --url "http://127.0.0.1:$PORT" \
-        --streaming \
-        --concurrency "$c" \
-        --request-count "$REQUEST_COUNT" \
-        --warmup-request-count 3 \
-        --prompt-input-tokens-mean "$ISL" \
-        --prompt-output-tokens-mean "$OSL" \
-        --extra-inputs ignore_eos:true \
-        --output-artifact-dir "$RESULTS_DIR/c${c}"
-done
+# Inicializacao do benchmark do aiperf
+uv run --no-sync aiperf profile \
+    --model "$MODEL" \
+    --endpoint-type chat \
+    --url "http://$HOST:$PORT" \
+    --streaming \
+    --request-count "$REQUEST_COUNT" \
+    --warmup-request-count "$WARMUP_COUNT" \
+    --prompt-input-tokens-mean "$ISL" \
+    --prompt-output-tokens-mean "$OSL" \
+    --extra-inputs ignore_eos:true \
+    --output-artifact-dir "$RESULTS_DIR"
 
-echo "=== Concluido. Artefatos em: $RESULTS_DIR ==="
+echo "Execução do benchmark concluida!"

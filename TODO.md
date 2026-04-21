@@ -1,0 +1,16 @@
+# Lista de tarefas
+- [x] Estruturar flake do nix (18/03/2026)
+- [x] Montar slides da proposta (parte 1) (22/03/2026)
+- [x] Criação da conta no HuggingFace e acesso ao modelo (12/04/2026)
+- [x] Instalação do ambiente python uv (19/04/2026)
+- [x] Separação dos shells no flake (20/04/2026)
+- [x] Job slurm pra setup do vLLM no pcad (21/04/2026)
+- [x] Scripts básicos para lançar os benchmarks e telemetria (nvsys, nvidia-smi e ai perf) (21/04/2026)
+- [ ] Ajustar prints dos scripts para melhorar a visualização nos logs
+- [ ] Particionar o modelo em multiplas GPUs no mesmo nó
+- [ ] Particionar o modelo em múltiplas GPUs em nós diferentes
+- [ ] Montar csv de experimentos
+- [ ] Montar os notebooks para análise das métricas
+- [ ] Montar os slides da parte 2
+- [ ] Montar os slides da apresentação final
+- [ ] Escrita do relatório final
