@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # =========================
 # CONFIG
 # =========================
-MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
+MODEL_NAME = "gpt2"
 
 PROMPT = "Explique complexidade de algoritmos de forma simples."
 MAX_NEW_TOKENS = 100
@@ -14,14 +14,16 @@ MAX_NEW_TOKENS = 100
 # SYSTEM INFO
 # =========================
 print("=== SYSTEM INFO ===")
-print(f"CUDA available: {torch.cuda.is_available()}")
+use_gpu = torch.cuda.is_available()
+
+print(f"CUDA available: {use_gpu}")
 print(f"GPU count: {torch.cuda.device_count()}")
 
-if torch.cuda.is_available():
+if use_gpu:
     print(f"GPU 0: {torch.cuda.get_device_name(0)}")
 
 # =========================
-# LOAD MODEL (IMPORTANT PART)
+# LOAD MODEL
 # =========================
 print("\nLoading tokenizer...")
 
@@ -31,9 +33,13 @@ print("Loading model (this may take time)...")
 
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
-    torch_dtype=torch.float16,
-    device_map="auto"
+    torch_dtype=torch.float16 if use_gpu else torch.float32,
+    device_map="auto" if use_gpu else None
 )
+
+# 👉 garante que vai pro lugar certo
+device = "cuda" if use_gpu else "cpu"
+model.to(device)
 
 model.eval()
 
@@ -41,7 +47,7 @@ model.eval()
 # TOKENIZE
 # =========================
 inputs = tokenizer(PROMPT, return_tensors="pt")
-inputs = {k: v.to(model.device) for k, v in inputs.items()}
+inputs = {k: v.to(device) for k, v in inputs.items()}
 
 # =========================
 # INFERENCE + TIMING
