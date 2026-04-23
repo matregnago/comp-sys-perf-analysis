@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # =========================
 # CONFIG
 # =========================
-MODEL_NAME = "gpt2"
+MODEL_NAME = "meta-llama/Meta-Llama-3-8B"  # ✅ base model (não instruct)
 
 PROMPT = "Explique complexidade de algoritmos de forma simples."
 MAX_NEW_TOKENS = 100
@@ -16,6 +16,8 @@ MAX_NEW_TOKENS = 100
 print("=== SYSTEM INFO ===")
 use_gpu = torch.cuda.is_available()
 
+print(torch.__version__)
+print(torch.version.cuda)
 print(f"CUDA available: {use_gpu}")
 print(f"GPU count: {torch.cuda.device_count()}")
 
@@ -23,23 +25,25 @@ if use_gpu:
     print(f"GPU 0: {torch.cuda.get_device_name(0)}")
 
 # =========================
-# LOAD MODEL
+# LOAD TOKENIZER
 # =========================
 print("\nLoading tokenizer...")
-
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
+# LLaMA precisa disso
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+# =========================
+# LOAD MODEL (GPU)
+# =========================
 print("Loading model (this may take time)...")
 
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
-    torch_dtype=torch.float16 if use_gpu else torch.float32,
-    device_map="auto" if use_gpu else None
+    torch_dtype=torch.float16,   # ✅ essencial para caber na GPU
+    device_map="auto",           # ✅ distribui automaticamente nas GPUs
 )
-
-# 👉 garante que vai pro lugar certo
-device = "cuda" if use_gpu else "cpu"
-model.to(device)
 
 model.eval()
 
@@ -47,7 +51,10 @@ model.eval()
 # TOKENIZE
 # =========================
 inputs = tokenizer(PROMPT, return_tensors="pt")
-inputs = {k: v.to(device) for k, v in inputs.items()}
+
+# manda inputs pra GPU automaticamente
+if use_gpu:
+    inputs = {k: v.to("cuda") for k, v in inputs.items()}
 
 # =========================
 # INFERENCE + TIMING
@@ -60,7 +67,10 @@ with torch.no_grad():
     output = model.generate(
         **inputs,
         max_new_tokens=MAX_NEW_TOKENS,
-        do_sample=False
+        do_sample=True,          # ✅ melhor que greedy
+        temperature=0.7,
+        top_p=0.9,
+        repetition_penalty=1.1
     )
 
 end_time = time.time()
