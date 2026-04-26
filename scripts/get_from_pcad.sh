@@ -18,12 +18,6 @@ rsync --verbose --progress --recursive --links --times \
     --exclude='.ipynb_checkpoints/' \
     --exclude='__pycache__/' \
     --exclude='results_local/' \
-    --exclude='results_pcad/' \
-    --exclude='tex/' \
-    --exclude='slides/' \
-    --exclude='analysis.ipynb' \
-    --exclude='*.out' \
-    --exclude='*.err' \
-    ./ "${SSH_HOST}:~/${REMOTE_DIR}/"
+    "${SSH_HOST}:~/${REMOTE_DIR}/" ./
 
 echo "Dados movidos com sucesso!"

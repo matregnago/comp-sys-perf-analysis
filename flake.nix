@@ -1,9 +1,7 @@
 {
-  description = "";
+  description = "CMP223 - HPC Environment com FHS para vLLM e Ray no PCAD";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-  };
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
   outputs =
     { nixpkgs, ... }:
@@ -11,57 +9,87 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          cudaSupport = true;
+        };
       };
 
-      cudaCommon = with pkgs; [
-        python313
-        uv
-        cudaPackages.cudatoolkit
-        cudaPackages.cuda_nvcc
-        cudaPackages.nsight_systems
-        cudaPackages.nsight_compute
-        gcc
-        git
+      hostMounts = [
+        "/usr/lib/x86_64-linux-gnu"
+        "/usr/lib64"
+        "/usr/bin"
       ];
-      mkCudaHook = driverGlobs: ''
-        export CUDA_HOME=${pkgs.cudaPackages.cudatoolkit}
 
-        DRIVER_DIR="$(mktemp -d)"
-        for p in ${driverGlobs}; do
-          [ -e "$p" ] && ln -sf "$p" "$DRIVER_DIR/$(basename "$p")"
-        done
+      mkBindArgs =
+        paths:
+        builtins.concatMap (p: [
+          "--ro-bind-try"
+          p
+          "/host${p}"
+        ]) paths;
 
-        export LD_LIBRARY_PATH=$DRIVER_DIR:${pkgs.cudaPackages.cudatoolkit}/lib64:${
-          pkgs.lib.makeLibraryPath [
-            pkgs.stdenv.cc.cc # libstdc++, libgcc_s
-            pkgs.zlib # libz   (numpy)
-            pkgs.zstd # libzstd (torch)
-            pkgs.libGL # libGL  (opencv/torchvision)
-            pkgs.glib # libgthread (opencv)
-          ]
-        }:$LD_LIBRARY_PATH
-        export PATH=${pkgs.cudaPackages.cudatoolkit}/bin:$PATH
-      '';
+      pcadFhs = pkgs.buildFHSEnv {
+        name = "pcad-fhs";
 
-      pcadHook = mkCudaHook "/usr/lib/x86_64-linux-gnu/libcuda.so* /usr/lib/x86_64-linux-gnu/libnvidia-ml.so*";
+        targetPkgs =
+          ps: with ps; [
+            cudaPackages.cudatoolkit
+            cudaPackages.cuda_nvcc
+            cudaPackages.nsight_systems
+            cudaPackages.nsight_compute
+            gcc
+            git
+            uv
+            python313
+            zlib
+            zstd
+            glib
+            libGL
+            stdenv.cc.cc.lib
+          ];
+
+        extraBwrapArgs = mkBindArgs hostMounts;
+
+        profile = ''
+          export CUDA_HOME=${pkgs.cudaPackages.cudatoolkit}
+
+          DRIVER_BASE="''${SCRATCH:-/scratch/''${USER:-$LOGNAME}}"
+          DRIVER_DIR="$DRIVER_BASE/pcad-cuda-drivers"
+          mkdir -p "$DRIVER_DIR"
+          rm -f "$DRIVER_DIR"/libcuda.so* "$DRIVER_DIR"/libnvidia-ml.so* "$DRIVER_DIR"/nvidia-smi
+          for d in /host/usr/lib/x86_64-linux-gnu /host/usr/lib64; do
+            [ -d "$d" ] || continue
+            for p in "$d"/libcuda.so* "$d"/libnvidia-ml.so*; do
+              if [ -e "$p" ] || [ -L "$p" ]; then
+                ln -sf "$p" "$DRIVER_DIR/$(basename "$p")"
+              fi
+            done
+          done
+
+          [ -x "/host/usr/bin/nvidia-smi" ] && ln -sf /host/usr/bin/nvidia-smi "$DRIVER_DIR/nvidia-smi"
+
+          export LD_LIBRARY_PATH="$DRIVER_DIR:${pkgs.cudaPackages.cudatoolkit}/lib64:''${LD_LIBRARY_PATH:-}"
+          export PATH="$DRIVER_DIR:${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
+        '';
+
+        runScript = "bash";
+      };
+
     in
     {
-      devShells.${system} = {
-        pcad = pkgs.mkShell {
-          packages = cudaCommon;
-          shellHook = pcadHook;
-        };
+      packages.${system}.default = pcadFhs;
 
-        default = pkgs.mkShell {
+      devShells.${system} = {
+        default = pcadFhs.env;
+        tools = pkgs.mkShell {
           packages = with pkgs; [
             marp-cli
             texliveFull
             chromium
+            python313
+            uv
           ];
-          shellHook = ''
-            uv sync --extra dev
-          '';
         };
       };
     };
