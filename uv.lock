@@ -556,15 +556,13 @@ dev = [
     { name = "matplotlib" },
     { name = "notebook" },
     { name = "pandas" },
+    { name = "pydoe3" },
     { name = "seaborn" },
 ]
 pcad = [
     { name = "aiperf" },
     { name = "ray", extra = ["serve"] },
     { name = "vllm" },
-]
-pcad-test = [
-    { name = "ray", extra = ["serve"] },
 ]
 
 [package.metadata]
@@ -575,12 +573,12 @@ requires-dist = [
     { name = "matplotlib", marker = "extra == 'dev'" },
     { name = "notebook", marker = "extra == 'dev'" },
     { name = "pandas", marker = "extra == 'dev'" },
+    { name = "pydoe3", marker = "extra == 'dev'" },
     { name = "ray", extras = ["serve"], marker = "extra == 'pcad'", specifier = ">=2.55.1" },
-    { name = "ray", extras = ["serve"], marker = "extra == 'pcad-test'", specifier = ">=2.55.1" },
     { name = "seaborn", marker = "extra == 'dev'" },
     { name = "vllm", marker = "extra == 'pcad'", specifier = ">=0.19,<0.20" },
 ]
-provides-extras = ["dev", "pcad", "pcad-test"]
+provides-extras = ["dev", "pcad"]
 
 [[package]]
 name = "compressed-tensors"
@@ -3382,6 +3380,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/52/6d/fffca34caecc4a3f97bda81b2098da5e8ab7efc9a66e819074a11955d87e/pydantic_settings-2.13.1.tar.gz", hash = "sha256:b4c11847b15237fb0171e1462bf540e294affb9b86db4d9aa5c01730bdbe4025", size = 223826, upload-time = "2026-02-19T13:45:08.055Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/00/4b/ccc026168948fec4f7555b9164c724cf4125eac006e176541483d2c959be/pydantic_settings-2.13.1-py3-none-any.whl", hash = "sha256:d56fd801823dbeae7f0975e1f8c8e25c258eb75d278ea7abb5d9cebb01b56237", size = 58929, upload-time = "2026-02-19T13:45:06.034Z" },
+]
+
+[[package]]
+name = "pydoe3"
+version = "1.6.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "scipy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/83/4f/7ce86c4eee42019efcc49ca8a54f7896cc41c719be24bfbd8a3facde6a35/pydoe3-1.6.2.tar.gz", hash = "sha256:ff7377c30e0a2ea8af3f074723488779f557457c8b74029965896c30b8a1a541", size = 1014559, upload-time = "2026-01-12T07:33:43.216Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8b/6e/3b16b75e1e011f95109be5dcec3d1f1d5a8585e6c42b6c5bbb17852d66b2/pydoe3-1.6.2-py2.py3-none-any.whl", hash = "sha256:21b5c3ef10a350bed01f59df54ae262fd1eda9983efac294b679988f311f3445", size = 66753, upload-time = "2026-01-12T07:33:41.387Z" },
 ]
 
 [[package]]
