@@ -17,6 +17,8 @@ rsync --verbose --progress --recursive --links --times \
     --exclude='.direnv/' \
     --exclude='.ipynb_checkpoints/' \
     --exclude='__pycache__/' \
+    --exclude='data' \
+    --exclude='data-funcionando' \
     --exclude='results_local/' \
     --exclude='results_pcad/' \
     --exclude='tex/' \

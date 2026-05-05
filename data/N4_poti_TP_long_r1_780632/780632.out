@@ -1,0 +1,16 @@
+===============================================================
+Date        : Mon May  4 08:11:26 PM -03 2026
+SubmitHost  : poti1
+SubmitDir   : /home/users/matregnago/cmp223
+JobID       : 780632
+Node(s)     : poti[1-4]
+===============================================================
+[poti1] iniciando setup do nodo
+[poti4] iniciando setup do nodo
+[poti2] iniciando setup do nodo
+[poti3] iniciando setup do nodo
+[poti1] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1 -> /home/users/matregnago/cmp223/data/N4_poti_TP_long_r1_780632/poti1
+[poti3] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti3 -> /home/users/matregnago/cmp223/data/N4_poti_TP_long_r1_780632/poti3
+[poti4] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti4 -> /home/users/matregnago/cmp223/data/N4_poti_TP_long_r1_780632/poti4
+[poti2] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti2 -> /home/users/matregnago/cmp223/data/N4_poti_TP_long_r1_780632/poti2
+Job finalizado. Resultados (por hostname) em: /home/users/matregnago/cmp223/data/N4_poti_TP_long_r1_780632

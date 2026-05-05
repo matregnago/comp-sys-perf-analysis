@@ -1,0 +1,351 @@
+[vLLM setup] Copying CUDA driver libs...
+[vLLM setup] Driver libs:
+total 391988
+-rwxr-xr-x 1 matregnago members 98641576 May  4 23:11 libcuda.so
+-rwxr-xr-x 1 matregnago members 98641576 May  4 23:11 libcuda.so.1
+-rwxr-xr-x 1 matregnago members 98641576 May  4 23:11 libcuda.so.590.44.01
+-rwxr-xr-x 1 matregnago members  2296056 May  4 23:11 libnvidia-ml.so
+-rwxr-xr-x 1 matregnago members  2296056 May  4 23:11 libnvidia-ml.so.1
+-rwxr-xr-x 1 matregnago members  2296056 May  4 23:11 libnvidia-ml.so.590.44.01
+-rwxr-xr-x 1 matregnago members 32434744 May  4 23:11 libnvidia-ptxjitcompiler.so
+-rwxr-xr-x 1 matregnago members 32434744 May  4 23:11 libnvidia-ptxjitcompiler.so.1
+-rwxr-xr-x 1 matregnago members 32434744 May  4 23:11 libnvidia-ptxjitcompiler.so.590.44.01
+-rwxr-xr-x 1 matregnago members  1260192 May  4 23:11 nvidia-smi
++ uv sync --extra pcad
+Resolved 325 packages in 0.85ms
+Checked 251 packages in 1ms
++ source .venv/bin/activate
+++ '[' -z '' ']'
+++ '[' -n x ']'
+++ SCRIPT_PATH=.venv/bin/activate
+++ '[' .venv/bin/activate = bash ']'
+++ deactivate nondestructive
+++ unset -f pydoc
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ hash -r
+++ '[' -z '' ']'
+++ unset VIRTUAL_ENV
+++ unset VIRTUAL_ENV_PROMPT
+++ '[' '!' nondestructive = nondestructive ']'
+++ VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
+++ '[' linux-gnu = cygwin ']'
+++ '[' linux-gnu = msys ']'
+++ export VIRTUAL_ENV
+++ '[' -z '' ']'
+++ unset SCRIPT_PATH
+++ _OLD_VIRTUAL_PATH=/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/bin:/run/wrappers/bin:/usr/bin:/usr/sbin:/nix/store/bv5kc5im1r2b99x7vni3cwphnzgmd8ck-git-minimal-2.44.0/bin:/scratch/matregnago/nix-data/.nix-portable/tmpbin:/scratch/matregnago//np-bin:/home/users/matregnago/.local/bin:/home/users/matregnago/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/users/matregnago/.local/bin:/usr/local/go/bin:/usr/local/cuda/bin:/scratch/matregnago/nix-data/.nix-portable/busybox/bin
+++ PATH=/scratch/matregnago/cmp223/.venv/bin:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/bin:/run/wrappers/bin:/usr/bin:/usr/sbin:/nix/store/bv5kc5im1r2b99x7vni3cwphnzgmd8ck-git-minimal-2.44.0/bin:/scratch/matregnago/nix-data/.nix-portable/tmpbin:/scratch/matregnago//np-bin:/home/users/matregnago/.local/bin:/home/users/matregnago/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/users/matregnago/.local/bin:/usr/local/go/bin:/usr/local/cuda/bin:/scratch/matregnago/nix-data/.nix-portable/busybox/bin
+++ export PATH
+++ '[' xcomp-sys-perf-analysis '!=' x ']'
+++ VIRTUAL_ENV_PROMPT=comp-sys-perf-analysis
+++ export VIRTUAL_ENV_PROMPT
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ _OLD_VIRTUAL_PS1=
+++ PS1='(comp-sys-perf-analysis) '
+++ export PS1
+++ alias pydoc
+++ true
+++ hash -r
++ export VENV_PATH=/scratch/matregnago/cmp223/.venv
++ VENV_PATH=/scratch/matregnago/cmp223/.venv
++ export VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
++ VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
++ : /home/users/matregnago/.ray_barriers/780632
+++ hostname
++ node_host=poti1
++ mkdir -p /home/users/matregnago/.ray_barriers/780632
++ touch /home/users/matregnago/.ray_barriers/780632/poti1.ready
++ echo '[poti1] aguardando barreira (4 nodos) em /home/users/matregnago/.ray_barriers/780632'
+[poti1] aguardando barreira (4 nodos) em /home/users/matregnago/.ray_barriers/780632
++ echo '[poti1] barreira liberada'
+[poti1] barreira liberada
++ bash scripts/ray_node_run.sh
+2026-05-04 23:11:38,377	INFO scripts.py:1391 -- Did not find any active Ray processes.
+[poti1] usando NODE_IP=192.168.30.47 (RAY_NODE_IP_ADDRESS/VLLM_HOST_IP)
+[poti1] nvidia-smi PID=644172 -> /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/telemetry.csv
+On head node. Starting Ray cluster head...
+Head node started.
+=======================
+2026-05-04 23:11:42,371	INFO worker.py:1672 -- Using address 192.168.30.47:6379 set in the environment variable RAY_ADDRESS
+2026-05-04 23:11:42,372	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 192.168.30.47:6379...
+2026-05-04 23:11:42,409	INFO worker.py:2003 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://127.0.0.1:8265 [39m[22m
+/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+Running command on head node: ['bash', 'scripts/run_vllm_ray_bench.sh']
+=======================
+[head] subindo vLLM com backend Ray (TP=4, PP=1)
+[head] aguardando vLLM ficar pronto...
+[33m(raylet)[0m [2026-05-04 23:11:51,118 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9118 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:12:01,121 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9117 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:12:11,123 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9117 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:12:21,124 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9117 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:12:31,127 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9116 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[head] vLLM pronto apos 11x5s
+No concurrency value provided, setting to 1
+23:12:38.812 INFO     Starting AIPerf System (cli_runner.py:97)
+23:12:39.082 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:39.085 INFO     ✓ Tokenizer Qwen/Qwen2.5-7B-Instruct detected (tokenizer_display.py:235)
+23:12:39.085 INFO     1 tokenizer validated • 0.3s (tokenizer_display.py:244)
+23:12:39.217 INFO     Server Metrics: Discovered 1 endpoints: ['http://127.0.0.1:8000/metrics'] (manager.py:70)
+23:12:39.219 INFO     GPU telemetry export enabled: /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/gpu_telemetry_export.jsonl (jsonl_writer.py:53)
+23:12:39.220 INFO     Registered Dataset Manager (id: 'dataset_manager') (system_controller.py:359)
+23:12:39.220 INFO     Record metrics export enabled: /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/profile_export.jsonl (record_export_results_processor.py:53)
+23:12:39.253 INFO     Registered Server Metrics Manager (id: 'server_metrics_manager') (system_controller.py:359)
+23:12:39.256 INFO     Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager') (system_controller.py:359)
+23:12:39.269 INFO     Registered Records Manager (id: 'records_manager') (system_controller.py:359)
+23:12:39.311 INFO     Registered Worker Manager (id: 'worker_manager') (system_controller.py:359)
+23:12:39.330 INFO     Registered Record Processor (id: 'record_processor_6bec10e1') (system_controller.py:359)
+23:12:39.379 INFO     Registered Timing Manager (id: 'timing_manager') (system_controller.py:359)
+23:12:39.380 INFO     Registered Worker (id: 'worker_e525ebaa') (system_controller.py:359)
+23:12:39.706 INFO     AIPerf System is CONFIGURING (system_controller.py:247)
+23:12:39.706 INFO     Configuring all services to start profiling (system_controller.py:260)
+23:12:39.707 INFO     Configuring tokenizers for inference result parser (inference_result_parser.py:72)
+23:12:39.707 INFO     Waiting for dataset to be configured before configuring timing (manager.py:96)
+23:12:39.707 INFO     Configuring tokenizer(s) for dataset manager (dataset_manager.py:130)
+23:12:39.709 INFO     GPU telemetry disabled - no DCGM endpoints reachable (system_controller.py:448)
+23:12:39.711 INFO     Server Metrics: Capturing baseline metrics... (manager.py:152)
+23:12:39.722 INFO     Skipping unsupported summary metric: http_request_size_bytes (data_collector.py:201)
+23:12:39.722 INFO     Skipping unsupported summary metric: http_response_size_bytes (data_collector.py:201)
+23:12:39.723 INFO     Server metrics enabled - 1/1 endpoint(s) reachable. (system_controller.py:474)
+[33m(raylet)[0m [2026-05-04 23:12:41,129 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9116 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:12:41.481 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+23:12:41.486 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+23:12:41.502 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/config.json "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:41.506 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/config.json "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:41.652 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+23:12:41.673 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:41.677 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+23:12:41.723 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:41.823 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found" (_client.py:1025)
+23:12:41.878 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found" (_client.py:1025)
+23:12:41.978 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:42.039 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:42.383 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:42.386 INFO     Tokenizer(s) configured in 2.68 seconds (dataset_manager.py:134)
+23:12:42.386 INFO     Configuring dataset for dataset_manager (dataset_manager.py:140)
+23:12:42.445 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+23:12:42.448 INFO     Initialized tokenizers: {'Qwen/Qwen2.5-7B-Instruct': {'class': 'Qwen2Tokenizer', 'name_or_path': 'Qwen/Qwen2.5-7B-Instruct'}} in 2.74 seconds (inference_result_parser.py:95)
+23:12:42.594 INFO     Using default sampling strategy for synthetic dataset: shuffle (synthetic.py:27)
+23:12:42.618 INFO     Memory-mapped backing store initialized (streaming to /tmp/aiperf_mmap_5193a70e-e6b8-4136-b1c1-b336707f1ba7/dataset.dat) (memory_map_utils.py:136)
+23:12:42.621 INFO     Data file finalized: 100 conversations, 0.46 MB (memory_map_utils.py:236)
+23:12:42.622 INFO     Index file created: /tmp/aiperf_mmap_5193a70e-e6b8-4136-b1c1-b336707f1ba7/index.dat (memory_map_utils.py:243)
+23:12:42.622 INFO     Backing store finalized: client_type=DatasetClientStoreType.MEMORY_MAP data_file_path=PosixPath('/tmp/aiperf_mmap_5193a70e-e6b8-4136-b1c1-b336707f1ba7/dataset.dat') index_file_path=PosixPath('/tmp/aiperf_mmap_5193a70e-e6b8-4136-b1c1-b336707f1ba7/index.dat') conversation_count=100 total_size_bytes=481739 compressed_data_file_path=None compressed_index_file_path=None compressed_size_bytes=0 (dataset_manager.py:437)
+23:12:42.622 INFO     sampling strategy: shuffle, unique conversations: 100, unique turn count: 100 (dataset_manager.py:454)
+23:12:42.622 INFO     Generating inputs.json file at /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/inputs.json (dataset_manager.py:325)
+23:12:42.624 INFO     inputs.json file generated in 0.00 seconds (dataset_manager.py:343)
+23:12:42.626 INFO     Initialized 2 phase(s): ['Warmup', 'Profiling'] (phase_orchestrator.py:154)
+23:12:42.795 INFO     Dataset client initialized and freed 100 conversations from memory (dataset_manager.py:176)
+23:12:42.795 INFO     Dataset configured in 0.41 seconds (dataset_manager.py:147)
+23:12:42.796 INFO     All services configured in 3.09 seconds (system_controller.py:272)
+23:12:42.796 INFO     AIPerf System is CONFIGURED (system_controller.py:249)
+23:12:42.797 INFO     Server Metrics: Started 1 collector(s) successfully (manager.py:216)
+23:12:42.797 INFO     All services started profiling successfully (system_controller.py:294)
+23:12:42.797 INFO     AIPerf System is PROFILING (system_controller.py:251)
+23:12:42.798 INFO     Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None (request_rate.py:111)
+23:12:42.798 NOTICE   Phase warmup started | target: 3 requests (runner.py:236)
+23:12:42.798 INFO     Credit phase start: warmup (records_manager.py:383)
+[33m(raylet)[0m [2026-05-04 23:12:51,132 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9109 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:13:01,134 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9108 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/pydantic/main.py:475: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `enum` - serialized value may not be as expected [field_name='transport', input_value='http', input_type=str])
+  return self.__pydantic_serializer__.to_python(
+[33m(raylet)[0m [2026-05-04 23:13:11,137 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9108 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:13:21,139 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9108 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:13:31,142 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9108 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:13:33.185 NOTICE   Phase warmup sending complete | sent=3, completed=2, in_flight=1 | sessions: sent=3, completed=2 (runner.py:466)
+[33m(raylet)[0m [2026-05-04 23:13:41,145 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9107 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:13:51,149 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9106 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:13:57.957 NOTICE   Phase warmup complete | completed=3, cancelled=0, errors=0 | sessions: completed=3, cancelled=0 | elapsed=75.16s (runner.py:543)
+23:13:57.957 INFO     Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None (request_rate.py:111)
+23:13:57.957 NOTICE   Phase profiling started | target: 30 requests (runner.py:236)
+23:13:57.958 INFO     Credit phase start: profiling (records_manager.py:383)
+[33m(raylet)[0m [2026-05-04 23:14:01,152 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9105 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:14:11,154 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9105 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:14:21,157 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9105 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:14:31,160 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9105 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:14:41,163 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9105 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:14:51,165 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9103 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:01,168 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9103 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:11,170 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9103 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:21,173 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9103 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:31,176 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9102 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:41,178 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9102 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:15:51,181 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9099 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:01,184 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9099 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:11,187 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9099 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:21,190 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9099 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:31,193 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9098 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:41,196 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9098 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:16:51,199 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9097 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:01,202 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9096 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:11,204 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9096 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:21,207 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9096 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:31,210 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9096 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:41,212 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9095 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:17:51,215 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9094 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:01,218 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9094 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:11,220 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9093 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:21,223 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9093 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:31,226 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9093 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:41,229 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9093 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:18:51,232 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9091 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:19:01,234 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9091 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:19:11,236 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9091 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:19:20.340 WARNING  OSL mismatch: got 465 tokens (requested 512, diff -9.2%) (osl_mismatch_metrics.py:190)
+[33m(raylet)[0m [2026-05-04 23:19:21,239 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9091 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:19:31,242 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.909 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:19:41,245 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.909 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:19:51,248 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9088 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:01,251 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9087 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:11,254 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9087 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:21,256 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9087 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:31,259 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9087 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:41,262 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9086 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:20:51,264 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9085 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:01,267 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9084 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:11,269 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9084 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:21,272 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9084 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:31,275 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9084 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:41,277 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9084 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:21:51,280 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9082 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:01,283 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9082 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:11,285 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9082 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:21,288 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9081 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:31,290 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9081 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:41,293 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9081 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:22:51,295 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9079 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:01,299 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9079 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:11,301 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9079 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:21,304 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9079 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:31,307 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9079 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:41,310 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9078 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:23:51,312 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9077 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:01,315 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9077 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:11,317 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9076 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:21,319 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9076 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:31,322 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9076 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:41,325 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9076 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:24:51,328 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9074 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:01,331 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9074 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:11,335 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9074 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:21,338 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9074 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:31,341 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9073 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:41,345 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9073 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:25:51,348 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.9071 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:25:58.160 NOTICE   Phase profiling sending complete | sent=30, completed=29, in_flight=1 | sessions: sent=30, completed=29 (runner.py:466)
+23:25:58.161 INFO     Sent 30 requests. Waiting for all to complete... (records_manager.py:391)
+[33m(raylet)[0m [2026-05-04 23:26:01,350 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.907 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:26:11,353 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.907 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+[33m(raylet)[0m [2026-05-04 23:26:21,356 E 644917 644941] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 is over 95% full, available space: 62.907 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+23:26:23.080 NOTICE   Phase profiling complete | completed=30, cancelled=0, errors=0 | sessions: completed=30, cancelled=0 | elapsed=745.12s (runner.py:543)
+23:26:23.080 NOTICE   All credits completed (phase_orchestrator.py:169)
+23:26:23.081 INFO     Received CREDIT_PHASE_COMPLETE message, Phase complete: PhaseRecordsStats(phase=CreditPhase.PROFILING, start_ns=1777936437957913101, sent_end_ns=1777937158160566053, requests_end_ns=1777937183080479006, total_expected_requests=30, expected_duration_sec=None, expected_num_sessions=None, expected_grace_period_sec=None, final_requests_sent=None, final_requests_completed=30, final_requests_cancelled=0, final_request_errors=0, final_sent_sessions=None, final_completed_sessions=None, final_cancelled_sessions=None, timeout_triggered=False, grace_period_timeout_triggered=False, was_cancelled=False, records_end_ns=None, success_records=29, error_records=0) (records_manager.py:407)
+23:26:23.081 NOTICE   All requests have completed, please wait for the results to be processed (currently 29 of 30 records processed)... (records_manager.py:410)
+23:26:23.081 INFO     Received credits complete from 'timing_manager' (system_controller.py:394)
+23:26:23.081 INFO     All credits complete, please wait for the results to be processed... (records_manager.py:425)
+23:26:23.089 INFO     Processed 30 valid requests and 0 errors (30 total). (records_manager.py:258)
+23:26:23.089 INFO     Received all records, processing now... (records_manager.py:262)
+23:26:23.089 INFO     Server Metrics: Profiling complete, capturing final metrics... (manager.py:246)
+23:26:23.089 INFO     Waiting 2.0s for server metrics flush period... (records_manager.py:312)
+23:26:25.081 INFO     Processing records results... (records_manager.py:572)
+23:26:25.084 INFO     Waiting for server metrics results... (system_controller.py:692)
+23:26:25.084 INFO     Waiting for server metrics results... (system_controller.py:692)
+23:26:25.099 INFO     _finalize_and_process_results completed (records_manager.py:319)
+23:26:25.101 INFO     All results received, initiating shutdown (system_controller.py:687)
+23:26:25.704 INFO     Exporting all records (exporter_manager.py:60)
+23:26:25.730 INFO     Exporting console data (exporter_manager.py:116)
+
+
+                                    NVIDIA AIPerf | LLM Metrics                                     
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┓
+┃           Metric ┃       avg ┃       min ┃       max ┃       p99 ┃       p90 ┃       p50 ┃   std ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━┩
+│    Time to First │  5,648.88 │  5,646.17 │  5,687.39 │  5,678.18 │  5,648.06 │  5,647.27 │  7.32 │
+│       Token (ms) │           │           │           │           │           │           │       │
+│   Time to Second │     37.62 │     36.92 │     43.00 │     41.84 │     37.75 │     37.42 │  1.06 │
+│       Token (ms) │           │           │           │           │           │           │       │
+│    Time to First │  5,648.88 │  5,646.17 │  5,687.39 │  5,678.18 │  5,648.06 │  5,647.27 │  7.32 │
+│     Output Token │           │           │           │           │           │           │       │
+│             (ms) │           │           │           │           │           │           │       │
+│  Request Latency │ 24,833.92 │ 24,711.80 │ 24,992.64 │ 24,986.49 │ 24,952.35 │ 24,812.26 │ 75.68 │
+│             (ms) │           │           │           │           │           │           │       │
+│      Inter Token │     38.10 │     37.34 │     41.30 │     40.65 │     38.45 │     37.99 │  0.70 │
+│     Latency (ms) │           │           │           │           │           │           │       │
+│     Output Token │     26.26 │     24.21 │     26.78 │     26.75 │     26.67 │     26.32 │  0.46 │
+│   Throughput Per │           │           │           │           │           │           │       │
+│             User │           │           │           │           │           │           │       │
+│ (tokens/sec/use… │           │           │           │           │           │           │       │
+│  Output Sequence │    504.73 │    465.00 │    512.00 │    512.00 │    512.00 │    506.00 │  8.89 │
+│  Length (tokens) │           │           │           │           │           │           │       │
+│   Input Sequence │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  0.00 │
+│  Length (tokens) │           │           │           │           │           │           │       │
+│     Output Token │     20.32 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       Throughput │           │           │           │           │           │           │       │
+│     (tokens/sec) │           │           │           │           │           │           │       │
+│          Request │      0.04 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       Throughput │           │           │           │           │           │           │       │
+│   (requests/sec) │           │           │           │           │           │           │       │
+│    Request Count │     30.00 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       (requests) │           │           │           │           │           │           │       │
+└──────────────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────┘
+
+╭──────────────────────────── Output Sequence Length Mismatch Warning ─────────────────────────────╮
+│  1 of 30 requests (3.3%) have output length differing from requested by more than the            │
+│  threshold.                                                                                      │
+│  Threshold (tokens): min(requested x 5%, 50)                                                     │
+│  Average mismatch: -1.4%                                                                         │
+│                                                                                                  │
+│  Why: Server hit EOS token before reaching requested output length.                              │
+│                                                                                                  │
+│  Fix Options:                                                                                    │
+│    • --extra-inputs ignore_eos:true — Generate until max_tokens (vLLM, TensorRT-LLM)             │
+│    • --extra-inputs min_tokens:<N> — Set minimum output length (vLLM, TensorRT-LLM, SGLang)      │
+│    • --use-server-token-count — Use server-reported token counts if tokenizer mismatch           │
+│  suspected                                                                                       │
+│                                                                                                  │
+│  Diagnostics:                                                                                    │
+│    • Review profile_export.jsonl → osl_mismatch_diff_pct for per-request values                  │
+│    • Adjust: AIPERF_METRICS_OSL_MISMATCH_PCT_THRESHOLD=5                                         │
+│    • Adjust: AIPERF_METRICS_OSL_MISMATCH_MAX_TOKEN_THRESHOLD=50                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+CLI Command: aiperf profile --model 'Qwen/Qwen2.5-7B-Instruct' --endpoint-type 'chat' --url 
+'http://127.0.0.1:8000' --streaming --request-count 30 --warmup-request-count 3 
+--prompt-input-tokens-mean 1024 --prompt-output-tokens-mean 512 --extra-inputs 'ignore_eos:true' 
+--output-artifact-dir '/scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1'
+Benchmark Duration: 745.12 sec
+CSV Export: 
+/scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/profile_export_aiperf.csv
+JSON Export: 
+/scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/profile_export_aiperf.json
+Server Metrics CSV Export: 
+/scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/server_metrics_export.csv
+Server Metrics JSON Export: 
+/scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/server_metrics_export.json
+Log File: /scratch/matregnago/cmp223/results/N4_poti_TP_long_r1_780632/poti1/logs/aiperf.log
+
+[head] benchmark concluido
+[head] cleanup vLLM
+=======================
+2026-05-04 23:26:28,299	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/core/src/ray/raylet/raylet --raylet_socket_name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/raylet --store_socket_name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/plasma_store --object_manager_port=0 --min_worker_port=10002 --max_worker_port=19999 --node_manager_port=0 --node_id=da083f5a7fb8a46e759bd3218590ba56582f1873ec17deab0c8dfd7a --node_ip_address=192.168.30.47 --maximum_startup_concurrency=28 --static_resource_list=node:192.168.30.47,1.0,node:__internal_head__,1.0,accelerator_type:G,1,CPU,28,GPU,1,memory,69039879373,object_store_memory,29588519731 "--python_worker_command=/scratch/matregnago/cmp223/.venv/bin/python /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/workers/setup_worker.py /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/workers/default_worker.py --node-ip-address=192.168.30.47 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/plasma_store --raylet-name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/raylet --redis-address=None --metrics-agent-port=0 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --runtime-env-agent-port=0 --gcs-address=192.168.30.47:6379 --session-name=session_2026-05-04_23-11-39_983318_644206 --temp-dir=/scratch/matregnago/ray_780632 --webui=127.0.0.1:8265 --cluster-id=c825d7fc00f75bf924037d6931cde8db1e8d754ed85407e59be90645 RAY_WORKER_DYNAMIC_OPTION_PLACEHOLDER" --java_worker_command= --cpp_worker_command= --native_library_path=/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/cpp/lib --temp_dir=/scratch/matregnago/ray_780632 --session_dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --log_dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --resource_dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/runtime_resources --metrics-agent-port=0 --metrics_export_port=0 --runtime_env_agent_port=0 --object_store_memory=29588519731 --plasma_directory=/dev/shm --fallback_directory=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --ray-debugger-external=0 --gcs-address=192.168.30.47:6379 --session-name=session_2026-05-04_23-11-39_983318_644206 "--labels={\"ray.io/accelerator-type\": \"G\"}" --cluster-id=c825d7fc00f75bf924037d6931cde8db1e8d754ed85407e59be90645 --stdout_filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/raylet.out --stderr_filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/raylet.err --head --num_prestart_python_workers=28 "--dashboard_agent_command=/scratch/matregnago/cmp223/.venv/bin/python -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/dashboard/agent.py --node-id=da083f5a7fb8a46e759bd3218590ba56582f1873ec17deab0c8dfd7a --node-ip-address=192.168.30.47 --metrics-export-port=0 --grpc-port=0 --listen-port=52365 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/plasma_store --raylet-name=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/sockets/raylet --temp-dir=/scratch/matregnago/ray_780632 --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --log-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --session-name=session_2026-05-04_23-11-39_983318_644206 --gcs-address=192.168.30.47:6379 --cluster-id-hex=c825d7fc00f75bf924037d6931cde8db1e8d754ed85407e59be90645 --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/dashboard_agent.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/dashboard_agent.err --head" "--runtime_env_agent_command=/scratch/matregnago/cmp223/.venv/bin/python -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/runtime_env/agent/main.py --node-id=da083f5a7fb8a46e759bd3218590ba56582f1873ec17deab0c8dfd7a --node-ip-address=192.168.30.47 --runtime-env-agent-port=0 --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --gcs-address=192.168.30.47:6379 --cluster-id-hex=c825d7fc00f75bf924037d6931cde8db1e8d754ed85407e59be90645 --runtime-env-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/runtime_resources --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --log-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --temp-dir=/scratch/matregnago/ray_780632 --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/runtime_env_agent.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/runtime_env_agent.err" --node-name=192.168.30.47[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,320	INFO scripts.py:1349 -- 1/1 stopped.2026-05-04 23:26:28,339	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py --logs-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --gcs-address=192.168.30.47:6379 --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/monitor.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/monitor.err --monitor-ip=192.168.30.47[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,339	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/log_monitor.py --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --logs-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --gcs-address=192.168.30.47:6379 --node-ip-address=192.168.30.47 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/log_monitor.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/log_monitor.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,340	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python -m ray.util.client.server --address=192.168.30.47:6379 --host=192.168.30.47 --port=10001 --mode=proxy --runtime-env-agent-address=http://192.168.30.47:0 --node-id=da083f5a7fb8a46e759bd3218590ba56582f1873ec17deab0c8dfd7a[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,342	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/log_monitor.py --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --logs-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --gcs-address=192.168.30.47:6379 --node-ip-address=192.168.30.47 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/log_monitor.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/log_monitor.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,343	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/dashboard/dashboard.py --host=127.0.0.1 --port=8265 --port-retries=0 --temp-dir=/scratch/matregnago/ray_780632 --log-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --gcs-address=192.168.30.47:6379 --cluster-id-hex=c825d7fc00f75bf924037d6931cde8db1e8d754ed85407e59be90645 --node-ip-address=192.168.30.47 --proxy-server-url= --stdout-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/dashboard.out --stderr-filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/dashboard.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:28,345	INFO scripts.py:1349 -- 1/4 stopped.2026-05-04 23:26:28,595	INFO scripts.py:1349 -- 2/4 stopped.2026-05-04 23:26:28,595	INFO scripts.py:1349 -- 3/4 stopped.2026-05-04 23:26:28,891	INFO scripts.py:1349 -- 4/4 stopped.2026-05-04 23:26:28,909	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/core/src/ray/gcs/gcs_server --log_dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs --config_list=eyJhdXRvbWF0aWNfb2JqZWN0X3NwaWxsaW5nX2VuYWJsZWQiOiB0cnVlLCAib2JqZWN0X3NwaWxsaW5nX2NvbmZpZyI6ICJ7XCJ0eXBlXCI6IFwiZmlsZXN5c3RlbVwiLCBcInBhcmFtc1wiOiB7XCJkaXJlY3RvcnlfcGF0aFwiOiBcIi9zY3JhdGNoL21hdHJlZ25hZ28vcmF5Xzc4MDYzMi9zZXNzaW9uXzIwMjYtMDUtMDRfMjMtMTEtMzlfOTgzMzE4XzY0NDIwNlwifX0iLCAiaXNfZXh0ZXJuYWxfc3RvcmFnZV90eXBlX2ZzIjogdHJ1ZX0= --gcs_server_port=6379 --metrics-agent-port=0 --node-ip-address=192.168.30.47 --session-name=session_2026-05-04_23-11-39_983318_644206 --ray-commit=237c2455ebb1ea15a32dd9e1fdeb2d617badc37f --session-dir=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206 --node-id=da083f5a7fb8a46e759bd3218590ba56582f1873ec17deab0c8dfd7a --stdout_filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/gcs_server.out --stderr_filepath=/scratch/matregnago/ray_780632/session_2026-05-04_23-11-39_983318_644206/logs/gcs_server.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-04 23:26:34,250	WARN scripts.py:1396 -- [33mStopped only 5 out of 6 Ray processes within the grace period 16 seconds. Set `[1m-v[22m[33m` to see more details. Remaining processes [psutil.Process(pid=644239, name='gcs_server', status='terminated')] will be forcefully terminated.[39m
+2026-05-04 23:26:34,250	WARN scripts.py:1403 -- [33mYou can also use `[1m--force[22m[33m` to forcefully terminate processes or set higher `--grace-period` to wait longer time for proper termination.[39m
+[33m(raylet)[0m The autoscaler failed with the following error:
+Terminated with signal 15
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 736, in <module>
+    monitor.run()
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 593, in run
+    self._run()
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 448, in _run
+    time.sleep(AUTOSCALER_UPDATE_INTERVAL_S)
+
+[poti1] cleanup nvidia-smi/ray
+2026-05-04 23:26:40,794	INFO scripts.py:1391 -- Did not find any active Ray processes.

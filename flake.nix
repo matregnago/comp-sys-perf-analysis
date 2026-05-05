@@ -57,19 +57,23 @@
           DRIVER_BASE="''${SCRATCH:-/scratch/''${USER:-$LOGNAME}}"
           DRIVER_DIR="$DRIVER_BASE/pcad-cuda-drivers"
           mkdir -p "$DRIVER_DIR"
-          rm -f "$DRIVER_DIR"/libcuda.so* "$DRIVER_DIR"/libnvidia-ml.so* "$DRIVER_DIR"/nvidia-smi
+          rm -f "$DRIVER_DIR"/*
+
           for d in /host/usr/lib/x86_64-linux-gnu /host/usr/lib64; do
             [ -d "$d" ] || continue
-            for p in "$d"/libcuda.so* "$d"/libnvidia-ml.so*; do
+            for p in "$d"/libcuda.so* "$d"/libnvidia-ml.so* "$d"/libnvidia-ptxjitcompiler.so*; do
               if [ -e "$p" ] || [ -L "$p" ]; then
-                ln -sf "$p" "$DRIVER_DIR/$(basename "$p")"
+                cp -Lf "$p" "$DRIVER_DIR/"
               fi
             done
           done
 
-          [ -x "/host/usr/bin/nvidia-smi" ] && ln -sf /host/usr/bin/nvidia-smi "$DRIVER_DIR/nvidia-smi"
+          if [ -x "/host/usr/bin/nvidia-smi" ]; then
+            cp -f /host/usr/bin/nvidia-smi "$DRIVER_DIR/"
+          fi
 
           export LD_LIBRARY_PATH="$DRIVER_DIR:${pkgs.cudaPackages.cudatoolkit}/lib64:''${LD_LIBRARY_PATH:-}"
+          export LIBRARY_PATH="$DRIVER_DIR:''${LIBRARY_PATH:-}"
           export PATH="$DRIVER_DIR:${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
         '';
 
@@ -82,6 +86,7 @@
 
       devShells.${system} = {
         default = pcadFhs.env;
+
         tools = pkgs.mkShell {
           packages = with pkgs; [
             marp-cli
@@ -92,6 +97,7 @@
             stdenv.cc.cc.lib
             zlib
           ];
+
           shellHook = ''
             export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.zlib}/lib:''${LD_LIBRARY_PATH:-}"
           '';

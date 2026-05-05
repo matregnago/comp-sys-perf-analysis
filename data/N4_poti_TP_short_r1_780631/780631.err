@@ -1,0 +1,255 @@
++ . /home/users/matregnago/cmp223/scripts/config.sh
+++ export SCRATCH=/scratch/matregnago
+++ SCRATCH=/scratch/matregnago
+++ export WORK_DIR=/scratch/matregnago/cmp223
+++ WORK_DIR=/scratch/matregnago/cmp223
+++ export HF_HOME=/scratch/matregnago/hf_cache
+++ HF_HOME=/scratch/matregnago/hf_cache
+++ export FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631
+++ FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631
+++ export RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631
+++ RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631
+++ NSYS=0
+++ VLLM_LOG=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/vllm_server.log
+++ TELEMETRY_CSV=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/telemetry.csv
+++ NSYS_OUT=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/vllm_trace
+++ MODEL=Qwen/Qwen2.5-7B-Instruct
+++ MAX_MODEL_LEN=4096
+++ GPU_MEM_UTIL=0.85
+++ HOST=127.0.0.1
+++ PORT=8000
+++ HEALTH_POLL_TRIES=120
+++ HEALTH_POLL_SLEEP=5
+++ ISL=128
+++ OSL=128
+++ REQUEST_COUNT=30
+++ WARMUP_COUNT=3
+++ NVSMI_INTERVAL_MS=100
++ echo ===============================================================
+++ date
++ echo 'Date        : Mon May  4 08:05:48 PM -03 2026'
+++ hostname
++ echo 'SubmitHost  : poti1'
++ echo 'SubmitDir   : /home/users/matregnago/cmp223'
++ echo 'JobID       : 780631'
++ echo 'Node(s)     : poti[1-4]'
++ echo ===============================================================
++ '[' -f /home/users/matregnago/cmp223/.env ']'
++ set -a
++ . /home/users/matregnago/cmp223/.env
+++ HF_TOKEN=""
++ set +a
++ : ""
++ mkdir -p /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631
+++ scontrol show hostnames 'poti[1-4]'
++ nodes='poti1
+poti2
+poti3
+poti4'
++ nodes_array=($nodes)
++ head_node=poti1
++ export HEAD_NODE=poti1
++ HEAD_NODE=poti1
+++ srun -N1 -n1 -w poti1 bash /home/users/matregnago/cmp223/scripts/get_head_ip.sh
++ head_ip=192.168.30.47
++ export HEAD_IP=192.168.30.47
++ HEAD_IP=192.168.30.47
++ port=6379
++ ip_head=192.168.30.47:6379
++ export ip_head
++ export BARRIER_DIR=/home/users/matregnago/.ray_barriers/780631
++ BARRIER_DIR=/home/users/matregnago/.ray_barriers/780631
++ rm -rf /home/users/matregnago/.ray_barriers/780631
++ mkdir -p /home/users/matregnago/.ray_barriers/780631
++ trap 'rm -rf "$BARRIER_DIR"' EXIT
++ srun --export=ALL --nodes=4 --ntasks=4 --ntasks-per-node=1 bash /home/users/matregnago/cmp223/scripts/slurm_task_ray.sh
+++ hostname
+++ hostname
+++ hostname
++ NODE_HOST=poti2
++ NODE_HOST=poti1
++ NODE_HOST=poti4
++ echo '[poti2] iniciando setup do nodo'
++ echo '[poti1] iniciando setup do nodo'
++ echo '[poti4] iniciando setup do nodo'
++ mkdir -p /scratch/matregnago/cmp223
++ mkdir -p /scratch/matregnago/cmp223
++ mkdir -p /scratch/matregnago/cmp223
++ cd /scratch/matregnago/cmp223
++ cd /scratch/matregnago/cmp223
++ cd /scratch/matregnago/cmp223
++ rm -rf scripts pyproject.toml flake.nix flake.lock uv.lock
++ rm -rf scripts pyproject.toml flake.nix flake.lock uv.lock
++ rm -rf scripts pyproject.toml flake.nix flake.lock uv.lock
++ cp -r /home/users/matregnago/cmp223/scripts .
++ cp -r /home/users/matregnago/cmp223/scripts .
++ cp -r /home/users/matregnago/cmp223/scripts .
++ cp /home/users/matregnago/cmp223/pyproject.toml .
++ cp /home/users/matregnago/cmp223/pyproject.toml .
++ cp /home/users/matregnago/cmp223/flake.nix .
++ cp /home/users/matregnago/cmp223/flake.nix .
++ cp /home/users/matregnago/cmp223/flake.lock .
++ cp /home/users/matregnago/cmp223/uv.lock .
++ cp /home/users/matregnago/cmp223/pyproject.toml .
++ cp /home/users/matregnago/cmp223/flake.lock .
++ mkdir -p /scratch/matregnago/hf_cache
++ cp /home/users/matregnago/cmp223/uv.lock .
++ mkdir -p /scratch/matregnago/hf_cache
++ export NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2
++ NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2
++ export NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti2
++ NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti2
++ mkdir -p /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2 /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti2
++ trap copyback EXIT
++ nixw nix run .#default -- -c '
+set -euxo pipefail
+
+uv sync --extra pcad
+source .venv/bin/activate
+
+export VENV_PATH="$PWD/.venv"
+export VIRTUAL_ENV="$PWD/.venv"
+
+# Barreira: sinaliza que este nodo terminou o uv sync e aguarda os demais
+# antes de subir o ray symmetric-run. BARRIER_DIR e exportado pelo .slurm.
+: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo infer_ray.slurm)}"
+node_host="$(hostname)"
+mkdir -p "$BARRIER_DIR"
+touch "$BARRIER_DIR/${node_host}.ready"
+echo "[$node_host] aguardando barreira ($SLURM_JOB_NUM_NODES nodos) em $BARRIER_DIR"
+{ set +x; } 2>/dev/null
+while [ "$(find "$BARRIER_DIR" -maxdepth 1 -name "*.ready" -type f 2>/dev/null | wc -l)" -lt "$SLURM_JOB_NUM_NODES" ]; do
+    sleep 2
+done
+set -x
+echo "[$node_host] barreira liberada"
+
+bash scripts/ray_node_run.sh
+'
++ cp /home/users/matregnago/cmp223/flake.nix .
++ cp /home/users/matregnago/cmp223/flake.lock .
++ cp /home/users/matregnago/cmp223/uv.lock .
++ mkdir -p /scratch/matregnago/hf_cache
++ export NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4
++ NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4
++ export NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti4
++ NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti4
++ mkdir -p /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4 /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti4
++ trap copyback EXIT
++ nixw nix run .#default -- -c '
+set -euxo pipefail
+
+uv sync --extra pcad
+source .venv/bin/activate
+
+export VENV_PATH="$PWD/.venv"
+export VIRTUAL_ENV="$PWD/.venv"
+
+# Barreira: sinaliza que este nodo terminou o uv sync e aguarda os demais
+# antes de subir o ray symmetric-run. BARRIER_DIR e exportado pelo .slurm.
+: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo infer_ray.slurm)}"
+node_host="$(hostname)"
+mkdir -p "$BARRIER_DIR"
+touch "$BARRIER_DIR/${node_host}.ready"
+echo "[$node_host] aguardando barreira ($SLURM_JOB_NUM_NODES nodos) em $BARRIER_DIR"
+{ set +x; } 2>/dev/null
+while [ "$(find "$BARRIER_DIR" -maxdepth 1 -name "*.ready" -type f 2>/dev/null | wc -l)" -lt "$SLURM_JOB_NUM_NODES" ]; do
+    sleep 2
+done
+set -x
+echo "[$node_host] barreira liberada"
+
+bash scripts/ray_node_run.sh
+'
+++ hostname
++ NODE_HOST=poti3
++ echo '[poti3] iniciando setup do nodo'
++ mkdir -p /scratch/matregnago/cmp223
++ cd /scratch/matregnago/cmp223
++ rm -rf scripts pyproject.toml flake.nix flake.lock uv.lock
++ cp -r /home/users/matregnago/cmp223/scripts .
++ cp /home/users/matregnago/cmp223/pyproject.toml .
++ cp /home/users/matregnago/cmp223/flake.nix .
++ cp /home/users/matregnago/cmp223/flake.lock .
++ cp /home/users/matregnago/cmp223/uv.lock .
++ mkdir -p /scratch/matregnago/hf_cache
++ export NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3
++ NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3
++ export NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti3
++ NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti3
++ mkdir -p /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3 /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti3
++ trap copyback EXIT
++ nixw nix run .#default -- -c '
+set -euxo pipefail
+
+uv sync --extra pcad
+source .venv/bin/activate
+
+export VENV_PATH="$PWD/.venv"
+export VIRTUAL_ENV="$PWD/.venv"
+
+# Barreira: sinaliza que este nodo terminou o uv sync e aguarda os demais
+# antes de subir o ray symmetric-run. BARRIER_DIR e exportado pelo .slurm.
+: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo infer_ray.slurm)}"
+node_host="$(hostname)"
+mkdir -p "$BARRIER_DIR"
+touch "$BARRIER_DIR/${node_host}.ready"
+echo "[$node_host] aguardando barreira ($SLURM_JOB_NUM_NODES nodos) em $BARRIER_DIR"
+{ set +x; } 2>/dev/null
+while [ "$(find "$BARRIER_DIR" -maxdepth 1 -name "*.ready" -type f 2>/dev/null | wc -l)" -lt "$SLURM_JOB_NUM_NODES" ]; do
+    sleep 2
+done
+set -x
+echo "[$node_host] barreira liberada"
+
+bash scripts/ray_node_run.sh
+'
++ export NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1
++ NODE_RESULTS_DIR=/scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1
++ export NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti1
++ NODE_FINAL_RESULTS_DIR=/home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti1
++ mkdir -p /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1 /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti1
++ trap copyback EXIT
++ nixw nix run .#default -- -c '
+set -euxo pipefail
+
+uv sync --extra pcad
+source .venv/bin/activate
+
+export VENV_PATH="$PWD/.venv"
+export VIRTUAL_ENV="$PWD/.venv"
+
+# Barreira: sinaliza que este nodo terminou o uv sync e aguarda os demais
+# antes de subir o ray symmetric-run. BARRIER_DIR e exportado pelo .slurm.
+: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo infer_ray.slurm)}"
+node_host="$(hostname)"
+mkdir -p "$BARRIER_DIR"
+touch "$BARRIER_DIR/${node_host}.ready"
+echo "[$node_host] aguardando barreira ($SLURM_JOB_NUM_NODES nodos) em $BARRIER_DIR"
+{ set +x; } 2>/dev/null
+while [ "$(find "$BARRIER_DIR" -maxdepth 1 -name "*.ready" -type f 2>/dev/null | wc -l)" -lt "$SLURM_JOB_NUM_NODES" ]; do
+    sleep 2
+done
+set -x
+echo "[$node_host] barreira liberada"
+
+bash scripts/ray_node_run.sh
+'
++ copyback
++ echo '[poti1] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1 -> /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti1'
++ '[' -d /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1 ']'
++ cp -r /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti1/. /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti1/
++ copyback
++ echo '[poti3] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3 -> /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti3'
++ '[' -d /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3 ']'
++ cp -r /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti3/. /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti3/
++ copyback
++ echo '[poti2] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2 -> /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti2'
++ '[' -d /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2 ']'
++ cp -r /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti2/. /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti2/
++ copyback
++ echo '[poti4] copiando /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4 -> /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti4'
++ '[' -d /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4 ']'
++ cp -r /scratch/matregnago/cmp223/results/N4_poti_TP_short_r1_780631/poti4/. /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631/poti4/
++ echo 'Job finalizado. Resultados (por hostname) em: /home/users/matregnago/cmp223/data/N4_poti_TP_short_r1_780631'
++ rm -rf /home/users/matregnago/.ray_barriers/780631

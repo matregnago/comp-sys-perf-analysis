@@ -4,7 +4,7 @@
 export SCRATCH="/scratch/matregnago"
 export WORK_DIR="$SCRATCH/cmp223"
 export HF_HOME="$SCRATCH/hf_cache"
-export FINAL_RESULTS_DIR="$SLURM_SUBMIT_DIR/results_pcad/${SLURM_JOB_NAME}_${SLURM_JOB_ID}"
+export FINAL_RESULTS_DIR="$SLURM_SUBMIT_DIR/data/${SLURM_JOB_NAME}_${SLURM_JOB_ID}"
 export RESULTS_DIR="$WORK_DIR/results/${SLURM_JOB_NAME}_${SLURM_JOB_ID}"
 
 # nsys
@@ -16,7 +16,7 @@ TELEMETRY_CSV="$RESULTS_DIR/telemetry.csv" # CSV do nvidia-smi
 NSYS_OUT="$RESULTS_DIR/vllm_trace" # Trace do nsys (se NSYS=1)
 
 # vLLM
-MODEL="meta-llama/Meta-Llama-3.1-8B-Instruct" # Modelo que o vLLM vai carregar
+MODEL="Qwen/Qwen2.5-7B-Instruct" # Modelo que o vLLM vai carregar
 MAX_MODEL_LEN="4096" # Comprimento maximo de contexto (ISL + OSL)
 GPU_MEM_UTIL="0.85" # Porcentagem da VRAM que o vLLM pode usar
 HOST="127.0.0.1" # Host do servidor vLLM

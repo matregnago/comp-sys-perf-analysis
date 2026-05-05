@@ -18,7 +18,6 @@ cp "$SLURM_SUBMIT_DIR/uv.lock" .
 
 mkdir -p "$HF_HOME"
 
-# Cada nodo escreve em sua propria subpasta (no scratch e no destino final)
 export NODE_RESULTS_DIR="$RESULTS_DIR/$NODE_HOST"
 export NODE_FINAL_RESULTS_DIR="$FINAL_RESULTS_DIR/$NODE_HOST"
 mkdir -p "$NODE_RESULTS_DIR" "$NODE_FINAL_RESULTS_DIR"

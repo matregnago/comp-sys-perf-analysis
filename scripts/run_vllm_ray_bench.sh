@@ -1,7 +1,4 @@
 #!/bin/bash
-# Entrypoint do ray symmetric-run: roda APENAS no head.
-# Sobe vLLM com backend Ray (usando o cluster ja inicializado pelos workers)
-# e entao dispara o aiperf contra o servidor.
 set -euo pipefail
 
 [[ -f flake.nix ]] || { echo "rode da raiz do projeto"; exit 1; }
@@ -47,6 +44,10 @@ VLLM_ARGS=(
     --tensor-parallel-size "$TP_SIZE"
     --pipeline-parallel-size "$PP_SIZE"
 )
+
+if [ "${ENFORCE_EAGER:-1}" = "1" ]; then
+    VLLM_ARGS+=(--enforce-eager)
+fi
 
 cleanup() {
     echo "[head] cleanup vLLM"

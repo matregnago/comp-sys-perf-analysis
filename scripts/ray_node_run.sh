@@ -1,7 +1,4 @@
 #!/bin/bash
-# Roda em CADA nodo, dentro do nix develop.
-# Sobe nvidia-smi + (opcional) nsys e entra no ray symmetric-run.
-# O entrypoint passado para o symmetric-run sera executado APENAS no head.
 set -euo pipefail
 
 [[ -f flake.nix ]] || { echo "rode da raiz do projeto"; exit 1; }
@@ -22,8 +19,7 @@ mkdir -p "$RAY_TMPDIR"
 
 "$RAY_BIN" stop --force || true
 
-# Forca o IP interno por nodo para evitar mistura 192.168.* (interna)
-# com 143.* (externa) na descoberta do vLLM/Ray.
+
 NODE_IP="$(bash scripts/get_head_ip.sh)"
 export RAY_NODE_IP_ADDRESS="$NODE_IP"
 export VLLM_HOST_IP="$NODE_IP"
@@ -36,12 +32,7 @@ if [ -n "$NODE_IFACE" ]; then
 fi
 echo "[$NODE_HOST] usando NODE_IP=$NODE_IP (RAY_NODE_IP_ADDRESS/VLLM_HOST_IP)"
 
-# Sem isso o ray.init() que o symmetric-run chama internamente (para
-# empacotar o working_dir como runtime_env) faz bootstrap de um cluster
-# novo no IP externo do nodo (143.54.*) em vez de conectar no que o
-# proprio symmetric-run subiu em $ip_head (192.168.*).
 export RAY_ADDRESS="$ip_head"
-export VLLM_DO_NOT_COPY_ENV_VARS="LD_LIBRARY_PATH"
 
 NODE_TELEMETRY_CSV="$NODE_RESULTS_DIR/telemetry.csv"
 NODE_NSYS_OUT="$NODE_RESULTS_DIR/ray_trace"
@@ -57,7 +48,9 @@ echo "[$NODE_HOST] nvidia-smi PID=$NVSMI_PID -> $NODE_TELEMETRY_CSV"
 cleanup() {
     echo "[$NODE_HOST] cleanup nvidia-smi/ray"
     [ -n "${NVSMI_PID:-}" ] && kill "$NVSMI_PID" 2>/dev/null || true
+    "$RAY_BIN" stop --force 2>/dev/null || true
     wait 2>/dev/null || true
+    rm -rf "$RAY_TMPDIR"
 }
 trap cleanup EXIT
 
@@ -75,11 +68,14 @@ RAY_CMD=(
 
 if [ "${NSYS:-0}" = "1" ]; then
     echo "[$NODE_HOST] nsys habilitado"
+
     nsys profile \
         --output="$NODE_NSYS_OUT" \
         --force-overwrite=true \
-        --trace=cuda,nvtx,cudnn,cublas,nccl \
+        --trace=cuda,nvtx,cublas,osrt \
         --sample=none \
+        --wait=all \
+        --trace-fork-before-exec=true \
         "${RAY_CMD[@]}"
 else
     "${RAY_CMD[@]}"
