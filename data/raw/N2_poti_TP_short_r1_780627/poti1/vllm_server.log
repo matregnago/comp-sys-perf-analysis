@@ -1,0 +1,793 @@
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299] 
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299]        █     █     █▄   ▄█
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.20.1
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299]   █▄█▀ █     █     █     █  model   Qwen/Qwen2.5-7B-Instruct
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:299] 
+(APIServer pid=627058) INFO 05-04 22:48:34 [utils.py:233] non-default args: {'model_tag': 'Qwen/Qwen2.5-7B-Instruct', 'host': '127.0.0.1', 'model': 'Qwen/Qwen2.5-7B-Instruct', 'max_model_len': 4096, 'enforce_eager': True, 'distributed_executor_backend': 'ray', 'tensor_parallel_size': 2, 'gpu_memory_utilization': 0.85}
+(APIServer pid=627058) INFO 05-04 22:48:36 [model.py:555] Resolved architecture: Qwen2ForCausalLM
+(APIServer pid=627058) INFO 05-04 22:48:36 [model.py:1680] Using max model len 4096
+(APIServer pid=627058) WARNING 05-04 22:48:36 [vllm.py:831] Async scheduling will be disabled because it is not supported with the `ray` distributed executor backend. 
+(APIServer pid=627058) INFO 05-04 22:48:36 [vllm.py:840] Asynchronous scheduling is disabled.
+(APIServer pid=627058) WARNING 05-04 22:48:36 [vllm.py:896] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(APIServer pid=627058) WARNING 05-04 22:48:36 [vllm.py:914] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(APIServer pid=627058) INFO 05-04 22:48:36 [kernel.py:205] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'])
+(APIServer pid=627058) INFO 05-04 22:48:37 [vllm.py:1089] Cudagraph is disabled under eager mode
+(APIServer pid=627058) INFO 05-04 22:48:37 [compilation.py:303] Enabled custom fusions: norm_quant, act_quant
+(EngineCore pid=627263) INFO 05-04 22:48:41 [core.py:109] Initializing a V1 LLM engine (v0.20.1) with config: model='Qwen/Qwen2.5-7B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-7B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=2, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen/Qwen2.5-7B-Instruct, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native']), enable_flashinfer_autotune=True, moe_backend='auto')
+(EngineCore pid=627263) WARNING 05-04 22:48:41 [ray_utils.py:556] Tensor parallel size (2) exceeds available GPUs (1). This may result in Ray placement group allocation failures. Consider reducing tensor_parallel_size to 1 or less, or ensure your Ray cluster has 2 GPUs available.
+(EngineCore pid=627263) 2026-05-04 22:48:41,627	INFO worker.py:1672 -- Using address 192.168.30.47:6379 set in the environment variable RAY_ADDRESS
+(EngineCore pid=627263) 2026-05-04 22:48:41,629	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 192.168.30.47:6379...
+(EngineCore pid=627263) 2026-05-04 22:48:41,650	INFO worker.py:2003 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://127.0.0.1:8265 [39m[22m
+(EngineCore pid=627263) /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+(EngineCore pid=627263)   warnings.warn(
+(EngineCore pid=627263) INFO 05-04 22:48:41 [ray_utils.py:621] No current placement group found. Creating a new placement group.
+(EngineCore pid=627263) WARNING 05-04 22:48:41 [ray_utils.py:316] tensor_parallel_size=2 is bigger than a reserved number of GPUs (1 GPUs) in a node 9ef36767306ecd8c19066e11b9f3e6941ddb74f0f1a7166ea28ac142. Tensor parallel workers can be spread out to 2+ nodes which can degrade the performance unless you have fast interconnect across nodes, like Infiniband. To resolve this issue, make sure you have more than 2 GPUs available at each node.
+(EngineCore pid=627263) WARNING 05-04 22:48:41 [ray_utils.py:316] tensor_parallel_size=2 is bigger than a reserved number of GPUs (1 GPUs) in a node d1e43ec24ce85ac91f05c8e461b90a57d7f7751168df6a224fed3331. Tensor parallel workers can be spread out to 2+ nodes which can degrade the performance unless you have fast interconnect across nodes, like Infiniband. To resolve this issue, make sure you have more than 2 GPUs available at each node.
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:48:44,898 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8389 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(EngineCore pid=627263) INFO 05-04 22:48:46 [ray_env.py:100] Env var prefixes to copy: ['HF_', 'HUGGING_FACE_', 'LMCACHE_', 'NCCL_', 'UCX_', 'VLLM_']
+(EngineCore pid=627263) INFO 05-04 22:48:46 [ray_env.py:101] Copying the following environment variables to workers: ['CUDA_HOME', 'HF_HOME', 'HF_TOKEN', 'LD_LIBRARY_PATH', 'NCCL_DEBUG', 'NCCL_DEBUG_SUBSYS', 'NCCL_SOCKET_IFNAME', 'UCX_NET_DEVICES', 'VLLM_WORKER_MULTIPROC_METHOD']
+(EngineCore pid=627263) INFO 05-04 22:48:46 [ray_env.py:111] To exclude env vars from copying, add them to /home/users/matregnago/.config/vllm/ray_non_carry_over_env_vars.json
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:46 [system_utils.py:38] Overwriting environment variable LD_LIBRARY_PATH from '/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/lib64:' to '/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/lib64:'
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:47 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:47 [nixl_utils.py:34] NIXL is not available
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:47 [nixl_utils.py:44] NIXL agent config is not available
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:47 [worker_base.py:292] Missing `shared_worker_lock` argument from executor. This argument is needed for mm_processor_cache_type='shm'.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:48 [parallel_state.py:1402] world_size=2 rank=0 local_rank=0 distributed_init_method=tcp://192.168.30.47:46637 backend=nccl
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:48 [pynccl.py:111] vLLM is using nccl==2.28.9
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ENV/Plugin: Could not find: libnccl-env.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO cudaDriverVersion 13010
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NCCL_SOCKET_IFNAME set to enp4s0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NCCL version 2.28.9+cuda13.0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/Plugin: Could not find: libnccl-net.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Failed to open libibverbs.so[.1]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO transport/net_ib.cc:852 -> 3
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Failed to initialize NET plugin IB
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/Socket : Using [0]enp4s0:192.168.30.48<0>
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Initialized NET plugin Socket
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Assigned NET plugin Socket to comm
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Using network Socket
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclCommInitRank comm 0x557452d18d30 rank 1 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 commId 0xd3b4135b203c6049 - Init START
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Topology detection : could not read /sys/devices/system/node/node-1/cpumap, ignoring
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO TOPO/NET : Importing network plugins to topology
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Topology detection : could not read /sys/devices/system/node/node-1/cpumap, ignoring
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/Socket : GPU Direct RDMA Disabled for HCA 0 'enp4s0'
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclTopoPopulateNics : Filled enp4s0 in topo with pciPath=/sys/devices/pci0000:00/0000:00:1c.2/0000:04:00.0 keep=1 coll=(null)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO === System : maxBw 0.1 totalBw 24.0 ===
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO CPU/0-ffffffffffffff (1/1/3)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO + PCI[24.0] - GPU/0-1000 (1)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO + PCI[0.4] - NIC/0-4000
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO              + NET[0.1] - NET/0-0 (0/0/0/0.125000)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ==========================================
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO GPU/0-1000 :GPU/0-1000 (0/5000.0/LOC) CPU/0-ffffffffffffff (1/24.0/PHB) NET/0-0 (3/0.1/PHB) 
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/0-0 :GPU/0-1000 (3/0.1/PHB) CPU/0-ffffffffffffff (2/0.1/PHB) NET/0-0 (0/5000.0/LOC) 
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclTopoGetCpuAffinity: Affinity for GPU 0 is empty, ignoring. (GPU affinity =  ; CPU affinity = 0-27).
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Pattern 4, crossNic 0, nChannels 1, bw 0.120000/0.120000, type LOC/PHB, sameChannels 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO  0 : NET/0-0 GPU/0-1000 NET/0-0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Pattern 3, crossNic 0, nChannels 1, bw 0.240000/0.120000, type LOC/PHB, sameChannels 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO  0 : NET/0-0 GPU/0-1000 NET/0-0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO comm 0x557452d18d30 rank 1 nRanks 2 nNodes 2 localRanks 1 localRank 0 MNNVL 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Tree 0 : 0 -> 1 -> -1/-1/-1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Tree 1 : -1 -> 1 -> 0/-1/-1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Ring 00 : 0 -> 1 -> 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Ring 01 : 0 -> 1 -> 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Trees [0] -1/-1/-1->1->0 [1] 0/-1/-1->1->-1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO P2P Chunksize set to 131072
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Exception in thread Thread-1 (_report_usage_worker):
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Traceback (most recent call last):
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "/usr/lib/python3.13/threading.py", line 1044, in _bootstrap_inner
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     self.run()
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     ~~~~~~~~^^
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "/usr/lib/python3.13/threading.py", line 995, in run
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     self._target(*self._args, **self._kwargs)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/vllm/usage/usage_lib.py", line 173, in _report_usage_worker
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     self._report_usage_once(model_architecture, usage_context, extra_kvs)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/vllm/usage/usage_lib.py", line 246, in _report_usage_once
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     self._write_to_file(data)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     ~~~~~~~~~~~~~~~~~~~^^^^^^
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/vllm/usage/usage_lib.py", line 275, in _write_to_file
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     os.makedirs(os.path.dirname(_USAGE_STATS_JSON_PATH), exist_ok=True)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m   File "<frozen os>", line 228, in makedirs
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m PermissionError: [Errno 13] Permission denied: '/home/users/matregnago/.config/vllm'
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  3.16it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.97it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  2.91it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.99it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.99it/s]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m 
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:48:54,907 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8388 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Check P2P Type isAllDirectP2p 1 directMode 0 isAllCudaP2p 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclP2pSchedule: group size used is 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568419 [0] NCCL INFO [Proxy Service] Device 0 CPU core 6
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568420 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 10
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO 2 coll channels, 2 collnet channels, 0 nvls channels, 2 p2p channels, 2 p2p channels per peer
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclCommInitRank comm 0x557452d18d30 rank 1 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 00/02 : 0 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 01/02 : 0 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:62747
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:49 [symm_mem.py:66] SymmMemCommunicator: Device capability 8.9 not supported, communicator is not available.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:49 [custom_all_reduce.py:91] Custom allreduce is disabled because this process group spans across nodes.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:49 [parallel_state.py:1715] rank 1 in world size 2 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 1, EP rank N/A, EPLB rank N/A
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:49 [gpu_model_runner.py:4777] Starting to load model Qwen/Qwen2.5-7B-Instruct...
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:49 [cuda.py:368] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:49 [flash_attn.py:646] Using FlashAttention version 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:50 [weight_utils.py:904] Filesystem type for checkpoints: EXT4. Checkpoint size: 14.19 GiB. Available RAM: 86.94 GiB.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:50 [weight_utils.py:927] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:52 [default_loader.py:384] Loading weights took 1.36 seconds
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:46 [system_utils.py:38] Overwriting environment variable LD_LIBRARY_PATH from '/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/lib64:' to '/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/cv2/../../lib64:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/lib64:'
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:52 [gpu_model_runner.py:4879] Model loading took 7.12 GiB memory and 2.423999 seconds
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:48 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:48 [nixl_utils.py:34] NIXL is not available
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:48 [nixl_utils.py:44] NIXL agent config is not available
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m WARNING 05-04 22:48:48 [worker_base.py:292] Missing `shared_worker_lock` argument from executor. This argument is needed for mm_processor_cache_type='shm'.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:48 [parallel_state.py:1402] world_size=2 rank=1 local_rank=0 distributed_init_method=tcp://192.168.30.47:46637 backend=nccl
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m 3:627473 [0] NCCL INFO CC Off, workFifoBytes 1048576
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclCommInitRank comm 0x56374252be90 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 commId 0xd3b4135b203c6049 - Init COMPLETE
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Init timings - ncclCommInitRank: rank 0 nranks 2 total 0.14 (kernels 0.07, alloc 0.00, bootstrap 0.06, allgathers 0.00, topo 0.00, graphs 0.00, connections 0.00, rest 0.00)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627621 [0] NCCL INFO New proxy recv connection 0 from local rank 0, transport 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627623 [0] NCCL INFO [Proxy Progress] Device 0 CPU core 4
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Connected to proxy localRank 0 -> connection 0x7f702c004fe0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 00/0 : 1[0] -> 0[0] [receive] via NET/Socket/0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627621 [0] NCCL INFO New proxy recv connection 1 from local rank 0, transport 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Connected to proxy localRank 0 -> connection 0x7f702c005058
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 01/0 : 1[0] -> 0[0] [receive] via NET/Socket/0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627621 [0] NCCL INFO New proxy send connection 2 from local rank 0, transport 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Connected to proxy localRank 0 -> connection 0x7f702c0050d0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[0] [send] via NET/Socket/0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627621 [0] NCCL INFO New proxy send connection 3 from local rank 0, transport 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Connected to proxy localRank 0 -> connection 0x7f702c005148
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[0] [send] via NET/Socket/0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclCommInitRankConfig comm 0x563760827750 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 commId 0xb33b565d901e4590 - Init START
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Channel 00/02 : 0 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO C
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ENV/Plugin: Could not find: libnccl-env.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO cudaDriverVersion 13010
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NCCL_SOCKET_IFNAME set to enp4s0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NCCL version 2.28.9+cuda13.0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NET/Plugin: Could not find: libnccl-net.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Failed to open libibverbs.so[.1]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO transport/net_ib.cc:852 -> 3
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Failed to initialize NET plugin IB
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NET/Socket : Using [0]enp4s0:192.168.30.47<0>
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Initialized NET plugin Socket[32m [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Assigned NET plugin Socket to comm[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Using network Socket[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclCommInitRank comm 0x56374252be90 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 commId 0xd3b4135b203c6049 - Init START
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Topology detection : could not read /sys/devices/system/node/node-1/cpumap, ignoring[32m [repeated 4x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO TOPO/NET : Importing network plugins to topology[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NET/Socket : GPU Direct RDMA Disabled for HCA 0 'enp4s0'[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclTopoPopulateNics : Filled enp4s0 in topo with pciPath=/sys/devices/pci0000:00/0000:00:1c.2/0000:04:00.0 keep=1 coll=(null)[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO === System : maxBw 0.1 totalBw 24.0 ===[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO NET/0-0 :GPU/0-1000 (3/0.1/PHB) CPU/0-ffffffffffffff (2/0.1/PHB) NET/0-0 (0/5000.0/LOC) [32m [repeated 6x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO              + NET[0.1] - NET/0-0 (0/0/0/0.125000)[32m [repeated 6x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ==========================================[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclTopoGetCpuAffinity: Affinity for GPU 0 is empty, ignoring. (GPU affinity =  ; CPU affinity = 0-27).[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Pattern 3, crossNic 0, nChannels 1, bw 0.240000/0.120000, type LOC/PHB, sameChannels 1[32m [repeated 4x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO  0 : NET/0-0 GPU/0-1000 NET/0-0[32m [repeated 4x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO comm 0x563760827750 rank 0 nRanks 2 nNodes 2 localRanks 1 localRank 0 MNNVL 0[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Tree 1 : 1 -> 0 -> -1/-1/-1[32m [repeated 4x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Ring 01 : 1 -> 0 -> 1[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] -1/-1/-1->0->1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO P2P Chunksize set to 131072
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO Check P2P Type isAllDirectP2p 1 directMode 0 isAllCudaP2p 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO ncclP2pSchedule: group size used is 1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627621 [0] NCCL INFO [Proxy Service] Device 0 CPU core 4
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627622 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 6
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m poti1:627473:627473 [0] NCCL INFO 2 coll channels, 2 collnet channels, 0 nvls channels, 2 p2p channels, 2 p2p channels per peer
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:49 [symm_mem.py:66] SymmMemCommunicator: Device capability 8.9 not supported, communicator is not available.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m WARNING 05-04 22:48:49 [custom_all_reduce.py:91] Custom allreduce is disabled because this process group spans across nodes.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:48:49 [parallel_state.py:1715] rank 0 in world size 2 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:49 [cuda.py:368] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:49 [flash_attn.py:646] Using FlashAttention version 2
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:50 [weight_utils.py:904] Filesystem type for checkpoints: EXT4. Checkpoint size: 14.19 GiB. Available RAM: 90.56 GiB.
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:50 [weight_utils.py:927] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:04,913 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8388 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:53 [default_loader.py:384] Loading weights took 2.16 seconds
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:48:53 [gpu_model_runner.py:4879] Model loading took 7.12 GiB memory and 3.347277 seconds
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m commId 0xd3b4135b203c6049 - Init COMPLETE
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Trees [0] -1/-1/-1->1->0 [1] 0/-1/-1->1->-1
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO P2P Chunksize set to 131072
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:56
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=627473)[0m INFO 05-04 22:49:07 [gpu_worker.py:440] Available KV cache memory: 2.14 GiB
+(EngineCore pid=627263) INFO 05-04 22:49:08 [kv_cache_utils.py:1708] GPU KV cache size: 80,320 tokens
+(EngineCore pid=627263) INFO 05-04 22:49:08 [kv_cache_utils.py:1709] Maximum concurrency for 4,096 tokens per request: 19.61x
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Init timings - ncclCommInitRank: rank 1 nranks 2 total 0.11 (kernels 0.10, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.00, graphs 0.00, connections 0.00, rest 0.00)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568419 [0] NCCL INFO New proxy recv connection 1 from local rank 0, transport 2[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568421 [0] NCCL INFO [Proxy Progress] Device 0 CPU core 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Connected to proxy localRank 0 -> connection 0x7faba4005148[32m [repeated 4x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[0] [receive] via NET/Socket/0[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568419 [0] NCCL INFO New proxy send connection 3 from local rank 0, transport 2[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Channel 01/0 : 1[0] -> 0[0] [send] via NET/Socket/0[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclCommInitRankConfig comm 0x55747101c1b0 rank 1 nranks 2 cudaDev 0 nvmlDev 0 busId 1000 commId 0xb33b565d901e4590 - Init START
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Initialized NET plugin Socket
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Assigned NET plugin Socket to comm
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Using network Socket
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Topology detection : could not read /sys/devices/system/node/node-1/cpumap, ignoring[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO TOPO/NET : Importing network plugins to topology
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/Socket : GPU Direct RDMA Disabled for HCA 0 'enp4s0'
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclTopoPopulateNics : Filled enp4s0 in topo with pciPath=/sys/devices/pci0000:00/0000:00:1c.2/0000:04:00.0 keep=1 coll=(null)
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO === System : maxBw 0.1 totalBw 24.0 ===
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO NET/0-0 :GPU/0-1000 (3/0.1/PHB) CPU/0-ffffffffffffff (2/0.1/PHB) NET/0-0 (0/5000.0/LOC) [32m [repeated 3x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO              + NET[0.1] - NET/0-0 (0/0/0/0.125000)[32m [repeated 3x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ==========================================
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO ncclTopoGetCpuAffinity: Affinity for GPU 0 is empty, ignoring. (GPU affinity =  ; CPU affinity = 0-27).
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Pattern 3, crossNic 0, nChannels 1, bw 0.240000/0.120000, type LOC/PHB, sameChannels 1[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO  0 : NET/0-0 GPU/0-1000 NET/0-0[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO comm 0x55747101c1b0 rank 1 nRanks 2 nNodes 2 localRanks 1 localRank 0 MNNVL 0
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Tree 1 : -1 -> 1 -> 0/-1/-1[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m poti2:568309:568309 [0] NCCL INFO Ring 01 : 0 -> 1 -> 0[32m [repeated 2x across cluster][0m
+(EngineCore pid=627263) INFO 05-04 22:49:09 [core.py:306] init engine (profile, create kv cache, warmup model) took 15.32 s
+(EngineCore pid=627263) INFO 05-04 22:49:11 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+(EngineCore pid=627263) WARNING 05-04 22:49:11 [nixl_utils.py:34] NIXL is not available
+(EngineCore pid=627263) WARNING 05-04 22:49:11 [nixl_utils.py:44] NIXL agent config is not available
+(EngineCore pid=627263) INFO 05-04 22:49:11 [vllm.py:840] Asynchronous scheduling is disabled.
+(EngineCore pid=627263) WARNING 05-04 22:49:11 [vllm.py:896] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(EngineCore pid=627263) WARNING 05-04 22:49:11 [vllm.py:914] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore pid=627263) INFO 05-04 22:49:11 [kernel.py:205] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'])
+(EngineCore pid=627263) INFO 05-04 22:49:11 [vllm.py:1089] Cudagraph is disabled under eager mode
+(EngineCore pid=627263) INFO 05-04 22:49:11 [compilation.py:303] Enabled custom fusions: norm_quant, act_quant
+(APIServer pid=627058) INFO 05-04 22:49:11 [api_server.py:598] Supported tasks: ['generate']
+(APIServer pid=627058) WARNING 05-04 22:49:12 [model.py:1437] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'repetition_penalty': 1.05, 'temperature': 0.7, 'top_k': 20, 'top_p': 0.8}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+(APIServer pid=627058) INFO 05-04 22:49:14 [hf.py:314] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:14,919 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8388 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO 05-04 22:49:15 [api_server.py:602] Starting vLLM server on http://127.0.0.1:8000
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:37] Available routes are:
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /tokenize, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /detokenize, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /load, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /version, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /health, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /metrics, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/models, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /ping, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /ping, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /invocations, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/chat/completions/batch, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/responses, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/completions, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/messages, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/messages/count_tokens, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /generative_scoring, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+(APIServer pid=627058) INFO 05-04 22:49:15 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+(APIServer pid=627058) INFO:     Started server process [627058]
+(APIServer pid=627058) INFO:     Waiting for application startup.
+(APIServer pid=627058) INFO:     Application startup complete.
+(APIServer pid=627058) INFO:     127.0.0.1:59152 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59160 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59162 - "HEAD /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(EngineCore pid=627263) INFO 05-04 22:49:21 [ray_executor.py:557] RAY_CGRAPH_get_timeout is set to 300
+(EngineCore pid=627263) INFO 05-04 22:49:21 [ray_executor.py:561] VLLM_USE_RAY_COMPILED_DAG_CHANNEL_TYPE = auto
+(EngineCore pid=627263) INFO 05-04 22:49:21 [ray_executor.py:565] VLLM_USE_RAY_COMPILED_DAG_OVERLAP_COMM = False
+(EngineCore pid=627263) INFO 05-04 22:49:21 [ray_executor.py:624] Using RayPPCommunicator (which wraps vLLM _PP GroupCoordinator) for Ray Compiled Graph communication.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:24,924 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8386 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:49:25 [loggers.py:271] Engine 000: Avg prompt throughput: 11.5 tokens/s, Avg generation throughput: 6.2 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 0.0%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:34,927 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8384 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:49:35 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 29.9 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 6.8%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:44,930 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8383 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:49:45 [loggers.py:271] Engine 000: Avg prompt throughput: 42.3 tokens/s, Avg generation throughput: 28.9 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.2%, Prefix cache hit rate: 8.5%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:49:54,932 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8383 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:49:55 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.2 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 8.9%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:04,935 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8383 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:05 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.3 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.4%, Prefix cache hit rate: 9.2%
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:14,938 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8383 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:15 [loggers.py:271] Engine 000: Avg prompt throughput: 42.3 tokens/s, Avg generation throughput: 28.4 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.2%, Prefix cache hit rate: 9.4%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:24,942 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8382 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:25 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.3 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 9.5%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:34,945 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8381 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:35 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.3 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.4%, Prefix cache hit rate: 9.6%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:44,947 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8381 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:45 [loggers.py:271] Engine 000: Avg prompt throughput: 42.3 tokens/s, Avg generation throughput: 28.7 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.2%, Prefix cache hit rate: 9.7%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:50:54,950 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.838 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:50:55 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.3 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 9.7%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:51:04,953 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.838 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:51:05 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.4 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.4%, Prefix cache hit rate: 9.8%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:51:14,955 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.838 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:51:15 [loggers.py:271] Engine 000: Avg prompt throughput: 42.3 tokens/s, Avg generation throughput: 28.7 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.2%, Prefix cache hit rate: 9.8%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:51:24,958 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.838 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:51:25 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.3 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 9.8%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:51:34,960 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8378 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO 05-04 22:51:35 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 30.4 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 9.9%
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=627058) INFO:     127.0.0.1:59176 - "GET /metrics HTTP/1.1" 200 OK
+(EngineCore pid=627263) [33m(raylet)[0m [2026-05-04 22:51:44,962 E 625235 625259] (raylet) file_system_monitor.cc:116: /scratch/matregnago/ray_780627/session_2026-05-04_22-48-23_743555_624525 is over 95% full, available space: 87.8378 GB; capacity: 1759.35 GB. Object creation will fail if spilling is required.
+(APIServer pid=627058) INFO 05-04 22:51:45 [loggers.py:271] Engine 000: Avg prompt throughput: 28.2 tokens/s, Avg generation throughput: 26.8 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 9.9%
+(EngineCore pid=627263) INFO 05-04 22:51:47 [core.py:1238] Shutdown initiated (timeout=0)
+(EngineCore pid=627263) INFO 05-04 22:51:47 [core.py:1261] Shutdown complete
+(EngineCore pid=627263) INFO 05-04 22:51:47 [ray_executor.py:110] Shutting down Ray distributed executor. If you see error log from logging.cc regarding SIGTERM received, please ignore because this is the expected termination process in Ray.
+(EngineCore pid=627263) 2026-05-04 22:51:47,116	INFO compiled_dag_node.py:2167 -- Tearing down compiled DAG
+(EngineCore pid=627263) 2026-05-04 22:51:47,116	INFO compiled_dag_node.py:2172 -- Cancelling compiled worker on actor: Actor(RayWorkerWrapper, 394948a66eec120738af991902000000)
+(EngineCore pid=627263) 2026-05-04 22:51:47,116	INFO compiled_dag_node.py:2172 -- Cancelling compiled worker on actor: Actor(RayWorkerWrapper, 58702619863fe5b86cd7811502000000)
+(EngineCore pid=627263) 2026-05-04 22:51:47,119	INFO compiled_dag_node.py:2194 -- Waiting for worker tasks to exit
+(EngineCore pid=627263) 2026-05-04 22:51:47,119	INFO compiled_dag_node.py:2197 -- Teardown complete
+(APIServer pid=627058) INFO:     Shutting down
+(APIServer pid=627058) INFO:     Waiting for application shutdown.
+(APIServer pid=627058) INFO:     Application shutdown complete.
+(APIServer pid=627058) INFO:     Finished server process [627058]
+(EngineCore pid=627263) [36m(RayWorkerWrapper pid=568309, ip=192.168.30.48)[0m INFO 05-04 22:49:08 [gpu_worker.py:440] Available KV cache memory: 2.14 GiB
