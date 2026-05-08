@@ -41,8 +41,8 @@ UFRGS — CMP223 — Análise de Desempenho
 Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
 
 - **1 GPU (baseline)** → execução sem comunicação  
-- **2 GPUs (Tensor Parallelism - TP)**  
-- **2 GPUs (Pipeline Parallelism - PP)**  
+- **2 GPUs (TP e PP)**  
+- **4 GPUs (TP e PP)**   
 
 **Nós utilizados:**
 - Tupi (principal)
@@ -190,6 +190,12 @@ Diferença principal entre cenários:
   - latência de rede  
 
 ➡️ Comunicação domina o custo total
+
+---
+
+# Utilização das GPUs
+
+Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode representar um grande esforço concentrado em apenas uma única máquina, contribuindo para o seu desgaste mais rápido. A sua temperatura e uso de energia foram mais elevados que nos outros casos.
 
 ---
 
