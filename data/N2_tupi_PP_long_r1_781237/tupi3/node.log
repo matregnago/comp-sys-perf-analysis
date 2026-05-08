@@ -1,0 +1,242 @@
+[vLLM setup] Copying CUDA driver libs...
+[vLLM setup] Driver libs:
+total 391988
+-rwxr-xr-x 1 matregnago members 98641576 May  5 17:56 libcuda.so
+-rwxr-xr-x 1 matregnago members 98641576 May  5 17:56 libcuda.so.1
+-rwxr-xr-x 1 matregnago members 98641576 May  5 17:56 libcuda.so.590.44.01
+-rwxr-xr-x 1 matregnago members  2296056 May  5 17:56 libnvidia-ml.so
+-rwxr-xr-x 1 matregnago members  2296056 May  5 17:56 libnvidia-ml.so.1
+-rwxr-xr-x 1 matregnago members  2296056 May  5 17:56 libnvidia-ml.so.590.44.01
+-rwxr-xr-x 1 matregnago members 32434744 May  5 17:56 libnvidia-ptxjitcompiler.so
+-rwxr-xr-x 1 matregnago members 32434744 May  5 17:56 libnvidia-ptxjitcompiler.so.1
+-rwxr-xr-x 1 matregnago members 32434744 May  5 17:56 libnvidia-ptxjitcompiler.so.590.44.01
+-rwxr-xr-x 1 matregnago members  1260192 May  5 17:56 nvidia-smi
++ uv sync --extra pcad
+Resolved 325 packages in 2ms
+Checked 251 packages in 1ms
++ source .venv/bin/activate
+++ '[' -z '' ']'
+++ '[' -n x ']'
+++ SCRIPT_PATH=.venv/bin/activate
+++ '[' .venv/bin/activate = bash ']'
+++ deactivate nondestructive
+++ unset -f pydoc
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ hash -r
+++ '[' -z '' ']'
+++ unset VIRTUAL_ENV
+++ unset VIRTUAL_ENV_PROMPT
+++ '[' '!' nondestructive = nondestructive ']'
+++ VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
+++ '[' linux-gnu = cygwin ']'
+++ '[' linux-gnu = msys ']'
+++ export VIRTUAL_ENV
+++ '[' -z '' ']'
+++ unset SCRIPT_PATH
+++ _OLD_VIRTUAL_PATH=/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/bin:/run/wrappers/bin:/usr/bin:/usr/sbin:/nix/store/bv5kc5im1r2b99x7vni3cwphnzgmd8ck-git-minimal-2.44.0/bin:/scratch/matregnago/nix-data/.nix-portable/tmpbin:/scratch/matregnago//np-bin:/home/users/matregnago/.local/bin:/home/users/matregnago/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/users/matregnago/.local/bin:/usr/local/go/bin:/usr/local/cuda/bin:/scratch/matregnago/nix-data/.nix-portable/busybox/bin
+++ PATH=/scratch/matregnago/cmp223/.venv/bin:/scratch/matregnago//pcad-cuda-drivers:/nix/store/g11skqxp717gm1i5qrfy403pjlnwrlzi-cuda-merged-12.9/bin:/run/wrappers/bin:/usr/bin:/usr/sbin:/nix/store/bv5kc5im1r2b99x7vni3cwphnzgmd8ck-git-minimal-2.44.0/bin:/scratch/matregnago/nix-data/.nix-portable/tmpbin:/scratch/matregnago//np-bin:/home/users/matregnago/.local/bin:/home/users/matregnago/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/users/matregnago/.local/bin:/usr/local/go/bin:/usr/local/cuda/bin:/scratch/matregnago/nix-data/.nix-portable/busybox/bin
+++ export PATH
+++ '[' xcomp-sys-perf-analysis '!=' x ']'
+++ VIRTUAL_ENV_PROMPT=comp-sys-perf-analysis
+++ export VIRTUAL_ENV_PROMPT
+++ '[' -z '' ']'
+++ '[' -z '' ']'
+++ _OLD_VIRTUAL_PS1=
+++ PS1='(comp-sys-perf-analysis) '
+++ export PS1
+++ alias pydoc
+++ true
+++ hash -r
++ export VENV_PATH=/scratch/matregnago/cmp223/.venv
++ VENV_PATH=/scratch/matregnago/cmp223/.venv
++ export VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
++ VIRTUAL_ENV=/scratch/matregnago/cmp223/.venv
++ : /home/users/matregnago/.ray_barriers/781237
+++ hostname
++ node_host=tupi3
++ mkdir -p /home/users/matregnago/.ray_barriers/781237
++ touch /home/users/matregnago/.ray_barriers/781237/tupi3.ready
++ echo '[tupi3] aguardando barreira (2 nodos) em /home/users/matregnago/.ray_barriers/781237'
+[tupi3] aguardando barreira (2 nodos) em /home/users/matregnago/.ray_barriers/781237
++ echo '[tupi3] barreira liberada'
+[tupi3] barreira liberada
++ bash scripts/ray_node_run.sh
+2026-05-05 17:56:40,772	INFO scripts.py:1391 -- Did not find any active Ray processes.
+[tupi3] usando NODE_IP=192.168.30.45 (RAY_NODE_IP_ADDRESS/VLLM_HOST_IP)
+[tupi3] nvidia-smi PID=3748497 -> /scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/telemetry.csv
+On head node. Starting Ray cluster head...
+Head node started.
+=======================
+2026-05-05 17:56:46,512	INFO worker.py:1672 -- Using address 192.168.30.45:6379 set in the environment variable RAY_ADDRESS
+2026-05-05 17:56:46,515	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 192.168.30.45:6379...
+2026-05-05 17:56:46,546	INFO worker.py:2003 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://127.0.0.1:8265 [39m[22m
+/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+Running command on head node: ['bash', 'scripts/run_vllm_ray_bench.sh']
+=======================
+[head] subindo vLLM com backend Ray (TP=1, PP=2)
+[head] aguardando vLLM ficar pronto...
+[head] vLLM pronto apos 9x5s
+No concurrency value provided, setting to 1
+17:57:33.439 INFO     Starting AIPerf System (cli_runner.py:97)
+17:57:33.763 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:33.767 INFO     ✓ Tokenizer Qwen/Qwen2.5-7B-Instruct detected (tokenizer_display.py:235)
+17:57:33.767 INFO     1 tokenizer validated • 0.3s (tokenizer_display.py:244)
+17:57:33.907 INFO     Registered Worker Manager (id: 'worker_manager') (system_controller.py:359)
+17:57:33.917 INFO     Server Metrics: Discovered 1 endpoints: ['http://127.0.0.1:8000/metrics'] (manager.py:70)
+17:57:33.919 INFO     Registered Dataset Manager (id: 'dataset_manager') (system_controller.py:359)
+17:57:33.923 INFO     GPU telemetry export enabled: /scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/gpu_telemetry_export.jsonl (jsonl_writer.py:53)
+17:57:33.925 INFO     Record metrics export enabled: /scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/profile_export.jsonl (record_export_results_processor.py:53)
+17:57:33.944 INFO     Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager') (system_controller.py:359)
+17:57:34.061 INFO     Registered Server Metrics Manager (id: 'server_metrics_manager') (system_controller.py:359)
+17:57:34.069 INFO     Registered Worker (id: 'worker_c4e22d9b') (system_controller.py:359)
+17:57:34.079 INFO     Registered Record Processor (id: 'record_processor_66bd198d') (system_controller.py:359)
+17:57:34.106 INFO     Registered Records Manager (id: 'records_manager') (system_controller.py:359)
+17:57:34.132 INFO     Registered Timing Manager (id: 'timing_manager') (system_controller.py:359)
+17:57:34.400 INFO     AIPerf System is CONFIGURING (system_controller.py:247)
+17:57:34.400 INFO     Configuring all services to start profiling (system_controller.py:260)
+17:57:34.401 INFO     Waiting for dataset to be configured before configuring timing (manager.py:96)
+17:57:34.401 INFO     Configuring tokenizers for inference result parser (inference_result_parser.py:72)
+17:57:34.401 INFO     Configuring tokenizer(s) for dataset manager (dataset_manager.py:130)
+17:57:34.404 INFO     GPU telemetry disabled - no DCGM endpoints reachable (system_controller.py:448)
+17:57:34.409 INFO     Server Metrics: Capturing baseline metrics... (manager.py:152)
+17:57:34.429 INFO     Skipping unsupported summary metric: http_request_size_bytes (data_collector.py:201)
+17:57:34.429 INFO     Skipping unsupported summary metric: http_response_size_bytes (data_collector.py:201)
+17:57:34.431 INFO     Server metrics enabled - 1/1 endpoint(s) reachable. (system_controller.py:474)
+17:57:37.298 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+17:57:37.319 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/config.json "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:37.334 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+17:57:37.356 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/config.json "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:37.465 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+17:57:37.489 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:37.501 INFO     HTTP Request: HEAD https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect" (_client.py:1025)
+17:57:37.522 INFO     HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen2.5-7B-Instruct/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:37.647 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found" (_client.py:1025)
+17:57:37.676 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found" (_client.py:1025)
+17:57:37.795 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:37.829 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:38.187 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:38.189 INFO     Tokenizer(s) configured in 3.79 seconds (dataset_manager.py:134)
+17:57:38.189 INFO     Configuring dataset for dataset_manager (dataset_manager.py:140)
+17:57:38.366 INFO     HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen2.5-7B-Instruct "HTTP/1.1 200 OK" (_client.py:1025)
+17:57:38.368 INFO     Initialized tokenizers: {'Qwen/Qwen2.5-7B-Instruct': {'class': 'Qwen2Tokenizer', 'name_or_path': 'Qwen/Qwen2.5-7B-Instruct'}} in 3.97 seconds (inference_result_parser.py:95)
+17:57:38.502 INFO     Using default sampling strategy for synthetic dataset: shuffle (synthetic.py:27)
+17:57:38.545 INFO     Memory-mapped backing store initialized (streaming to /tmp/aiperf_mmap_b9ae8a42-d3be-421f-a80f-58570af6e2c0/dataset.dat) (memory_map_utils.py:136)
+17:57:38.551 INFO     Data file finalized: 100 conversations, 0.46 MB (memory_map_utils.py:236)
+17:57:38.551 INFO     Index file created: /tmp/aiperf_mmap_b9ae8a42-d3be-421f-a80f-58570af6e2c0/index.dat (memory_map_utils.py:243)
+17:57:38.551 INFO     Backing store finalized: client_type=DatasetClientStoreType.MEMORY_MAP data_file_path=PosixPath('/tmp/aiperf_mmap_b9ae8a42-d3be-421f-a80f-58570af6e2c0/dataset.dat') index_file_path=PosixPath('/tmp/aiperf_mmap_b9ae8a42-d3be-421f-a80f-58570af6e2c0/index.dat') conversation_count=100 total_size_bytes=479800 compressed_data_file_path=None compressed_index_file_path=None compressed_size_bytes=0 (dataset_manager.py:437)
+17:57:38.551 INFO     sampling strategy: shuffle, unique conversations: 100, unique turn count: 100 (dataset_manager.py:454)
+17:57:38.552 INFO     Generating inputs.json file at /scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/inputs.json (dataset_manager.py:325)
+17:57:38.554 INFO     inputs.json file generated in 0.00 seconds (dataset_manager.py:343)
+17:57:38.557 INFO     Initialized 2 phase(s): ['Warmup', 'Profiling'] (phase_orchestrator.py:154)
+17:57:38.834 INFO     Dataset client initialized and freed 100 conversations from memory (dataset_manager.py:176)
+17:57:38.834 INFO     Dataset configured in 0.65 seconds (dataset_manager.py:147)
+17:57:38.835 INFO     All services configured in 4.44 seconds (system_controller.py:272)
+17:57:38.835 INFO     AIPerf System is CONFIGURED (system_controller.py:249)
+17:57:38.836 INFO     Server Metrics: Started 1 collector(s) successfully (manager.py:216)
+17:57:38.836 INFO     All services started profiling successfully (system_controller.py:294)
+17:57:38.837 INFO     AIPerf System is PROFILING (system_controller.py:251)
+17:57:38.838 INFO     Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None (request_rate.py:111)
+17:57:38.838 NOTICE   Phase warmup started | target: 3 requests (runner.py:236)
+17:57:38.838 INFO     Credit phase start: warmup (records_manager.py:383)
+/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/pydantic/main.py:475: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `enum` - serialized value may not be as expected [field_name='transport', input_value='http', input_type=str])
+  return self.__pydantic_serializer__.to_python(
+17:58:04.489 NOTICE   Phase warmup sending complete | sent=3, completed=2, in_flight=1 | sessions: sent=3, completed=2 (runner.py:466)
+17:58:16.791 NOTICE   Phase warmup complete | completed=3, cancelled=0, errors=0 | sessions: completed=3, cancelled=0 | elapsed=37.95s (runner.py:543)
+17:58:16.791 INFO     Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None (request_rate.py:111)
+17:58:16.791 NOTICE   Phase profiling started | target: 30 requests (runner.py:236)
+17:58:16.792 INFO     Credit phase start: profiling (records_manager.py:383)
+18:04:05.700 NOTICE   Phase profiling sending complete | sent=30, completed=29, in_flight=1 | sessions: sent=30, completed=29 (runner.py:466)
+18:04:05.701 INFO     Sent 30 requests. Waiting for all to complete... (records_manager.py:391)
+18:04:17.758 NOTICE   Phase profiling complete | completed=30, cancelled=0, errors=0 | sessions: completed=30, cancelled=0 | elapsed=360.97s (runner.py:543)
+18:04:17.758 NOTICE   All credits completed (phase_orchestrator.py:169)
+18:04:17.759 INFO     Received CREDIT_PHASE_COMPLETE message, Phase complete: PhaseRecordsStats(phase=CreditPhase.PROFILING, start_ns=1778003896791853186, sent_end_ns=1778004245700790127, requests_end_ns=1778004257758678148, total_expected_requests=30, expected_duration_sec=None, expected_num_sessions=None, expected_grace_period_sec=None, final_requests_sent=None, final_requests_completed=30, final_requests_cancelled=0, final_request_errors=0, final_sent_sessions=None, final_completed_sessions=None, final_cancelled_sessions=None, timeout_triggered=False, grace_period_timeout_triggered=False, was_cancelled=False, records_end_ns=None, success_records=29, error_records=0) (records_manager.py:407)
+18:04:17.759 NOTICE   All requests have completed, please wait for the results to be processed (currently 29 of 30 records processed)... (records_manager.py:410)
+18:04:17.759 INFO     Received credits complete from 'timing_manager' (system_controller.py:394)
+18:04:17.759 INFO     All credits complete, please wait for the results to be processed... (records_manager.py:425)
+18:04:17.768 INFO     Processed 30 valid requests and 0 errors (30 total). (records_manager.py:258)
+18:04:17.768 INFO     Received all records, processing now... (records_manager.py:262)
+18:04:17.769 INFO     Server Metrics: Profiling complete, capturing final metrics... (manager.py:246)
+18:04:17.769 INFO     Waiting 2.0s for server metrics flush period... (records_manager.py:312)
+18:04:19.760 INFO     Processing records results... (records_manager.py:572)
+18:04:19.763 INFO     Waiting for server metrics results... (system_controller.py:692)
+18:04:19.763 INFO     Waiting for server metrics results... (system_controller.py:692)
+18:04:19.773 INFO     _finalize_and_process_results completed (records_manager.py:319)
+18:04:19.774 INFO     All results received, initiating shutdown (system_controller.py:687)
+18:04:20.376 INFO     Exporting all records (exporter_manager.py:60)
+18:04:20.411 INFO     Exporting console data (exporter_manager.py:116)
+
+
+                                    NVIDIA AIPerf | LLM Metrics                                     
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┓
+┃           Metric ┃       avg ┃       min ┃       max ┃       p99 ┃       p90 ┃       p50 ┃   std ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━┩
+│    Time to First │  1,372.65 │  1,371.21 │  1,375.87 │  1,375.19 │  1,373.29 │  1,372.61 │  0.79 │
+│       Token (ms) │           │           │           │           │           │           │       │
+│   Time to Second │     20.87 │     20.35 │     21.78 │     21.69 │     21.10 │     20.83 │  0.27 │
+│       Token (ms) │           │           │           │           │           │           │       │
+│    Time to First │  1,372.65 │  1,371.21 │  1,375.87 │  1,375.19 │  1,373.29 │  1,372.61 │  0.79 │
+│     Output Token │           │           │           │           │           │           │       │
+│             (ms) │           │           │           │           │           │           │       │
+│  Request Latency │ 12,025.89 │ 11,941.37 │ 12,131.66 │ 12,117.16 │ 12,076.79 │ 12,022.25 │ 36.53 │
+│             (ms) │           │           │           │           │           │           │       │
+│      Inter Token │     21.09 │     20.80 │     21.75 │     21.74 │     21.36 │     21.04 │  0.23 │
+│     Latency (ms) │           │           │           │           │           │           │       │
+│     Output Token │     47.43 │     45.99 │     48.07 │     48.06 │     47.96 │     47.53 │  0.51 │
+│   Throughput Per │           │           │           │           │           │           │       │
+│             User │           │           │           │           │           │           │       │
+│ (tokens/sec/use… │           │           │           │           │           │           │       │
+│  Output Sequence │    506.30 │    491.00 │    512.00 │    512.00 │    512.00 │    506.00 │  5.41 │
+│  Length (tokens) │           │           │           │           │           │           │       │
+│   Input Sequence │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  1,024.00 │  0.00 │
+│  Length (tokens) │           │           │           │           │           │           │       │
+│     Output Token │     42.08 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       Throughput │           │           │           │           │           │           │       │
+│     (tokens/sec) │           │           │           │           │           │           │       │
+│          Request │      0.08 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       Throughput │           │           │           │           │           │           │       │
+│   (requests/sec) │           │           │           │           │           │           │       │
+│    Request Count │     30.00 │       N/A │       N/A │       N/A │       N/A │       N/A │   N/A │
+│       (requests) │           │           │           │           │           │           │       │
+└──────────────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────┘
+
+CLI Command: aiperf profile --model 'Qwen/Qwen2.5-7B-Instruct' --endpoint-type 'chat' --url 
+'http://127.0.0.1:8000' --streaming --request-count 30 --warmup-request-count 3 
+--prompt-input-tokens-mean 1024 --prompt-output-tokens-mean 512 --extra-inputs 'ignore_eos:true' 
+--output-artifact-dir '/scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3'
+Benchmark Duration: 360.96 sec
+CSV Export: 
+/scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/profile_export_aiperf.csv
+JSON Export: 
+/scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/profile_export_aiperf.json
+Server Metrics CSV Export: 
+/scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/server_metrics_export.csv
+Server Metrics JSON Export: 
+/scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/server_metrics_export.json
+Log File: /scratch/matregnago/cmp223/results/N2_tupi_PP_long_r1_781237/tupi3/logs/aiperf.log
+
+[head] benchmark concluido
+[head] cleanup vLLM
+=======================
+2026-05-05 18:04:23,953	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/core/src/ray/raylet/raylet --raylet_socket_name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/raylet --store_socket_name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/plasma_store --object_manager_port=0 --min_worker_port=10002 --max_worker_port=19999 --node_manager_port=0 --node_id=06593960e5a6f90cf937e33de9800fe695de52a5f80db28bc7bcaa65 --node_ip_address=192.168.30.45 --maximum_startup_concurrency=32 --static_resource_list=node:192.168.30.45,1.0,node:__internal_head__,1.0,accelerator_type:G,1,CPU,32,GPU,1,memory,92220884583,object_store_memory,39523236249 "--python_worker_command=/scratch/matregnago/cmp223/.venv/bin/python3 /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/workers/setup_worker.py /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/workers/default_worker.py --node-ip-address=192.168.30.45 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/plasma_store --raylet-name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/raylet --redis-address=None --metrics-agent-port=0 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --runtime-env-agent-port=0 --gcs-address=192.168.30.45:6379 --session-name=session_2026-05-05_17-56-43_450381_3748535 --temp-dir=/scratch/matregnago/ray_781237 --webui=127.0.0.1:8265 --cluster-id=9f863e6a679ba6f641a35ffbc89db310068c609c2f29b9a3376db934 RAY_WORKER_DYNAMIC_OPTION_PLACEHOLDER" --java_worker_command= --cpp_worker_command= --native_library_path=/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/cpp/lib --temp_dir=/scratch/matregnago/ray_781237 --session_dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --log_dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --resource_dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/runtime_resources --metrics-agent-port=0 --metrics_export_port=0 --runtime_env_agent_port=0 --object_store_memory=39523236249 --plasma_directory=/dev/shm --fallback_directory=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --ray-debugger-external=0 --gcs-address=192.168.30.45:6379 --session-name=session_2026-05-05_17-56-43_450381_3748535 "--labels={\"ray.io/accelerator-type\": \"G\"}" --cluster-id=9f863e6a679ba6f641a35ffbc89db310068c609c2f29b9a3376db934 --stdout_filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/raylet.out --stderr_filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/raylet.err --head --num_prestart_python_workers=32 "--dashboard_agent_command=/scratch/matregnago/cmp223/.venv/bin/python3 -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/dashboard/agent.py --node-id=06593960e5a6f90cf937e33de9800fe695de52a5f80db28bc7bcaa65 --node-ip-address=192.168.30.45 --metrics-export-port=0 --grpc-port=0 --listen-port=52365 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/plasma_store --raylet-name=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/sockets/raylet --temp-dir=/scratch/matregnago/ray_781237 --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --log-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --session-name=session_2026-05-05_17-56-43_450381_3748535 --gcs-address=192.168.30.45:6379 --cluster-id-hex=9f863e6a679ba6f641a35ffbc89db310068c609c2f29b9a3376db934 --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/dashboard_agent.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/dashboard_agent.err --head" "--runtime_env_agent_command=/scratch/matregnago/cmp223/.venv/bin/python3 -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/runtime_env/agent/main.py --node-id=06593960e5a6f90cf937e33de9800fe695de52a5f80db28bc7bcaa65 --node-ip-address=192.168.30.45 --runtime-env-agent-port=0 --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --gcs-address=192.168.30.45:6379 --cluster-id-hex=9f863e6a679ba6f641a35ffbc89db310068c609c2f29b9a3376db934 --runtime-env-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/runtime_resources --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --log-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --temp-dir=/scratch/matregnago/ray_781237 --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/runtime_env_agent.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/runtime_env_agent.err" --node-name=192.168.30.45[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:23,986	INFO scripts.py:1349 -- 1/1 stopped.2026-05-05 18:04:24,047	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python3 -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py --logs-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --gcs-address=192.168.30.45:6379 --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/monitor.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/monitor.err --monitor-ip=192.168.30.45[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:24,047	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python3 -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/log_monitor.py --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --logs-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --gcs-address=192.168.30.45:6379 --node-ip-address=192.168.30.45 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/log_monitor.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/log_monitor.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:24,048	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python3 -m ray.util.client.server --address=192.168.30.45:6379 --host=192.168.30.45 --port=10001 --mode=proxy --runtime-env-agent-address=http://192.168.30.45:0 --node-id=06593960e5a6f90cf937e33de9800fe695de52a5f80db28bc7bcaa65[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:24,051	VINFO scripts.py:1327 -- Attempted to stop `[1m/scratch/matregnago/cmp223/.venv/bin/python3 -u /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/_private/log_monitor.py --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --logs-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --gcs-address=192.168.30.45:6379 --node-ip-address=192.168.30.45 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/log_monitor.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/log_monitor.err[22m[26m`, but process was already dead.
+2026-05-05 18:04:24,053	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/bin/python3 /scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/dashboard/dashboard.py --host=127.0.0.1 --port=8265 --port-retries=0 --temp-dir=/scratch/matregnago/ray_781237 --log-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --gcs-address=192.168.30.45:6379 --cluster-id-hex=9f863e6a679ba6f641a35ffbc89db310068c609c2f29b9a3376db934 --node-ip-address=192.168.30.45 --proxy-server-url= --stdout-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/dashboard.out --stderr-filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/dashboard.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:24,058	INFO scripts.py:1349 -- 1/4 stopped.2026-05-05 18:04:24,058	INFO scripts.py:1349 -- 2/4 stopped.2026-05-05 18:04:24,308	INFO scripts.py:1349 -- 3/4 stopped.2026-05-05 18:04:24,599	INFO scripts.py:1349 -- 4/4 stopped.2026-05-05 18:04:24,656	VINFO scripts.py:1319 -- Send termination request to `[1m/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/core/src/ray/gcs/gcs_server --log_dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs --config_list=eyJhdXRvbWF0aWNfb2JqZWN0X3NwaWxsaW5nX2VuYWJsZWQiOiB0cnVlLCAib2JqZWN0X3NwaWxsaW5nX2NvbmZpZyI6ICJ7XCJ0eXBlXCI6IFwiZmlsZXN5c3RlbVwiLCBcInBhcmFtc1wiOiB7XCJkaXJlY3RvcnlfcGF0aFwiOiBcIi9zY3JhdGNoL21hdHJlZ25hZ28vcmF5Xzc4MTIzNy9zZXNzaW9uXzIwMjYtMDUtMDVfMTctNTYtNDNfNDUwMzgxXzM3NDg1MzVcIn19IiwgImlzX2V4dGVybmFsX3N0b3JhZ2VfdHlwZV9mcyI6IHRydWV9 --gcs_server_port=6379 --metrics-agent-port=0 --node-ip-address=192.168.30.45 --session-name=session_2026-05-05_17-56-43_450381_3748535 --ray-commit=237c2455ebb1ea15a32dd9e1fdeb2d617badc37f --session-dir=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535 --node-id=06593960e5a6f90cf937e33de9800fe695de52a5f80db28bc7bcaa65 --stdout_filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/gcs_server.out --stderr_filepath=/scratch/matregnago/ray_781237/session_2026-05-05_17-56-43_450381_3748535/logs/gcs_server.err[22m[26m` [2m(via SIGTERM)[22m[26m
+2026-05-05 18:04:29,992	WARN scripts.py:1396 -- [33mStopped only 5 out of 6 Ray processes within the grace period 16 seconds. Set `[1m-v[22m[33m` to see more details. Remaining processes [psutil.Process(pid=3748571, name='gcs_server', status='terminated')] will be forcefully terminated.[39m
+2026-05-05 18:04:29,992	WARN scripts.py:1403 -- [33mYou can also use `[1m--force[22m[33m` to forcefully terminate processes or set higher `--grace-period` to wait longer time for proper termination.[39m
+[33m(raylet)[0m The autoscaler failed with the following error:
+Terminated with signal 15
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 736, in <module>
+    monitor.run()
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 593, in run
+    self._run()
+  File "/scratch/matregnago/cmp223/.venv/lib/python3.13/site-packages/ray/autoscaler/_private/monitor.py", line 448, in _run
+    time.sleep(AUTOSCALER_UPDATE_INTERVAL_S)
+
+[tupi3] cleanup nvidia-smi/ray
+2026-05-05 18:04:37,276	INFO scripts.py:1391 -- Did not find any active Ray processes.
