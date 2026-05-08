@@ -22,6 +22,19 @@ style: |
     text-align: center;
     padding: 60px 80px;
   }
+    .columns {
+    display: flex;
+    gap: 20px;
+  }
+
+  .columns > div {
+    flex: 1;
+  }
+
+  img {
+    display: block;
+    margin: 0 auto 10px auto;
+  }
 ---
 
 <!-- _class: title-slide -->
@@ -40,11 +53,12 @@ UFRGS — CMP223 — Análise de Desempenho
 
 Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
 
-- **1 GPU (baseline)** → execução sem comunicação  
-- **2 GPUs (TP e PP)**  
-- **4 GPUs (TP e PP)**   
+- **1 GPU (baseline)** → execução sem comunicação
+- **2 GPUs (TP e PP)**
+- **4 GPUs (TP e PP)**
 
 **Nós utilizados:**
+
 - Tupi (principal)
 - Poti (distribuído)
 - Experimento adicional em máquina única
@@ -53,12 +67,13 @@ Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
 
 # Ajuste de Modelo
 
-- Modelo original (**Llama**) não coube em algumas GPUs  
+- Modelo original (**Llama**) não coube em algumas GPUs
 - Substituído por:
 
 ➡️ **Qwen2.5-7B-Instruct**
 
 **Motivo:**
+
 - Menor footprint de memória
 - Permitiu execução em mais configurações
 - Manteve representatividade do problema
@@ -69,11 +84,12 @@ Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
 
 Ordem adotada para análise:
 
-1. **Single GPU (baseline)**  
-2. **Tensor Parallelism (TP)**  
-3. **Pipeline Parallelism (PP)**  
+1. **Single GPU (baseline)**
+2. **Tensor Parallelism (TP)**
+3. **Pipeline Parallelism (PP)**
 
 **Objetivo:**
+
 - Comparar impacto incremental da comunicação
 - Isolar overhead introduzido por paralelismo
 
@@ -89,7 +105,115 @@ Principais métricas analisadas:
 - **Throughput (tokens/s)**
 
 **Observação geral:**
+
 - Mais hardware ≠ melhor desempenho
+
+---
+
+# Request Latency
+
+![center w:900](images/02_analysis/request-latency.png)
+
+- Mais máquinas = Tempo maior de comunicação
+
+---
+
+# Time To First Token
+
+![center w:900](images/02_analysis/time-to-first-token.png)
+
+- TTFT do TP consideravelmente maior que os dos outros
+
+---
+
+## Inter Token Latency
+
+![center w:900](images/02_analysis/inter-token-latency.png)
+
+- TP com o menor tempo entre aqueles com comunicação
+
+---
+
+## Output Token Throughput
+
+![center w:900](images/02_analysis/output-token-throughput.png)
+
+- 1 GPU mais rápida
+
+---
+
+# Análise — Inter-Token Latency
+
+Resultados típicos:
+
+- **Single GPU:** ~16 ms
+- **TP:** intermediário
+- **PP:** ~33 ms
+
+**Interpretação:**
+
+- ITL é altamente sensível à comunicação
+- PP sofre com sincronização entre estágios
+
+---
+
+# Análise — Time to First Token (TTFT)
+
+Resultado contraintuitivo:
+
+- **PP apresentou TTFT até 10x menor**
+
+**Explicação:**
+
+- Prefill pode ser parcialmente paralelizado
+- Pipeline permite início antecipado do processamento
+
+**Conclusão:**
+
+- PP favorece início rápido, mas penaliza execução contínua
+
+---
+
+# Trade-off Fundamental
+
+Existe um conflito claro:
+
+| Métrica        | Melhor abordagem     |
+| -------------- | -------------------- |
+| TTFT           | Pipeline Parallelism |
+| ITL            | Single GPU           |
+| Latência total | Single GPU           |
+| Utilização GPU | Tensor Parallelism   |
+
+---
+
+# Comunicação como Gargalo
+
+Diferença principal entre cenários:
+
+- **Sem comunicação:** execução local → mais eficiente
+- **Com comunicação:**
+  - sincronização
+  - transferência de dados
+  - latência de rede
+
+➡️ Comunicação domina o custo total
+
+---
+
+# Métricas de GPU
+
+![w:900](images/03_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
+
+![w:900](images/03_telemetry/gpu-overview-N2-poti-TP-short-r1-780627.png)
+
+---
+
+![w:900](images/03_telemetry/gpu-overview-N4-poti-TP-short-r1-780631.png)
+
+![w:900](images/03_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
+
+![w:900](images/03_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
 
 ---
 
@@ -102,6 +226,7 @@ Principais métricas analisadas:
 - Maior **throughput efetivo**
 
 **Interpretação:**
+
 - Ausência de comunicação elimina overhead
 
 ---
@@ -115,6 +240,7 @@ Características observadas:
 - Overhead moderado de comunicação
 
 **Impacto:**
+
 - Latência maior que baseline
 - Ainda eficiente em comparação com PP
 
@@ -128,68 +254,14 @@ Comportamento identificado:
 - Outra GPU ~**90–100%**
 
 **Problema:**
+
 - **Desbalanceamento de pipeline**
 - Execução parcialmente sequencial
 
 **Consequência:**
+
 - Maior latência total
 - Pior inter-token latency
-
----
-
-# Análise — Inter-Token Latency
-
-Resultados típicos:
-
-- **Single GPU:** ~16 ms  
-- **TP:** intermediário  
-- **PP:** ~33 ms  
-
-**Interpretação:**
-- ITL é altamente sensível à comunicação
-- PP sofre com sincronização entre estágios
-
----
-
-# Análise — Time to First Token (TTFT)
-
-Resultado contraintuitivo:
-
-- **PP apresentou TTFT até 10x menor**
-
-**Explicação:**
-- Prefill pode ser parcialmente paralelizado
-- Pipeline permite início antecipado do processamento
-
-**Conclusão:**
-- PP favorece início rápido, mas penaliza execução contínua
-
----
-
-# Trade-off Fundamental
-
-Existe um conflito claro:
-
-| Métrica | Melhor abordagem |
-|--------|----------------|
-| TTFT | Pipeline Parallelism |
-| ITL | Single GPU |
-| Latência total | Single GPU |
-| Utilização GPU | Tensor Parallelism |
-
----
-
-# Comunicação como Gargalo
-
-Diferença principal entre cenários:
-
-- **Sem comunicação:** execução local → mais eficiente  
-- **Com comunicação:**  
-  - sincronização  
-  - transferência de dados  
-  - latência de rede  
-
-➡️ Comunicação domina o custo total
 
 ---
 
@@ -201,60 +273,60 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 
 # Dificuldades Encontradas
 
-- Acesso limitado a algumas máquinas  
-- Inconsistência de recursos entre nós  
-- Presença de **tokens sensíveis em logs** (bloqueio de push)  
-- Ajuste manual de experimentos distribuídos  
+- Acesso limitado a algumas máquinas
+- Inconsistência de recursos entre nós
+- Presença de **tokens sensíveis em logs** (bloqueio de push)
+- Ajuste manual de experimentos distribuídos
 
 ---
 
 # Soluções Aplicadas
 
-- Troca de modelo (Qwen)  
-- Limpeza de logs e remoção de segredos  
-- Organização dos dados experimentais  
-- Padronização de métricas e scripts  
+- Troca de modelo (Qwen)
+- Limpeza de logs e remoção de segredos
+- Organização dos dados experimentais
+- Padronização de métricas e scripts
 
 ---
 
 # Boas Práticas Adotadas
 
-- Uso de **scripts reprodutíveis**  
+- Uso de **scripts reprodutíveis**
 - Separação clara entre:
   - dados
   - código
-  - resultados  
-- Controle de versões com Git  
+  - resultados
+- Controle de versões com Git
 - Visualizações padronizadas
 
 ---
 
 # Ferramentas Utilizadas
 
-- Python (pandas, matplotlib, seaborn)  
-- Jupyter Notebooks  
-- nvidia-smi (telemetria)  
-- Slurm (execução no cluster)  
-- Git + GitHub  
+- Python (pandas, matplotlib, seaborn)
+- Jupyter Notebooks
+- nvidia-smi (telemetria)
+- Slurm (execução no cluster)
+- Git + GitHub
 
 ---
 
 # Conclusão Parcial
 
-- Comunicação é o principal fator limitante  
-- Mais GPUs nem sempre melhoram desempenho  
-- TP é mais eficiente que PP no cenário analisado  
-- Single GPU ainda é o melhor baseline quando possível  
+- Comunicação é o principal fator limitante
+- Mais GPUs nem sempre melhoram desempenho
+- TP é mais eficiente que PP no cenário analisado
+- Single GPU ainda é o melhor baseline quando possível
 
 ---
 
 # Próximos Passos
 
-- Refinar medição de **tempo de comunicação**  
+- Refinar medição de **tempo de comunicação**
 - Separar claramente:
-  - prefill vs decode  
-- Melhorar balanceamento no pipeline  
-- Avaliar escalabilidade com mais nós  
+  - prefill vs decode
+- Melhorar balanceamento no pipeline
+- Avaliar escalabilidade com mais nós
 
 ---
 
@@ -263,6 +335,6 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 ✔ Ambiente definido  
 ✔ Métricas coletadas  
 ✔ Resultados consistentes  
-✔ Gargalos identificados  
+✔ Gargalos identificados
 
 **Status:** progresso consistente e metodologia validada
