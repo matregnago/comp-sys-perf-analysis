@@ -39,7 +39,7 @@ style: |
 
 <!-- _class: title-slide -->
 
-## Resultados Preliminares e Análise de Desempenho
+## Entrega Parcial
 
 Lucas Fraga Balbinot, Matheus Augusto Tregnago, Rafael Silva de Souza
 
