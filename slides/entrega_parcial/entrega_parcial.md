@@ -70,7 +70,7 @@ Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
 - Modelo original (**Llama**) não coube em algumas GPUs
 - Substituído por:
 
-➡️ **Qwen2.5-7B-Instruct**
+**Qwen2.5-7B-Instruct**
 
 **Motivo:**
 
@@ -90,7 +90,7 @@ Ordem adotada para análise:
 
 **Objetivo:**
 
-- Comparar impacto incremental da comunicação
+- Comparar impacto da comunicação
 - Isolar overhead introduzido por paralelismo
 
 ---
@@ -197,7 +197,7 @@ Diferença principal entre cenários:
   - transferência de dados
   - latência de rede
 
-➡️ Comunicação domina o custo total
+Comunicação domina o custo total
 
 ---
 
@@ -214,6 +214,14 @@ Diferença principal entre cenários:
 ![w:900](images/03_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
 
 ![w:900](images/03_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
+
+---
+
+![w:900](images/03_telemetry/utilization_vs_power.png)
+
+---
+
+![w:900](images/03_telemetry/utilization_vs_temperature.png)
 
 ---
 
@@ -332,9 +340,9 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 
 # Avaliação do Progresso
 
-✔ Ambiente definido  
-✔ Métricas coletadas  
-✔ Resultados consistentes  
-✔ Gargalos identificados
+Ambiente definido  
+Métricas coletadas  
+Resultados consistentes  
+Gargalos identificados
 
 **Status:** progresso consistente e metodologia validada
