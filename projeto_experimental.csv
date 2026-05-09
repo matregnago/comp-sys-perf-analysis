@@ -1,4 +1,14 @@
 Order,n_gpus,no_pcad,nodes,gpus_per_node,tp,pp,input_tokens,output_tokens
+N2_poti_PP_long_r1,2,poti,2,1,1,2,1024,512
+N2_poti_TP_long_r1,2,poti,2,1,2,1,1024,512
+N2_poti_TP_short_r1,2,poti,2,1,2,1,128,128
+N2_poti_PP_short_r1,2,poti,2,1,1,2,128,128
+N4_poti_TP_long_r1,4,poti,4,1,4,1,1024,512
+N4_poti_PP_long_r1,4,poti,4,1,1,4,1024,512
+N4_poti_PP_short_r1,4,poti,4,1,1,4,128,128
+N4_poti_TP_short_r1,4,poti,4,1,4,1,128,128
+N1_tupi_none_long_r1,1,tupi,1,1,1,1,1024,512
+N1_tupi_none_short_r1,1,tupi,1,1,1,1,128,128
 N2_tupi_TP_short_r1,2,tupi,2,1,2,1,128,128
 N2_tupi_TP_long_r1,2,tupi,2,1,2,1,1024,512
 N2_tupi_PP_long_r1,2,tupi,2,1,1,2,1024,512
