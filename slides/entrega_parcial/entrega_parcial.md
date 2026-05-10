@@ -203,25 +203,56 @@ Comunicação domina o custo total
 
 # Métricas de GPU
 
-![w:900](images/03_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
+<div class="grid">
 
-![w:900](images/03_telemetry/gpu-overview-N2-poti-TP-short-r1-780627.png)
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N1-tupi-none-short-r1-780637.png" width="520">
+</div>
 
----
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N2-poti-PP-short-r1-780628.png" width="520">
+</div>
 
-![w:900](images/03_telemetry/gpu-overview-N4-poti-TP-short-r1-780631.png)
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N2-poti-TP-short-r1-780627.png" width="520">
+</div>
 
-![w:900](images/03_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N4-poti-PP-short-r1-780634.png" width="520">
+</div>
 
-![w:900](images/03_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
+<div class="cell center-last">
+<img src="images/03_telemetry/gpu-util-power-N4-poti-TP-short-r1-780631.png" width="520">
+</div>
+
+</div>
+
+<style>
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.cell {
+  text-align: center;
+}
+
+.center-last {
+  grid-column: 1 / span 2;
+  justify-self: center;
+}
+
+.grid img {
+  display: block;
+  margin: auto;
+}
+</style>
 
 ---
 
 ![w:900](images/03_telemetry/utilization_vs_power.png)
-
----
-
-![w:900](images/03_telemetry/utilization_vs_temperature.png)
 
 ---
 
