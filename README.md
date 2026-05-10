@@ -61,6 +61,6 @@ cd tex
 latexmk -pdf main.tex
 ```
 
-# Scripts de experimentos
+## Scripts de experimentos
 
 Os experimentos são gerados a partir de jobs `Slurm`, onde as configurações dos experimentos ficam em [`scripts/config.sh`](scripts/config.sh) e os jobs são lançados a partir do [`scripts/submit_jobs.sh`](scripts/submit_jobs.sh).

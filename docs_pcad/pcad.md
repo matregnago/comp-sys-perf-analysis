@@ -32,6 +32,12 @@ nixw nix develop .#tools
 ```bash
 vim scripts/config.sh
 ```
+3. Crie um token de acesso no Hugging Face e adicione-o ao seu `.env` conforme o `.env.example`:
+
+```bash
+cp .env.example .env
+vim .env
+```
 
 ## Lançar os experimentos
 

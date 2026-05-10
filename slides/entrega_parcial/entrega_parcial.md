@@ -24,7 +24,7 @@ style: |
   }
     .columns {
     display: flex;
-    gap: 20px;
+    gap: 10px;
   }
 
   .columns > div {
@@ -52,8 +52,7 @@ CMP223 — Análise de Desempenho de Sistemas Computacionais
 
 # Mudanças: Ajuste de Modelo
 
-- Modelo original (**Llama**) não coube em algumas GPUs
-- Substituído por: **Qwen2.5-7B-Instruct**
+- Modelo original **Llama 3.1 8B** foi substituído pelo **Qwen2.5-7B-Instruct**
 
 **Motivo:**
 
@@ -69,10 +68,10 @@ CMP223 — Análise de Desempenho de Sistemas Computacionais
 - **2 GPUs** → Nós `tupi` ou `poti`
 - **4 GPUs** → Nó `poti`
 
-| Nó | GPU | VRAM | Nº de nós usados | Interconexão | CPU |
-|---|---|---|---|---|---|
-| **tupi** | 1× RTX 4090 | 24 GB | 1, 2 | *(preencher)* | *(preencher)* |
-| **poti** | 1× RTX 4070 | 12 GB | 2, 4 | *(preencher)* | *(preencher)* |
+| Nó | GPU | VRAM | Nº de nós usados  | CPU |
+|---|---|---|---|---|
+| **tupi** | 1× RTX 4090 | 24 GB | 1, 2 | Intel(R) Core(TM) i9-14900KF |
+| **poti** | 1× RTX 4070 | 12 GB | 2, 4 | Intel(R) Core(TM) i7-14700KF |
 
 <div class="small">
 
@@ -82,18 +81,22 @@ Cada nó possui **1 GPU**; configurações multi-GPU são obtidas alocando múlt
 
 ---
 
-# Mudanças: Pilha de Software
+# Mudanças: Tecnologias
 
-Originalmente, o particionamento seria implementado **manualmente em PyTorch**.
+Originalmente, o particionamento seria implementado usando ferramentas do ecossistema do **PyTorch**.
 
-A pilha foi migrada para **Ray Cluster + vLLM**:
+Optamos por utilizar **Ray Cluster e vLLM**:
 
-- **vLLM**: TP e PP nativos — basta passar `--tensor-parallel-size` e `--pipeline-parallel-size`; sem reescrita do modelo
-- **Ray**: orquestra os *workers* entre nós PCAD, abstraindo descoberta, comunicação e *scheduling*
+- **vLLM**: TP e PP nativos
+- **Ray**: orquestra os *workers* entre nós PCAD, abstraindo descoberta dos nodos e suas GPUs.
 
 ---
 
+<!-- _class: small -->
+
 # Estratégias de Particionamento
+
+<div class="small">
 
 **Tensor Parallelism (TP)** — *fatiamento horizontal*
 - Cada camada é dividida entre as GPUs (matrizes fatiadas por linhas/colunas)
@@ -105,7 +108,8 @@ A pilha foi migrada para **Ray Cluster + vLLM**:
 - Conjuntos de camadas são distribuídos sequencialmente entre GPUs
 - Cada GPU passa ativações ao próximo estágio
 - Comunicação **menor** (só nas fronteiras dos estágios)
-- **Custo:** *bubble* do pipeline e potencial desbalanceamento
+- **Custo:** potencial desbalanceamento
+</div>
 
 ---
 
@@ -240,7 +244,7 @@ Comunicação domina o custo total
 
 # Telemetria GPU — Single (N1, tupi)
 
-![center w:900](../../figures/gpu_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
+![center w:1000 h:550](../../figures/gpu_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
 
 ---
 
@@ -250,13 +254,13 @@ Comunicação domina o custo total
 <div>
 
 **N=2 (poti)**
-![w:550](../../figures/gpu_telemetry/gpu-overview-N2-poti-TP-short-r1-780627.png)
+![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N2-poti-TP-short-r1-780627.png)
 
 </div>
 <div>
 
 **N=4 (poti)**
-![w:550](../../figures/gpu_telemetry/gpu-overview-N4-poti-TP-short-r1-780631.png)
+![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N4-poti-TP-short-r1-780631.png)
 
 </div>
 </div>
@@ -269,13 +273,13 @@ Comunicação domina o custo total
 <div>
 
 **N=2 (poti)**
-![w:550](../../figures/gpu_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
+![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
 
 </div>
 <div>
 
 **N=4 (poti)**
-![w:550](../../figures/gpu_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
+![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
 
 </div>
 </div>
@@ -313,6 +317,8 @@ Características observadas:
 
 # Pipeline Parallelism (PP)
 
+<div class="small">
+
 Comportamento identificado:
 
 - Uma GPU ~**40–50%**
@@ -327,6 +333,8 @@ Comportamento identificado:
 
 - Maior latência total
 - Pior inter-token latency
+
+</div>
 
 ---
 
