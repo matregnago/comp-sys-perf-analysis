@@ -6,11 +6,12 @@
 - [x] Separação dos shells no flake (20/04/2026)
 - [x] Job slurm pra setup do vLLM no pcad (21/04/2026)
 - [x] Scripts básicos para lançar os benchmarks e telemetria (nvsys, nvidia-smi e ai perf) (21/04/2026)
-- [ ] Ajustar prints dos scripts para melhorar a visualização nos logs
-- [ ] Particionar o modelo em multiplas GPUs no mesmo nó
-- [ ] Particionar o modelo em múltiplas GPUs em nós diferentes
-- [ ] Montar csv de experimentos
-- [ ] Montar os notebooks para análise das métricas
-- [ ] Montar os slides da parte 2
+- [x] Ajustar prints dos scripts para melhorar a visualização nos logs (26/04/2026)
+- [x] Particionar o modelo em múltiplas GPUs em nós diferentes (26/04/2026)
+- [x] Montar csv de experimentos (26/04/2026)
+- [x] Montar os notebooks para análise das métricas (06/05/2026)
+- [x] Montar os slides da parte 2 (10/05/2026)
+- [ ] Capturar informações de rede
+- [ ] Analisar traces do nsys
 - [ ] Montar os slides da apresentação final
 - [ ] Escrita do relatório final
