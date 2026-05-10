@@ -21,10 +21,10 @@ git clone https://github.com/matregnago/comp-sys-perf-analysis.git
 cd comp-sys-perf-analysis
 ```
 
-4. Entrar no ambiente do `nix`:
+4. Entrar no ambiente do `nix` de desenvolvimento:
 
 ```bash
-nix develop
+nix develop .#tools
 ```
 
 ## Slides
@@ -39,10 +39,17 @@ Isso gera um arquivo chamado `proposta.pdf`.
 
 ## Jupyter Notebook
 
-Para rodar o `Jupyter Notebook` utilize o comando:
+Para rodar os `Jupyter Notebooks` é preciso entrar no ambiente virtual do `uv`:
 
 ```bash
-jupyter notebook analysis.ipynb
+uv sync --extra dev
+source .venv/bin/activate
+```
+
+E depois, basta rodar o `Jupyter Notebook` com o comando:
+
+```bash
+jupyter notebook
 ```
 
 ## Relatório LaTeX
@@ -53,3 +60,7 @@ Para compilar o relatório `main.tex` para `pdf`, utilize os seguintes comandos:
 cd tex
 latexmk -pdf main.tex
 ```
+
+# Scripts de experimentos
+
+Os experimentos são gerados a partir de jobs `Slurm`, onde as configurações dos experimentos ficam em [`scripts/config.sh`](scripts/config.sh) e os jobs são lançados a partir do [`scripts/submit_jobs.sh`](scripts/submit_jobs.sh).
