@@ -73,12 +73,6 @@ CMP223 — Análise de Desempenho de Sistemas Computacionais
 | **tupi** | 1× RTX 4090 | 24 GB | 1, 2 | Intel(R) Core(TM) i9-14900KF |
 | **poti** | 1× RTX 4070 | 12 GB | 2, 4 | Intel(R) Core(TM) i7-14700KF |
 
-<div class="small">
-
-Cada nó possui **1 GPU**; configurações multi-GPU são obtidas alocando múltiplos nós do mesmo tipo.
-
-</div>
-
 ---
 
 # Mudanças: Tecnologias
@@ -88,7 +82,7 @@ Originalmente, o particionamento seria implementado usando ferramentas do ecossi
 Optamos por utilizar **Ray Cluster e vLLM**:
 
 - **vLLM**: TP e PP nativos
-- **Ray**: orquestra os *workers* entre nós PCAD, abstraindo descoberta dos nodos e suas GPUs.
+- **Ray**: orquestra os *workers* entre nós PCAD, abstraindo a descoberta dos nodos e suas GPUs.
 
 ---
 
@@ -108,7 +102,7 @@ Optamos por utilizar **Ray Cluster e vLLM**:
 - Conjuntos de camadas são distribuídos sequencialmente entre GPUs
 - Cada GPU passa ativações ao próximo estágio
 - Comunicação **menor** (só nas fronteiras dos estágios)
-- **Custo:** potencial desbalanceamento
+- **Custo:** potencial desbalanceamento na distribuição das camadas
 </div>
 
 ---
@@ -154,17 +148,19 @@ Principais métricas analisadas:
 
 # Time To First Token
 
-![center w:900](../../figures/inference_analysis/time-to-first-token.png)
+![center w:850](../../figures/inference_analysis/time-to-first-token.png)
 
 - TTFT do TP consideravelmente maior que os dos outros
+- **Tupi N=2 com TP**: provável gargalo de rede entre nós
 
 ---
 
 ## Inter Token Latency
 
-![center w:900](../../figures/inference_analysis/inter-token-latency.png)
+![center w:850](../../figures/inference_analysis/inter-token-latency.png)
 
-- TP com o menor tempo entre aqueles com comunicação
+- TP e PP com ITL similar no poti; TP leve vantagem em N=2
+- **Tupi N=2:** TP ~72 ms vs PP ~21 ms. Penalizado pela rede
 
 ---
 
@@ -187,14 +183,14 @@ Principais métricas analisadas:
 
 Resultados típicos:
 
-- **Single GPU:** ~16 ms
-- **TP:** intermediário
-- **PP:** ~33 ms
+- **Single GPU:** ~18 ms
+- **TP:** ~30–38 ms
+- **PP:** ~35–39 ms
 
 **Interpretação:**
 
 - ITL é altamente sensível à comunicação
-- PP sofre com sincronização entre estágios
+- TP e PP se sobrepõem; estratégia importa menos que presença de comunicação
 
 ---
 
@@ -219,12 +215,12 @@ Resultado contraintuitivo:
 
 Existe um conflito claro:
 
-| Métrica        | Melhor abordagem     |
-| -------------- | -------------------- |
-| TTFT           | Pipeline Parallelism |
-| ITL            | Single GPU           |
-| Latência total | Single GPU           |
-| Utilização GPU | Tensor Parallelism   |
+| Métrica           | Melhor abordagem     |
+| ----------------- | -------------------- |
+| TTFT              | Pipeline Parallelism |
+| ITL               | Single GPU           |
+| Latência total    | Single GPU           |
+| Throughput tokens | Tensor Parallelism   |
 
 ---
 
@@ -311,7 +307,7 @@ Características observadas:
 **Impacto:**
 
 - Latência maior que baseline
-- Ainda eficiente em comparação com PP
+- Maior throughput de geração após o prefill
 
 ---
 
@@ -331,8 +327,8 @@ Comportamento identificado:
 
 **Consequência:**
 
-- Maior latência total
-- Pior inter-token latency
+- TTFT muito menor que TP
+- Menor throughput de geração sustentado
 
 </div>
 
@@ -358,18 +354,16 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 
 - Comunicação é o principal fator limitante
 - Mais GPUs nem sempre melhoram desempenho
-- TP é mais eficiente que PP no cenário analisado
 - Single GPU ainda é o melhor baseline quando possível
 
 ---
 
 # Próximos Passos
 
-- Refinar medição de **tempo de comunicação**
-- Separar claramente:
-  - prefill vs decode
-- Melhorar balanceamento no pipeline
-- Avaliar escalabilidade com mais nós
+- Verificar a configuração da rede de comunicação entre os nós `tupi`
+- Coletar métricas de rede
+- Analisar a influência da concorrência de requisições na inferencia
+- Coletar métricas mais detalhadas sobre o uso das GPUs (nsys)
 
 ---
 
