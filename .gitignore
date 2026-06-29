@@ -1,4 +1,10 @@
-.direnv
-.ipynb_checkpoints
+# Environment
+.direnv/
 .env
-.venv
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/raw/
