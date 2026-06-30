@@ -3,3 +3,14 @@
 .env
 .venv
 data/
+# Environment
+.direnv/
+.env
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/raw/
+data/data_compsys

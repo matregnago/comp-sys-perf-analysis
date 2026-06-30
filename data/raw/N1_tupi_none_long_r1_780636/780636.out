@@ -1,0 +1,10 @@
+===============================================================
+Date        : Mon May  4 08:32:23 PM -03 2026
+SubmitHost  : tupi3
+SubmitDir   : /home/users/matregnago/cmp223
+JobID       : 780636
+Node(s)     : tupi3
+===============================================================
+[tupi3] iniciando setup do nodo
+[tupi3] copiando /scratch/matregnago/cmp223/results/N1_tupi_none_long_r1_780636/tupi3 -> /home/users/matregnago/cmp223/data/N1_tupi_none_long_r1_780636/tupi3
+Job finalizado. Resultados (por hostname) em: /home/users/matregnago/cmp223/data/N1_tupi_none_long_r1_780636
