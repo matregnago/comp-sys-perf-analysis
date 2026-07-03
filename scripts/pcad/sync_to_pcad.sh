@@ -20,7 +20,7 @@ rsync --verbose --progress --recursive --links --times \
     --exclude='data' \
     --exclude='data-funcionando' \
     --exclude='results_local/' \
-    --exclude='results_pcad/' \
+    --exclude='data_processed/' \
     --exclude='tex/' \
     --exclude='slides/' \
     --exclude='analysis.ipynb' \

@@ -173,12 +173,6 @@ Principais métricas analisadas:
 ---
 
 
-## Request Throughput
-
-![center w:900](../../figures/inference_analysis/request-throughput.png)
-
----
-
 # Análise — Inter-Token Latency
 
 Resultados típicos:

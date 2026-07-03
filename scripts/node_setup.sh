@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -euxo pipefail
 
 NODE_HOST="$(hostname)"
@@ -41,7 +42,7 @@ export VIRTUAL_ENV="$PWD/.venv"
 
 # Barreira: sinaliza que este nodo terminou o uv sync e aguarda os demais
 # antes de subir o ray symmetric-run. BARRIER_DIR e exportado pelo .slurm.
-: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo infer_ray.slurm)}"
+: "${BARRIER_DIR:?BARRIER_DIR obrigatorio (exportado pelo benchmark.slurm)}"
 node_host="$(hostname)"
 mkdir -p "$BARRIER_DIR"
 touch "$BARRIER_DIR/${node_host}.ready"
@@ -53,5 +54,5 @@ done
 set -x
 echo "[$node_host] barreira liberada"
 
-bash scripts/ray_node_run.sh
+bash scripts/node_run.sh
 ' >"$NODE_RESULTS_DIR/node.log" 2>&1

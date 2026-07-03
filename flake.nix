@@ -1,5 +1,5 @@
 {
-  description = "CMP223 - HPC Environment com FHS para vLLM e Ray no PCAD";
+  description = "flake pra disciplina perf";
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -47,6 +47,8 @@
             glib
             libGL
             stdenv.cc.cc.lib
+            sysstat
+            iperf
           ];
 
         extraBwrapArgs = mkBindArgs hostMounts;

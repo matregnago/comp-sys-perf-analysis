@@ -46,6 +46,6 @@ srun --export=ALL \
     --nodes="$SLURM_JOB_NUM_NODES" \
     --ntasks="$SLURM_JOB_NUM_NODES" \
     --ntasks-per-node=1 \
-    bash "$SLURM_SUBMIT_DIR/scripts/slurm_task_ray.sh"
+    bash "$SLURM_SUBMIT_DIR/scripts/node_setup.sh"
 
 echo "Job finalizado. Resultados (por hostname) em: $FINAL_RESULTS_DIR"

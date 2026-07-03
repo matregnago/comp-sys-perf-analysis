@@ -1,7 +1,6 @@
 [project]
 name = "comp-sys-perf-analysis"
 version = "0.1.0"
-description = "CMP223 — inferência Llama 3.1 8B particionada (vLLM + aiperf no PCAD)"
 requires-python = "==3.13.*"
 [project.optional-dependencies]
 dev = [
