@@ -111,7 +111,7 @@ Principais métricas analisadas:
 
 ---
 
-# Request Latency — Short Sequences
+# Request Latency
 
 ![center w:800](./figures/02_analysis/request-latency-short.png)
 
@@ -119,70 +119,62 @@ Principais métricas analisadas:
 
 ---
 
-# Time To First Token — Short Sequences
+# Time To First Token
 
 ![center w:800](./figures/02_analysis/time-to-first-token-short.png)
 
 - TTFT do TP consideravelmente maior que os dos outros
+- Mais nós = Tempo maior
 
 ---
 
-# Análise — Time to First Token (TTFT)
+# Análise
 
 - **Sem comunicação com vantagem nítida**
-- **PP cerca de 50% mais rápido que TP**
+- **PP cerca de 7x mais rápido que TP**
 
 **Explicação:**
 
 - Prefill pode ser parcialmente paralelizado
 - Pipeline permite início antecipado do processamento
 
-**Conclusão:**
-
-- PP favorece início rápido, mas penaliza execução contínua
-
 ---
 
-# Inter-Token Latency — Short Sequences
+# Inter-Token Latency
 
 ![center w:800](./figures/02_analysis/inter-token-latency-short.png)
 
 - TP com o menor tempo entre aqueles com comunicação
 
----
 
-
-# Análise — Inter-Token Latency
+# Análise
 
 Resultados típicos:
 
 - **Single GPU:** ~18 ms
-- **PP ~ TP**
-- **Tupi mais rápida**
+- **PP ~ TP e 2 nós ~ 4 nós-> Pouco sensível à comunicação e à estratégia**
+- **Tupi mais rápida (rede diferente?)**
 
-**Interpretação:**
+**Observações:**
 
-- ITL é altamente sensível à comunicação
 - PP sofre com sincronização entre estágios
+- 1 nó continua com a vantagem
 
 ---
 
-# Output Token Throughput — Short Sequences
+# Output Token Throughput
 
 ![center w:800](./figures/02_analysis/output-token-throughput-short.png)
 
 - 1 GPU apresenta melhor taxa
+- Comunicação e número de nós não influenciam muito
 
 ---
 
-# Trade-off Fundamental
+# Conclusões
 
-| Métrica        | Melhor abordagem     |
-| -------------- | -------------------- |
-| TTFT           | Pipeline Parallelism |
-| ITL            | Single GPU           |
-| Latência total | Single GPU           |
-| Utilização GPU | Tensor Parallelism   |
+- Single GPU vence em todos os casos
+- PP é melhor ou igual a TP em todos os casos
 
 ---
 
@@ -316,11 +308,15 @@ Desequilíbrio de carga entre nós: alguns subutilizados, outros saturados.
 
 ---
 
-# Throughput de Todos os Experimentos
+# Topologia de Rede
 
-![center w:900](./figures/04_network/all_experiments_network_throughput_short.png)
+![center w:900](./figures/04_network/network_topology_heatmap_normalized_short.png)
 
-Visão agregada do throughput de rede em todos os experimentos.
+Matriz normalizada mostrando padrões de comunicação entre nós.
+
+---
+
+![center w:800](./figures/04_network/all_experiments_network_throughput_short.png)
 
 ---
 
@@ -332,14 +328,6 @@ Relação direta observada entre volume de comunicação e degradação de latê
 
 ---
 
-# Topologia de Rede
-
-![center w:900](./figures/04_network/network_topology_heatmap_normalized_short.png)
-
-Matriz normalizada mostrando padrões de comunicação entre nós.
-
----
-
 # Tendências de Escalabilidade
 
 ![center w:900](./figures/04_network/scaling_trends.png)
@@ -348,17 +336,13 @@ Análise das tendências de escalabilidade com aumento de recursos.
 
 ---
 
-# Comunicação Cumulativa
-
-![center w:900](./figures/04_network/cumulative_communication_grid_short.png)
-
-Análise cumulativa de comunicação em diferentes cenários.
+![center w:800](./figures/04_network/cumulative_communication_grid_short.png)
 
 ---
 
 # Achados Principais da Análise de Rede
 
-1. **Volume escalável**: Comunicação cresce linearmente com número de nós
+1. **Volume escalável**: Comunicação cresce com número de nós
 2. **Padrão de bursts**: Sincronização cria rajadas intensas de tráfego
 3. **Desequilíbrio de carga**: Nós não distribuem carga uniformemente
 4. **Latência degradada**: Comunicação introduz overhead significativo
@@ -401,16 +385,6 @@ Análise cumulativa de comunicação em diferentes cenários.
 
 ---
 
-# Próximas Melhorias Possíveis
-
-- Otimização de overlapping comunicação/computação
-- Redução de volume de dados transferidos (quantização)
-- Melhor balanceamento de carga no pipeline
-- Exploração de topologias de rede alternativas
-- Estudo de overlapping de prefill e decode
-
----
-
 # Ferramentas e Metodologia
 
 - Python (pandas, matplotlib, seaborn) para análise
@@ -429,17 +403,3 @@ Análise cumulativa de comunicação em diferentes cenários.
 - Controle de versões com Git
 - Visualizações padronizadas
 - Documentação de procedimentos
-
----
-
-# Status Final
-
-Análise concluída e metodologia validada:
-
-✓ Ambiente definido  
-✓ Métricas coletadas  
-✓ Resultados consistentes  
-✓ Gargalos identificados  
-✓ Análise de rede completa
-
-**Conclusão:** Comunicação em rede é o fator determinante de desempenho em LLM distribuído.
