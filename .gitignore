@@ -1,7 +1,6 @@
 .direnv
 .ipynb_checkpoints
 .env
-<<<<<<< HEAD
 .venv/
 results/
 results_vllm/
@@ -16,17 +15,6 @@ reqs_vllm.txt
 base
 PLAN.md
 .claude/
-=======
-.venv
 data/
-# Environment
-.direnv/
-.env
-.venv/
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Data
-data/raw/
->>>>>>> origin/presentation
+CLAUDE.md
+docs/*

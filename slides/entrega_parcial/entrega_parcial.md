@@ -24,7 +24,7 @@ style: |
   }
     .columns {
     display: flex;
-    gap: 10px;
+    gap: 20px;
   }
 
   .columns > div {
@@ -39,89 +39,61 @@ style: |
 
 <!-- _class: title-slide -->
 
-## Análise de Desempenho da Inferência de um Modelo de Linguagem Particionado em Múltiplas GPUs
+## Entrega Parcial
 
 Lucas Fraga Balbinot, Matheus Augusto Tregnago, Rafael Silva de Souza
 
 <div class="small">
-Universidade Federal do Rio Grande do Sul — Instituto de Informática
-CMP223 — Análise de Desempenho de Sistemas Computacionais
+UFRGS — CMP223 — Análise de Desempenho
 </div>
 
 ---
 
-# Mudanças: Ajuste de Modelo
+# Ambiente de Teste
 
-- Modelo original **Llama 3.1 8B** foi substituído pelo **Qwen2.5-7B-Instruct**
+Execução realizada no **PCAD (UFRGS)** com diferentes configurações:
+
+- **1 GPU (baseline)** → execução sem comunicação
+- **2 GPUs (TP e PP)**
+- **4 GPUs (TP e PP)**
+
+**Nós utilizados:**
+
+- Tupi (principal)
+- Poti (distribuído)
+- Experimento adicional em máquina única
+
+---
+
+# Ajuste de Modelo
+
+- Modelo original (**Llama**) não coube em algumas GPUs
+- Substituído por:
+
+**Qwen2.5-7B-Instruct**
 
 **Motivo:**
 
-- Menos uso de memória
+- Menor footprint de memória
 - Permitiu execução em mais configurações
 - Manteve representatividade do problema
 
 ---
 
-# Mudanças: Ambiente de Teste
-
-- **1 GPU** → Nó `tupi`
-- **2 GPUs** → Nós `tupi` ou `poti`
-- **4 GPUs** → Nó `poti`
-
-| Nó | GPU | VRAM | Nº de nós usados  | CPU |
-|---|---|---|---|---|
-| **tupi** | 1× RTX 4090 | 24 GB | 1, 2 | Intel(R) Core(TM) i9-14900KF |
-| **poti** | 1× RTX 4070 | 12 GB | 2, 4 | Intel(R) Core(TM) i7-14700KF |
-
----
-
-# Mudanças: Tecnologias
-
-Originalmente, o particionamento seria implementado usando ferramentas do ecossistema do **PyTorch**.
-
-Optamos por utilizar **Ray Cluster e vLLM**:
-
-- **vLLM**: TP e PP nativos
-- **Ray**: orquestra os *workers* entre nós PCAD, abstraindo a descoberta dos nodos e suas GPUs.
-
----
-
-<!-- _class: small -->
-
-# Estratégias de Particionamento
-
-<div class="small">
-
-**Tensor Parallelism (TP)** — *fatiamento horizontal*
-- Cada camada é dividida entre as GPUs (matrizes fatiadas por linhas/colunas)
-- Sincronização via **all-reduce** após cada camada
-- Aumenta capacidade de memória e throughput de cálculo
-- **Custo:** comunicação intensa a cada camada
-
-**Pipeline Parallelism (PP)** — *fatiamento vertical*
-- Conjuntos de camadas são distribuídos sequencialmente entre GPUs
-- Cada GPU passa ativações ao próximo estágio
-- Comunicação **menor** (só nas fronteiras dos estágios)
-- **Custo:** potencial desbalanceamento na distribuição das camadas
-</div>
-
----
-
 # Organização dos Experimentos
 
-Projeto gerado com a biblioteca `pyDOE3`.
+Ordem adotada para análise:
 
-**Fatores e níveis:**
+1. **Single GPU (baseline)**
+2. **Tensor Parallelism (TP)**
+3. **Pipeline Parallelism (PP)**
 
-| Fator | Níveis |
-|---|---|
-| `n_gpus` | 1, 2, 4 |
-| `no_pcad` | tupi, poti |
-| `estrategia` | none (single), TP, PP |
-| `prompt` | short (128/128), long (1024/512) |
+**Objetivo:**
+
+- Comparar impacto da comunicação
+- Isolar overhead introduzido por paralelismo
 
 ---
-
 
 # Resultados — Visão Geral
 
@@ -140,7 +112,7 @@ Principais métricas analisadas:
 
 # Request Latency
 
-![center w:900](../../figures/inference_analysis/request-latency.png)
+![center w:900](images/02_analysis/request-latency.png)
 
 - Mais máquinas = Tempo maior de comunicação
 
@@ -148,43 +120,40 @@ Principais métricas analisadas:
 
 # Time To First Token
 
-![center w:850](../../figures/inference_analysis/time-to-first-token.png)
+![center w:900](images/02_analysis/time-to-first-token.png)
 
 - TTFT do TP consideravelmente maior que os dos outros
-- **Tupi N=2 com TP**: provável gargalo de rede entre nós
 
 ---
 
 ## Inter Token Latency
 
-![center w:850](../../figures/inference_analysis/inter-token-latency.png)
+![center w:900](images/02_analysis/inter-token-latency.png)
 
-- TP e PP com ITL similar no poti; TP leve vantagem em N=2
-- **Tupi N=2:** TP ~72 ms vs PP ~21 ms. Penalizado pela rede
+- TP com o menor tempo entre aqueles com comunicação
 
 ---
 
 ## Output Token Throughput
 
-![center w:900](../../figures/inference_analysis/output-token-throughput.png)
+![center w:900](images/02_analysis/output-token-throughput.png)
 
 - 1 GPU mais rápida
 
 ---
 
-
 # Análise — Inter-Token Latency
 
 Resultados típicos:
 
-- **Single GPU:** ~18 ms
-- **TP:** ~30–38 ms
-- **PP:** ~35–39 ms
+- **Single GPU:** ~16 ms
+- **TP:** intermediário
+- **PP:** ~33 ms
 
 **Interpretação:**
 
 - ITL é altamente sensível à comunicação
-- TP e PP se sobrepõem; estratégia importa menos que presença de comunicação
+- PP sofre com sincronização entre estágios
 
 ---
 
@@ -209,12 +178,12 @@ Resultado contraintuitivo:
 
 Existe um conflito claro:
 
-| Métrica           | Melhor abordagem     |
-| ----------------- | -------------------- |
-| TTFT              | Pipeline Parallelism |
-| ITL               | Single GPU           |
-| Latência total    | Single GPU           |
-| Throughput tokens | Tensor Parallelism   |
+| Métrica        | Melhor abordagem     |
+| -------------- | -------------------- |
+| TTFT           | Pipeline Parallelism |
+| ITL            | Single GPU           |
+| Latência total | Single GPU           |
+| Utilização GPU | Tensor Parallelism   |
 
 ---
 
@@ -232,40 +201,18 @@ Comunicação domina o custo total
 
 ---
 
-# Telemetria GPU — Single (N1, tupi)
+# Métricas de GPU
 
-<<<<<<< HEAD
-![center w:1000 h:550](../../figures/gpu_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
-=======
 <div class="grid">
 
 <div class="cell">
 <img src="images/03_telemetry/gpu-util-power-N1-tupi-none-short-r1-780637.png" width="520">
 </div>
->>>>>>> origin/presentation
 
 <div class="cell">
 <img src="images/03_telemetry/gpu-util-power-N2-poti-PP-short-r1-780628.png" width="520">
 </div>
 
-<<<<<<< HEAD
-# Telemetria GPU — TP
-
-<div class="columns">
-<div>
-
-**N=2 (poti)**
-![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N2-poti-TP-short-r1-780627.png)
-
-</div>
-<div>
-
-**N=4 (poti)**
-![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N4-poti-TP-short-r1-780631.png)
-
-</div>
-</div>
-=======
 <div class="cell">
 <img src="images/03_telemetry/gpu-util-power-N2-poti-TP-short-r1-780627.png" width="520">
 </div>
@@ -302,32 +249,13 @@ Comunicação domina o custo total
   margin: auto;
 }
 </style>
->>>>>>> origin/presentation
 
 ---
 
-# Telemetria GPU — PP
-
-<div class="columns">
-<div>
-
-<<<<<<< HEAD
-**N=2 (poti)**
-![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
-
-</div>
-<div>
-
-**N=4 (poti)**
-![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N4-poti-PP-short-r1-780634.png)
-
-</div>
-</div>
+![w:900](images/03_telemetry/utilization_vs_power.png)
 
 ---
 
-=======
->>>>>>> origin/presentation
 # Resultado Principal
 
 **Single GPU apresentou melhor desempenho geral**
@@ -353,13 +281,11 @@ Características observadas:
 **Impacto:**
 
 - Latência maior que baseline
-- Maior throughput de geração após o prefill
+- Ainda eficiente em comparação com PP
 
 ---
 
 # Pipeline Parallelism (PP)
-
-<div class="small">
 
 Comportamento identificado:
 
@@ -373,10 +299,8 @@ Comportamento identificado:
 
 **Consequência:**
 
-- TTFT muito menor que TP
-- Menor throughput de geração sustentado
-
-</div>
+- Maior latência total
+- Pior inter-token latency
 
 ---
 
@@ -388,11 +312,41 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 
 # Dificuldades Encontradas
 
-**Disponibilidade e compatibilidade dos nós PCAD:**
+- Acesso limitado a algumas máquinas
+- Inconsistência de recursos entre nós
+- Presença de **tokens sensíveis em logs** (bloqueio de push)
+- Ajuste manual de experimentos distribuídos
 
-- **`beagle`** — incompatibilidade de drivers do CUDA com vLLM;
-- **`cidia`** — memória das GPUs não suportava o particionamento do modelo;
-- **`tupi` com 4 nós** — falta de disponibilidade simultânea no PCAD;
+---
+
+# Soluções Aplicadas
+
+- Troca de modelo (Qwen)
+- Limpeza de logs e remoção de segredos
+- Organização dos dados experimentais
+- Padronização de métricas e scripts
+
+---
+
+# Boas Práticas Adotadas
+
+- Uso de **scripts reprodutíveis**
+- Separação clara entre:
+  - dados
+  - código
+  - resultados
+- Controle de versões com Git
+- Visualizações padronizadas
+
+---
+
+# Ferramentas Utilizadas
+
+- Python (pandas, matplotlib, seaborn)
+- Jupyter Notebooks
+- nvidia-smi (telemetria)
+- Slurm (execução no cluster)
+- Git + GitHub
 
 ---
 
@@ -400,31 +354,26 @@ Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode r
 
 - Comunicação é o principal fator limitante
 - Mais GPUs nem sempre melhoram desempenho
+- TP é mais eficiente que PP no cenário analisado
 - Single GPU ainda é o melhor baseline quando possível
 
 ---
 
 # Próximos Passos
 
-- Verificar a configuração da rede de comunicação entre os nós `tupi`
-- Coletar métricas de rede
-- Analisar a influência da concorrência de requisições na inferencia
-- Coletar métricas mais detalhadas sobre o uso das GPUs (nsys)
+- Refinar medição de **tempo de comunicação**
+- Separar claramente:
+  - prefill vs decode
+- Melhorar balanceamento no pipeline
+- Avaliar escalabilidade com mais nós
 
 ---
 
+# Avaliação do Progresso
 
-# Referências
+Ambiente definido  
+Métricas coletadas  
+Resultados consistentes  
+Gargalos identificados
 
-<div class="small">
-
-- VASWANI, A. et al. *Attention is All You Need*. 2017.
-- BOMMASANI, R. et al. *On the Opportunities and Risks of Foundation Models*. 2021.
-- PASZKE, A. et al. *PyTorch: An Imperative Style Deep Learning Library*. 2019.
-- NVIDIA. *CUDA C Programming Guide*. 2023.
-- NVIDIA. *LLM Inference Benchmarking: Fundamental Concepts*. https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/
-- NVIDIA. *NIM LLM Benchmarking Guide*. https://docs.nvidia.com/nim/benchmarking/llm/latest/index.html
-- NVIDIA. *DCGM User Guide — Metrics*. https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/feature-overview.html
-- PCAD. https://gppd-hpc.inf.ufrgs.br/
-- Chinwag, R. *Demystifying Tensor Parallelism*. 2024. https://robotchinwag.com/posts/demystifying-tensor-parallelism/
-</div>
+**Status:** progresso consistente e metodologia validada
