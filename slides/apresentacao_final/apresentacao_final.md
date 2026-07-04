@@ -92,10 +92,9 @@ Todos assumem **interconexão rápida**. Nosso recorte: TP × PP **entre nós** 
 
 # O que mudou desde a parcial
 
-- **Nova coleta completa**: com **nsys + iperf3 + sar** além de aiperf e nvidia-smi
+- **Nova coleta completa**: **nsys + iperf3 + sar** além de aiperf e nvidia-smi
 - **Varredura de concorrência**: 1 até 32 requisições simultâneas
-- **tupi multinó corrigido**: diagnóstico e correção da configuração de rede do nó `tupi`
-- Melhorias na análise de dados e utilização de modelos lineares
+- **Ajuste na interface de rede da tupi**: Correção no erro da coleta da etapa anterior, que usou uma interface de 100 Mb/s
 
 ---
 
@@ -174,97 +173,90 @@ Principais métricas analisadas:
 
 # Utilização da GPU
 
-![w:900](../../figures/gpu_telemetry/utilization_vs_power.png)
+![w:820](../../figures/gpu_telemetry/utilization_vs_power.png)
 
 ---
 
-# Utilização das GPUs
+# Utilização da GPU
 
-Embora tenha sido mais eficiente no geral, a utilização de apenas 1 GPU pode representar um grande esforço concentrado em apenas uma única máquina, contribuindo para o seu desgaste mais rápido. A sua temperatura e uso de energia foram mais elevados que nos outros casos.
+- Em **TP** a GPU permanece **~100% ocupada** durante toda a execução
+- Mas o kernel que predomina é o **NCCL** (comunicação), não a computação
+- GPU única do **tupi** operou em **potência/temperatura mais altas** — esforço concentrado em uma única máquina ⇒ desgaste mais rápido
+- **PP** alterna picos de computação entre estágios com **ociosidade** parcial (a "bolha" do pipeline)
+
+
+---
+
+
+# Utilização que engana 
+
+
+![w:1260](../../figures/gpu_telemetry/grupoF-gpu-util-mechanism.png)
+
+---
+
+# Utilização que engana
+
+- `nvidia-smi` reporta **util ~100%** em TP — mas é **busy-wait** do `ncclDevKernel_AllReduce_*` girando à espera da rede
+- Utilização **não é** sinônimo de computação útil
+- **PP** mostra **CV alto entre nós**: uns trabalham, outros aguardam ativações
+- Conclusão de método: a métrica isolada de utilização é **insuficiente** — precisa ser cruzada com o split **comm × comp** do nsys
+
 
 ---
 
 # Análise de Comunicação
 
-Comunicação é o principal fator limitante no desempenho. Investigamos:
+Comunicação é o principal fator limitante no desempenho distribuído sobre Ethernet 1 GbE. Investigamos três eixos:
 
-- **Volume de dados transmitidos**
-- **Padrões de comunicação** (burstiness, atividade)
-- **Escalabilidade** com aumento de nós
+- **Quanto** se comunica — volume absoluto e como escala com N
+- **Qual** o mecanismo — coletivo dominante (AllReduce vs Send/Recv)
+- **Qual** o impacto fim-a-fim — saturação do enlace e degradação de latência
 
----
-
-# Volume de Comunicação
-
-![center w:900](../../figures/network_analysis/communication_volume_bar_short.png)
-
-Volume de dados transmitidos varia significativamente entre configurações e estratégias de paralelismo.
+Ferramentas: **nsys** (split kernel comm×comp), **iperf3** (teto do enlace), **sar** (saturação `%ifutil`), **aiperf** (desempenho e2e).
 
 ---
 
-# Escalabilidade do Volume de Comunicação
+# A prova mecânica 
 
-![center w:900](../../figures/network_analysis/communication_volume_scaling_scatter_short.png)
+ Decomposição **nsys** (kernels NCCL × computação) cruzada com **iperf3** e **sar**:
 
-Tendência clara: mais nós = maior volume de comunicação.
+| Estratégia | % do tempo de GPU em NCCL | Coletivo dominante | `%ifutil` (sar) |
+|---|---|---|---|
+| **TP — N2** | ~53% | `AllReduce_Sum_bf16_RING_LL` | ~95% (satura) |
+| **TP — N4** | **~81%** | `AllReduce_Sum_bf16_RING_LL` | ~95% (satura) |
+| **PP** | ~0–5% | `Send/Recv` P2P entre estágios | ~2% |
 
----
+- Enlace medido pelo **iperf3**: **0,941 Gbit/s** (≈ 1 GbE, teto físico)
+- **TP é comm-bound**: o `AllReduce` de cada camada/token domina e piora com N (sharding reduz o compute, a comunicação não)
+- **PP é compute-bound**: a rede não satura; o gargalo é a **bolha de pipeline**
 
-# Padrões de Atividade de Comunicação
 
-![center w:900](../../figures/network_analysis/communication_activity_short.png)
-
-Intensidade e frequência de comunicação variam entre os experimentos.
-
----
-
-# Correlação: Burstiness vs Latência
-
-![center w:900](../../figures/network_analysis/burstiness_vs_tail_latency_short.png)
-
-Maior burstiness correlaciona com piores latências na cauda da distribuição.
 
 ---
 
-# Throughput da Rede
+# Saturação do enlace
 
-![center w:900](../../figures/network_analysis/network_throughput_by_experiment_short.png)
+![center w:820](../../figures/network_analysis/network_throughput_by_experiment_short.png)
 
-Utilização da capacidade de rede por experimento.
-
----
-
-# Throughput por Nó
-
-![center w:900](../../figures/network_analysis/network_throughput_per_node_short.png)
-
-Desequilíbrio de carga entre nós: alguns subutilizados, outros saturados.
+Em **TP** o tráfego atinge o teto de **~0,94 Gbit/s** (`%ifutil` ~95%); em **PP** a rede é subutilizada (~2%). O enlace de 1 GbE é o **gargalo físico** que limita os ganhos do paralelismo tensor.
 
 ---
 
-# Topologia de Rede
+# Carga desequilibrada entre nós
 
-![center w:900](../../figures/network_analysis/network_topology_heatmap_normalized_short.png)
 
-Matriz normalizada mostrando padrões de comunicação entre nós.
 
----
+![w:940](../../figures/network_analysis/network_topology_heatmap_normalized_short.png)
 
-# Comunicação vs Latência
-
-![center w:900](../../figures/network_analysis/latency_vs_communication_short.png)
-
-Relação direta observada entre volume de comunicação e degradação de latência.
 
 ---
 
-# Achados Principais da Análise de Rede
+# Carga desequilibrada entre nós
 
-1. **Volume escalável**: Comunicação cresce com número de nós
-2. **Padrão de bursts**: Sincronização cria rajadas intensas de tráfego
-3. **Desequilíbrio de carga**: Nós não distribuem carga uniformemente
-4. **Latência degradada**: Comunicação introduz overhead significativo
-5. **Bottleneck crítico**: Rede limita ganhos de paralelismo
+- **PP** concentra tráfego no nó que hospeda a primeira/última camada — distribuição assimétrica
+- **TP** distribui o tráfego entre todos os nós, mas **satura todos simultaneamente**
+
 
 ---
 
@@ -272,44 +264,49 @@ Relação direta observada entre volume de comunicação e degradação de latê
 
 | Aspecto | TP | PP |
 |--------|----|----|
-| Comunicação | Contínua | Em bursts |
-| Volume | Moderado | Variável |
-| Overhead | Menor | Maior |
-| Escalabilidade | Melhor | Limitada |
+| Comunicação | Contínua (`AllReduce` por camada/token) | Em rajadas (`Send/Recv` P2P) |
+| Volume | Alto | Baixo (ativações entre estágios) |
+| Saturação do link | Sim (~95%) | Não (~2%) |
+| % de tempo de GPU em NCCL | ~53% (N2) → ~81% (N4) | ~0–5% |
+| Escalabilidade | Piora com N (comm domina) | Boa com batch (fecha bolha) |
+| Latência em baixa concorrência | Melhor | Pior (bolha) |
+| Throughput em alta concorrência | Limitado (~4×) | Muito superior (~19–22×) |
+
+> Em **interconexão commodity (1 GbE)**: **PP entre nós**, **TP reservado para intra-nó (NVLink)**.
 
 
 ---
 
 # Conclusões
 
-**Comunicação é o fator dominante:**
-- Reduz efetividade do paralelismo
-- Domina tempo total de execução
-- Impede escalabilidade esperada
+**Comunicação domina em TP entre nós sobre 1 GbE:**
+- Até **81% do tempo de GPU** em NCCL (N4), com enlace saturado (`%ifutil` ~95%)
+- TP **piora** com o número de nós: o sharding reduz o compute, mas o `AllReduce` não
 
-**Melhor estratégia observada:**
-- Single GPU quando possível (sem comunicação)
-- PP preferível a TP quando paralelismo necessário
-- Escalabilidade limitada por rede
+**Quando particionar:**
+- Se o modelo **cabe em 1 GPU** (tupi 24 GB): **não particionar** — é net-negativo
+- **TP**: melhor **latência** em baixa concorrência, mas comm-bound
+- **PP**: melhor **throughput** em alta concorrência (bolha fecha com batch, ~19–22× vs ~4× do TP)
+
+**Recomendação de projeto:**
+- Sobre Ethernet commodity: **PP entre nós**, **TP intra-nó (NVLink)**
+- Redes de baixa latência (IB/RDMA) deslocam o ponto de virada — o gargalo é **latência**, não só banda
 
 ---
 
-# Uso de inteligência artificial
----
 
 # Referências
 
 <div class="smaller">
 
 - VASWANI, A. et al. *Attention is All You Need*. 2017.
-
 - XU, L. et al. *Characterizing Communication Patterns in Distributed Large Language Model Inference*. arXiv:2507.14392, 2025.
 - TOPCU, B. et al. *Parallelization Strategies for Dense LLM Deployment: Navigating Through Application-Specific Tradeoffs and Bottlenecks*. arXiv:2603.05692, 2026.
 - SU, Q. et al. *Seesaw: High-Throughput LLM Inference via Model Re-Sharding*. arXiv:2503.06433, 2025.
 - HOCKNEY, R. W. *The communication challenge for MPP: Intel Paragon and Meiko CS-2*. Parallel Computing, 1994.
-- NVIDIA. *LLM Inference Benchmarking: Fundamental Concepts*. https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/
-- Jarvislabs. *Scaling LLM Inference: Data, Pipeline & Tensor Parallelism in vLLM*. https://jarvislabs.ai/blog/scaling-llm-inference-dp-pp-tp
-- KHMEL, P. *LLM inferencing benchmark with vLLM: Tensor Parallel vs Data Parallel*. https://pavlokhmel.com/llm_inferencing_benchmark_with_vllm_benchmark_script_tensor_parallel_vs_data_parallel.html
-- Chinwag, R. *Demystifying Tensor Parallelism*. 2024. https://robotchinwag.com/posts/demystifying-tensor-parallelism/
+- NVIDIA. *LLM Inference Benchmarking: Fundamental Concepts*. Disponível em: <https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/>.
+- Jarvislabs. *Scaling LLM Inference: Data, Pipeline & Tensor Parallelism in vLLM*. Disponível em: <https://jarvislabs.ai/blog/scaling-llm-inference-dp-pp-tp>.
+- KHMEL, P. *LLM inferencing benchmark with vLLM: Tensor Parallel vs Data Parallel*. Disponível em: <https://pavlokhmel.com/llm_inferencing_benchmark_with_vllm_benchmark_script_tensor_parallel_vs_data_parallel.html>.
+- CHINWAG, R. *Demystifying Tensor Parallelism*. 2024. Disponível em: <https://robotchinwag.com/posts/demystifying-tensor-parallelism/>.
 
 </div>
