@@ -234,10 +234,21 @@ Comunicação domina o custo total
 
 # Telemetria GPU — Single (N1, tupi)
 
+<<<<<<< HEAD
 ![center w:1000 h:550](../../figures/gpu_telemetry/gpu-overview-N1-tupi-none-short-r1-780637.png)
+=======
+<div class="grid">
 
----
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N1-tupi-none-short-r1-780637.png" width="520">
+</div>
+>>>>>>> origin/presentation
 
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N2-poti-PP-short-r1-780628.png" width="520">
+</div>
+
+<<<<<<< HEAD
 # Telemetria GPU — TP
 
 <div class="columns">
@@ -254,6 +265,44 @@ Comunicação domina o custo total
 
 </div>
 </div>
+=======
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N2-poti-TP-short-r1-780627.png" width="520">
+</div>
+
+<div class="cell">
+<img src="images/03_telemetry/gpu-util-power-N4-poti-PP-short-r1-780634.png" width="520">
+</div>
+
+<div class="cell center-last">
+<img src="images/03_telemetry/gpu-util-power-N4-poti-TP-short-r1-780631.png" width="520">
+</div>
+
+</div>
+
+<style>
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.cell {
+  text-align: center;
+}
+
+.center-last {
+  grid-column: 1 / span 2;
+  justify-self: center;
+}
+
+.grid img {
+  display: block;
+  margin: auto;
+}
+</style>
+>>>>>>> origin/presentation
 
 ---
 
@@ -262,6 +311,7 @@ Comunicação domina o custo total
 <div class="columns">
 <div>
 
+<<<<<<< HEAD
 **N=2 (poti)**
 ![w:550 h:450](../../figures/gpu_telemetry/gpu-overview-N2-poti-PP-short-r1-780628.png)
 
@@ -276,6 +326,8 @@ Comunicação domina o custo total
 
 ---
 
+=======
+>>>>>>> origin/presentation
 # Resultado Principal
 
 **Single GPU apresentou melhor desempenho geral**
