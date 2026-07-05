@@ -11,6 +11,7 @@ dev = [
     "matplotlib",
     "seaborn",
     "pyDOE3",
+    "statsmodels",
 ]
 pcad = [
     "vllm>=0.20,<0.21",
