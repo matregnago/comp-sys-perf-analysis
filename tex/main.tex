@@ -1,4 +1,8 @@
-\documentclass[manuscript,screen,review]{acmart}
+\documentclass[manuscript,screen]{acmart}
+
+% --- PACOTES ---
+\usepackage{makecell} % células multilinha nas tabelas
+\usepackage{float}    % posicionamento [H] de tabelas/figuras
 
 % --- CONFIGURAÇÕES DE LOGO DO BIBTEX ---
 \AtBeginDocument{%
@@ -6,45 +10,25 @@
 			Bib\TeX}}}
 
 % --- INFORMAÇÕES DE DIREITOS AUTORAIS ---
-% IMPORTANTE: Deixado como 'none' para a fase de escrita.
 % A ACM te enviará os códigos corretos após a aceitação do artigo.
 \setcopyright{none}
 \copyrightyear{2026}
 \acmYear{2026}
 \acmDOI{}
-\acmConference[Conferência '26]{Nome da Conferência}{Junho 2026}{Local}
+\acmConference[Conferência '26]{Nome da Conferência}{Julho 2026}{Local}
 \acmISBN{}
 
 % --- METADADOS DO DOCUMENTO ---
 \title[Análise de Desempenho de Modelos de Linguagem]{Análise de Desempenho da Inferência de um Modelo de Linguagem Particionado em Múltiplas GPUs}
 
-% Autor 1
 \author{Lucas Fraga Balbinot}
-\email{fraga.balbinot@ufrgs.br}
-\affiliation{%
-	\institution{Universidade Federal do Rio Grande do Sul (UFRGS)}
-	\city{Porto Alegre}
-	\state{Rio Grande do Sul}
-	\country{Brasil}
-}
-
-% Autor 2 (Se houver mais autores, basta copiar e colar este bloco abaixo)
 \author{Matheus Augusto Tregnago}
-\email{autor2@instituicao.edu.br}
-\affiliation{%
-	\institution{Universidade Federal do Rio Grande do Sul (UFRGS)}
-	\city{Porto Alegre}
-	\state{Rio Grande do Sul}
-	\country{Brasil}
-}
-
 \author{Rafael Silva de Souza}
-\email{autor2@instituicao.edu.br}
 \affiliation{%
-	\institution{Universidade Federal do Rio Grande do Sul (UFRGS)}
-	\city{Porto Alegre}
-	\state{Rio Grande do Sul}
-	\country{Brasil}
+  \institution{Universidade Federal do Rio Grande do Sul}
+  \city{Porto Alegre}
+  \state{Rio Grande do Sul}
+  \country{Brasil}
 }
 
 % Define como os autores aparecem no cabeçalho das páginas ímpares
@@ -53,68 +37,119 @@
 % --- CORPO DO DOCUMENTO ---
 \begin{document}
 
-	% O Resumo (Abstract) DEVE vir antes do \maketitle
-	\begin{abstract}
-		Estudo do comportamento de Modelos de Linguagem de Grande Porte (\textit{Large Language Models}, ou LLM) em situação de particionamento de dados, utilizando as GPUs nativas aos sistemas da Universidade Federal do Rio Grande do Sul, Campus do Vale.
-	\end{abstract}
+% O Resumo (Abstract) DEVE vir antes do \maketitle
+\begin{abstract}
+Estudo do comportamento de Modelos de Linguagem de Grande Porte (\textit{Large Language Models}, ou LLM) em situação de particionamento dedados, utilizando as GPUs nativas aos sistemas da Universidade Federal do Rio Grande do Sul, Campus do Vale.
+\end{abstract}
 
-	% --- PALAVRAS-CHAVE ---
-	\keywords{Large Language Model, Particionamento de Dados, GPU, Análise de Desempenho}
+% --- PALAVRAS-CHAVE ---
+\keywords{Large Language Model, Particionamento de Dados, GPU, Análise de Desempenho}
 
-	\maketitle
+\maketitle
 
-	% --- SEÇÕES DO ARTIGO ---
-	\section{Introdução}
-	Na era moderna, a prevalência de Inteligências Artificiais (\textit{Artificial Intelligences} em inglês, abreviação AI) no âmbito diário é cada vez mais notável, seja na forma de assistentes virtuais, de sistemas de tradução ou mesmo na geração de códigos para programas. Um elemento essencial para sua aplicabilidade cada vez mais abrangente são os Modelos de Linguagem de Grande Porte (\textit{Large Language Models} ou LLM), vastas redes neurais capazes de processar bilhões de parâmetros dados por vários usuários eficientemente e tendo tremendo poder computacional para tal tarefa. Contudo, tais atributos também fazem com que LLMs ocupem muito espaço em máquinas, por vezes necessitando que seja particionada em segmentos menores para poder operar.
+% --- SEÇÕES DO ARTIGO ---
+\section{Introdução}
+Na era moderna, a prevalência de Inteligências Artificiais no âmbito diário é cada vez mais notável, seja na forma de assistentes virtuais, desistemas de tradução ou mesmo na geração de códigos para programas. Um elemento essencial para sua aplicabilidade cada vez mais abrangente sãoos \textit{Large Language Models} (LLM), vastas redes neurais capazes de processar bilhões de parâmetros dados por vários usuárioseficientemente e tendo tremendo poder computacional para tal tarefa. Contudo, tais atributos também fazem com que LLMs ocupem muito espaço emmáquinas, por vezes necessitando que seja particionada em segmentos menores para poder operar.
 
-	O propósito deste trabalho é o estudo dos efeitos de particionamento de LLMs por Unidades de Processamento Gráfico (\textit{Graphic Process Unit} ou GPU) e o estudo de como afeta o processo de inferência do modelo, utilizando as GPUs localizadas no Parque Computacional de Alto Desempenho (PCAD) da Universidade Federal do Rio Grande do Sul (UFRGS), e mantida pelo Laboratório de Processamento Paralelo e Distribuído (LPPD), como ambiente de teste.
+O propósito deste trabalho é o estudo dos efeitos de particionamento de LLMs por Unidades de Processamento Gráfico (\textit{Graphic Process Uni} ou GPU) e o estudo de como afeta o processo de inferência do modelo, utilizando as GPUs localizadas no Parque Computacional de AltoDesempenho (PCAD)\footnote{https://pcad.inf.ufrgs.br/} da Universidade Federal do Rio Grande do Sul (UFRGS).
 
-	\section{Contexto e Trabalhos Relacionados}
-	Um problema fundamental no desdobramento de LLMs reside na alta demanda de memória necessária para sua operação. Grande parte desses modelos fundamenta-se na arquitetura Transformer \cite{VASWANI2017}, a qual utiliza mecanismos de atenção para modelar relações de dependência em dados sequenciais com alta precisão. Contudo, mesmo as arquiteturas mais modernas enfrentam severas limitações decorrentes do custo computacional tanto no treinamento quanto na inferência \cite{BOMMASANI2021}, o que gera uma dependência estrita de clusters de Unidades de Processamento Gráfico (GPUs) para viabilizar sua execução.
+\section{Contexto}
 
-	Embora o paralelismo de modelos seja amplamente investigado na literatura recente, a análise do impacto do particionamento de inferência em ambientes acadêmicos compartilhados — como o PCAD da UFRGS — ainda apresenta lacunas que este trabalho busca explorar.
+Inferência é o processo de utilizar um modelo já treinado para gerar texto a partir de uma entrada fornecida pelo usuário. Nos LLMs modernos,baseados na arquitetura Transformer~\cite{VASWANI2017}, essa geração é autorregressiva: o texto de saída é produzido um \textit{token} por vez,e cada novo token depende de todos os tokens anteriores.
 
-	Um ambiente capaz de computação de alto desempenho é vital para este estudo. Nesse sentido, o PCAD prova-se ideal, visto que possui uma grande variedade de modelos que levam a exploração de diferentes reações de particionamento com requisitos heterogêneos.
+A principal restrição para servir um LLM é a memória da GPU. Os pesos de um modelo com 7 bilhões de parâmetros em precisão \textit{bfloat16}ocupam cerca de 15GB, aos quais se soma o KV cache, que cresce com com o número de requisições atendidas. Quando esse total excede a memória deuma única GPU, o modelo precisa ser particionado entre múltiplas GPUs. Neste trabalho, utilizamos duas estratégias de particionamento: TensorParallelism e Pipeline Parallelism.
 
-	\section{Metodologia Proposta}
-	Descrição do método, algoritmos ou arquitetura proposta.
+No \textit{Tensor Parallelism} (TP)~\cite{SHOEYBI2019}, as matrizes de pesos de \emph{cada} camada são fatiadas entre as GPUs, de modo quetodas as GPUs cooperam no cálculo de todas as camadas. Cada GPU computa um resultado parcial, e os resultados precisam ser combinados poroperações \textit{AllReduce} a cada camada do modelo, em cada passo de geração. A comunicação é, portanto, frequente e está no caminho críticoda inferência.
 
-	O modelo utilizado no estudo foi o Qwen2.5-7B-Instruct, um modelo usado para pré e pós-treinamento de IA, possuindo 7.61 bilhões de parâmetros no total e 28 camadas\cite{qwen2.5_7b_instruct}. Tais qualidades foram consideradas satisfatórias para o propósito do estudo, dando
+No \textit{Pipeline Parallelism} (PP)~\cite{HUANG2019}, o modelo é dividido em estágios sequenciais de camadas contíguas, cada estágioatribuído a uma GPU. As requisições atravessam os estágios, onde a saída de um estágio é enviada ponto a ponto apenas para o estágio seguinte.O volume de comunicação é muito menor que no TP, limitado às fronteiras entre estágios. Porém, o problema está na ociosidade de computação,visto que apenas um estágio trabalha por vez.
 
-	Para poder estudar o comportamento das GPUs, foram definidas três configurações de particionamento diferentes:
+\subsection{Pilha de software para inferência distribuída}
+\label{sec:stack}
+Na prática, a inferência distribuída é realizada por uma \textit{serving engine} que gerencia o particionamento, o lote dinâmico de requisiçõese a exposição de uma API de geração. Este trabalho utiliza o vLLM~\cite{KWON2023}, que implementa TP e PP. Em execuções multi-nó, o vLLMutiliza o Ray~\cite{MORITZ2018} para coordenar os processos entre as máquinas.
 
-	\begin{enumerate}
-	\item 1 GPU;
-	\item 2 GPUs;
-	\item 4 GPUs.
-	\end{enumerate}
 
-	Para as configurações 2 e 3, há uma complexidade adicional em que elas funcionam segundo dois comportamentos de paralelismo, com o comportamento de GPU único funcionando como o \textit{baseline} dos sistemas. Os tipos de paralelismo são:
+\section{Trabalhos Relacionados}
 
-	\begin{enumerate}
-		\item \textit{Tensor Parallelism}: Paralelismo baseado na fragmentação das camadas de um modelo em diferentes máquinas;
-		\item \textit{Pipeline Parallelism}: Paralelismo em que a divisão das camadas é mais processado como um "estado", passando cada instrução sequencialmente entre cada máquina.
-	\end{enumerate}
+O objetivo desse trabalho vai ao encontro de dois estudos recentes. Xu et al.~\cite{XU2025} caracterizam os padrões de comunicação da inferência distribuída servida pelo vLLM, combinando \textit{profiling} e modelos analíticos, e concluem que o TP impõe grande volume de comunicação, mas entrega melhor latência para sequências curtas, enquanto o PP minimiza a transferência de dados ao custo de maior latência total. Topcu et al.~\cite{TOPCU2026} analisam estratégias de paralelização intra-nó para modelos densos de maior porte, mostrando que o TP favorece objetivos de latência e o PP aplicações orientadas a \textit{throughput}.
 
-	Isso foi feito para poder fazer uma análise objetiva do efeito que o \textit{overhead} causado por paralelismo causa na execução de um programa, e como a capacidade de comunicação entre máquinas afeta seu desempenho como um todo.
+Este trabalho revisita a comparação entre TP e PP em um contexto ausente nesses estudos: GPUs de consumo (RTX 4090 e RTX 4070) interligadas por Ethernet Gigabit, em que o custo relativo da comunicação é ordens de grandeza maior. Verificar se as conclusões obtidas sobre interconexões rápidas se sustentam nesse cenário de recursos restritos é a principal contribuição desta análise.
 
-	Dos atributos analisados, aqueles que foram dados maior atenção em particular são os que relatam aos tokens: ou seja, o tempo total até o primeiro token (referido como TTFT); o tempo médio entre tokens consecutivos (ITL); a latência de pedido; e o throughput de tokens. Ademais, foi analisado também o comportamento da GPU nessas circunstâncias, focando na banda de memória usada (\textit{memory bandwidth}), o quanto da memória é usada (\textit{GPU memory usage}) e a ocupação dos multiprocessadores de streaming (\textit{SM Occupancy}). Para o \textit{benchmarking} destas métricas,
+\section{Metodologia}
 
-	\section{Resultados e Avaliação}
-	Resultados experimentais obtidos e discussões.
+A abordagem deste trabalho é experimental, onde o mesmo modelo é servido sob diferentes configurações de particionamento e submetido a cargas controladas de requisições, enquanto o comportamento do sistema é registrado em nível de aplicação, GPU e rede.
 
-	\section{Conclusão}
-	Considerações finais e propostas de trabalhos futuros.
+O modelo servido em todos os experimentos é o Qwen2.5-7B-Instruct~\cite{qwen2.5_7b_instruct}, um modelo denso com 7,61 bilhões de parâmetros e 28 camadas. Os pesos tem um tamanho de 15GB e não cabem na GPU de 12GB disponível no cluster, o que torna o particionamento obrigatório nesse hardware, mas cabem na GPU de 24GB, preservando uma configuração de GPU única como \textit{baseline}.
 
-	% --- AGRADECIMENTOS ---
-	\begin{acks}
-		Agradecemos ao LPPD da UFRGS por poder providenciar o espaço necessário para realizar estes experimentos, além da variedade oferecida.
-		Agradecemos ao Professor Lucas Mello Schnorr pela orientação oferecida no desenvolvimento deste trabalho e seus conselhos.
+\subsection{Métricas avaliadas}
+
+No nível da aplicação adotamos as métricas usuais de inferência de LLMs: o tempo até o primeiro token (\textit{Time to First Token}, TTFT); a latência média entre tokens consecutivos (\textit{Inter-Token Latency}, ITL); a latência total da requisição; e as vazões de tokens gerados (tokens/s) e de requisições atendidas (req/s).
+
+No nível da GPU, cada nó registra via \texttt{nvidia-smi}, a utilização do processador, a memória ocupada, a potência e a temperatura. No nível da rede, a banda ponto a ponto entre os nós é medida com \texttt{iperf3} e a utilização da interface durante a carga é registrada com \texttt{sar}. Por fim, traços do Nsight Systems permitem decompor o tempo de GPU entre computação e comunicação.
+
+\subsection{Projeto Experimental}
+
+O projeto experimental é um fatorial completo sobre os cinco fatores da Tabela~\ref{tab:fatores}, do qual são removidas as células inválidas: a configuração sem particionamento exige exatamente 1 GPU, TP e PP exigem pelo menos 2, o modelo não cabe em um único nó poti e a partição tupi foi limitada a 2 nós pela disponibilidade de nós homogêneos. Restam 14 células por tipo de coleta, totalizando 28 execuções.
+
+\begin{table}[h]
+	\caption{Fatores e níveis do projeto fatorial.}
+	\label{tab:fatores}
+	\begin{tabular}{ll}
+		\toprule
+		Fator & Níveis \\
+		\midrule
+		Número de GPUs (1 por nó) & 1, 2, 4 \\
+		Nó do PCAD & tupi, poti \\
+		Estratégia de particionamento & nenhuma, TP, PP \\
+		Carga (entrada/saída em tokens) & curta 128/128; longa 1024/512 \\
+		Tipo de coleta & \textit{trace}; concorrência \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+Nas execuções de \textit{trace}, uma única medição de 30 requisições é feita com o servidor instrumentado pelo \texttt{nsys} e nas execuções de concorrência, o \texttt{nsys} é desligado e o aiperf varre os níveis de 1, 2, 4, 8, 16 e 32 requisições simultâneas contra o mesmo servidor. Essas coletas foram separadas em duas execuções diferentes, porque, com diferentes níveis de concorrência, o trace do nsys acabava ficando muito grande e lotava a partição da máquina no PCAD.
+
+\subsection{Ambiente de execução}
+
+Os experimentos foram executados no PCAD nas partições descritas na Tabela~\ref{tab:nos}. Cada nó possui exatamente uma GPU, de modo que todo o tráfego de TP e PP atravessa a rede Ethernet de 1 Gbit/s.
+
+\begin{table}[H]
+	\caption{Especificações técnicas das máquinas utilizadas}
+	\label{tab:nos}
+	\begin{tabular}{ccccc}
+		\toprule
+		Máquina&CPU&RAM&Acelerador&Disco\\
+		\midrule
+		tupi & \makecell{Intel(R) Core(TM) i9-14900KF, \\ 3.2 GHz, 32 threads, 24 cores} & 128 GB DDR5 & \makecell{NVIDIA GeForce \\ RTX4090 24 GB} & 1.8 TB NVMe\\
+		\hline
+		poti & \makecell{Intel(R) Core(TM) i7-14700KF, \\ 3.4 GHz, 28 threads, 20 cores} & 96 GB DDR5 & \makecell{NVIDIA GeForce \\ RTX4070 12 GB} & \makecell{119.2 GB NVMe, \\ 1.7 TB SSD}\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Resultados}
+
+\subsection{Inferência do modelo}
+\subsection{Utilização das GPUs}
+\subsection{Comunicação}
+
+\section{Limitações do trabalho}
+
+\section{Conclusão}
+Considerações finais e propostas de trabalhos futuros.
+
+\section{Uso de Inteligência Artificial}
+
+
+% --- AGRADECIMENTOS ---
+\begin{acks}
+Agradecemos ao GPPD da UFRGS por poder providenciar o acesso ao PCAD para realizar estes experimentos.
+Agradecemos ao Professor Dr. Lucas Mello Schnorr pela orientação oferecida no desenvolvimento deste trabalho e seus conselhos.
 \end{acks}
 
-	% --- BIBLIOGRAFIA ---
-	\bibliographystyle{ACM-Reference-Format}
-	\bibliography{acmart.bib} % Certifique-se de que o arquivo 'sample-base.bib' existe na pasta
+% --- BIBLIOGRAFIA ---
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{acmart.bib}
 
 \end{document}
 \endinput
