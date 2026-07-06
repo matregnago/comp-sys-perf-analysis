@@ -2,7 +2,7 @@
 
 % --- PACOTES ---
 \usepackage{makecell} % células multilinha nas tabelas
-\usepackage{float}    % posicionamento [H] de tabelas/figuras
+\raggedbottom % evita espaços verticais esticados quando um float flutua para outra página
 
 % --- CONFIGURAÇÕES DE LOGO DO BIBTEX ---
 \AtBeginDocument{%
@@ -39,7 +39,7 @@
 
 % O Resumo (Abstract) DEVE vir antes do \maketitle
 \begin{abstract}
-Estudo do comportamento de Modelos de Linguagem de Grande Porte (\textit{Large Language Models}, ou LLM) em situação de particionamento dedados, utilizando as GPUs nativas aos sistemas da Universidade Federal do Rio Grande do Sul, Campus do Vale.
+Estudo do comportamento de Modelos de Linguagem de Grande Porte (\textit{Large Language Models}, ou LLM) em situação de particionamento de dados, utilizando as GPUs nativas aos sistemas da Universidade Federal do Rio Grande do Sul, Campus do Vale.
 \end{abstract}
 
 % --- PALAVRAS-CHAVE ---
@@ -49,23 +49,23 @@ Estudo do comportamento de Modelos de Linguagem de Grande Porte (\textit{Large L
 
 % --- SEÇÕES DO ARTIGO ---
 \section{Introdução}
-Na era moderna, a prevalência de Inteligências Artificiais no âmbito diário é cada vez mais notável, seja na forma de assistentes virtuais, desistemas de tradução ou mesmo na geração de códigos para programas. Um elemento essencial para sua aplicabilidade cada vez mais abrangente sãoos \textit{Large Language Models} (LLM), vastas redes neurais capazes de processar bilhões de parâmetros dados por vários usuárioseficientemente e tendo tremendo poder computacional para tal tarefa. Contudo, tais atributos também fazem com que LLMs ocupem muito espaço emmáquinas, por vezes necessitando que seja particionada em segmentos menores para poder operar.
+Na era moderna, a prevalência de Inteligências Artificiais no âmbito diário é cada vez mais notável, seja na forma de assistentes virtuais, de sistemas de tradução ou mesmo na geração de códigos para programas. Um elemento essencial para sua aplicabilidade cada vez mais abrangente são os \textit{Large Language Models} (LLM), vastas redes neurais capazes de processar bilhões de parâmetros dados por vários usuários eficientemente e tendo tremendo poder computacional para tal tarefa. Contudo, tais atributos também fazem com que LLMs ocupem muito espaço em máquinas, por vezes necessitando que seja particionada em segmentos menores para poder operar.
 
-O propósito deste trabalho é o estudo dos efeitos de particionamento de LLMs por Unidades de Processamento Gráfico (\textit{Graphic Process Uni} ou GPU) e o estudo de como afeta o processo de inferência do modelo, utilizando as GPUs localizadas no Parque Computacional de AltoDesempenho (PCAD)\footnote{https://pcad.inf.ufrgs.br/} da Universidade Federal do Rio Grande do Sul (UFRGS).
+O propósito deste trabalho é o estudo dos efeitos de particionamento de LLMs por Unidades de Processamento Gráfico (\textit{Graphic Process Unit} ou GPU) e o estudo de como afeta o processo de inferência do modelo, utilizando as GPUs localizadas no Parque Computacional de Alto Desempenho (PCAD)\footnote{https://pcad.inf.ufrgs.br/} da Universidade Federal do Rio Grande do Sul (UFRGS).
 
 \section{Contexto}
 
-Inferência é o processo de utilizar um modelo já treinado para gerar texto a partir de uma entrada fornecida pelo usuário. Nos LLMs modernos,baseados na arquitetura Transformer~\cite{VASWANI2017}, essa geração é autorregressiva: o texto de saída é produzido um \textit{token} por vez,e cada novo token depende de todos os tokens anteriores.
+Inferência é o processo de utilizar um modelo já treinado para gerar texto a partir de uma entrada fornecida pelo usuário. Nos LLMs modernos, baseados na arquitetura Transformer~\cite{VASWANI2017}, essa geração é autorregressiva, onde o texto de saída é produzido um \textit{token} por vez, e cada novo token depende de todos os tokens anteriores.
 
-A principal restrição para servir um LLM é a memória da GPU. Os pesos de um modelo com 7 bilhões de parâmetros em precisão \textit{bfloat16}ocupam cerca de 15GB, aos quais se soma o KV cache, que cresce com com o número de requisições atendidas. Quando esse total excede a memória deuma única GPU, o modelo precisa ser particionado entre múltiplas GPUs. Neste trabalho, utilizamos duas estratégias de particionamento: TensorParallelism e Pipeline Parallelism.
+A principal restrição para servir um LLM é a memória da GPU. Os pesos de um modelo com 7 bilhões de parâmetros em precisão \textit{bfloat16} ocupam cerca de 15GB, aos quais se soma o KV cache, que cresce com o número de requisições atendidas. Quando esse total excede a memória de uma única GPU, o modelo precisa ser particionado entre múltiplas GPUs. Neste trabalho, utilizamos duas estratégias de particionamento: Tensor Parallelism e Pipeline Parallelism.
 
-No \textit{Tensor Parallelism} (TP)~\cite{SHOEYBI2019}, as matrizes de pesos de \emph{cada} camada são fatiadas entre as GPUs, de modo quetodas as GPUs cooperam no cálculo de todas as camadas. Cada GPU computa um resultado parcial, e os resultados precisam ser combinados poroperações \textit{AllReduce} a cada camada do modelo, em cada passo de geração. A comunicação é, portanto, frequente e está no caminho críticoda inferência.
+No \textit{Tensor Parallelism} (TP)~\cite{SHOEYBI2019}, as matrizes de pesos de \emph{cada} camada são fatiadas entre as GPUs, de modo que todas as GPUs cooperam no cálculo de todas as camadas. Cada GPU computa um resultado parcial, e os resultados precisam ser combinados por operações \textit{AllReduce} a cada camada do modelo, em cada passo de geração. A comunicação é, portanto, frequente e está no caminho crítico da inferência.
 
-No \textit{Pipeline Parallelism} (PP)~\cite{HUANG2019}, o modelo é dividido em estágios sequenciais de camadas contíguas, cada estágioatribuído a uma GPU. As requisições atravessam os estágios, onde a saída de um estágio é enviada ponto a ponto apenas para o estágio seguinte.O volume de comunicação é muito menor que no TP, limitado às fronteiras entre estágios. Porém, o problema está na ociosidade de computação,visto que apenas um estágio trabalha por vez.
+No \textit{Pipeline Parallelism} (PP)~\cite{HUANG2019}, o modelo é dividido em estágios sequenciais de camadas contíguas, cada estágio atribuído a uma GPU. As requisições atravessam os estágios, onde a saída de um estágio é enviada ponto a ponto apenas para o estágio seguinte. O volume de comunicação é muito menor que no TP, limitado às fronteiras entre estágios. Porém, o problema está na ociosidade de computação, visto que apenas um estágio trabalha por vez.
 
 \subsection{Pilha de software para inferência distribuída}
 \label{sec:stack}
-Na prática, a inferência distribuída é realizada por uma \textit{serving engine} que gerencia o particionamento, o lote dinâmico de requisiçõese a exposição de uma API de geração. Este trabalho utiliza o vLLM~\cite{KWON2023}, que implementa TP e PP. Em execuções multi-nó, o vLLMutiliza o Ray~\cite{MORITZ2018} para coordenar os processos entre as máquinas.
+Na prática, a inferência distribuída é realizada por uma \textit{serving engine} que gerencia o particionamento, o lote dinâmico de requisições e a exposição de uma API de geração. Este trabalho utiliza o vLLM~\cite{KWON2023}, que implementa TP e PP. Em execuções multi-nó, o vLLM utiliza o Ray~\cite{MORITZ2018} para coordenar os processos entre as máquinas.
 
 
 \section{Trabalhos Relacionados}
@@ -81,6 +81,7 @@ A abordagem deste trabalho é experimental, onde o mesmo modelo é servido sob d
 O modelo servido em todos os experimentos é o Qwen2.5-7B-Instruct~\cite{qwen2.5_7b_instruct}, um modelo denso com 7,61 bilhões de parâmetros e 28 camadas. Os pesos tem um tamanho de 15GB e não cabem na GPU de 12GB disponível no cluster, o que torna o particionamento obrigatório nesse hardware, mas cabem na GPU de 24GB, preservando uma configuração de GPU única como \textit{baseline}.
 
 \subsection{Métricas avaliadas}
+\label{sec:metricas}
 
 No nível da aplicação adotamos as métricas usuais de inferência de LLMs: o tempo até o primeiro token (\textit{Time to First Token}, TTFT); a latência média entre tokens consecutivos (\textit{Inter-Token Latency}, ITL); a latência total da requisição; e as vazões de tokens gerados (tokens/s) e de requisições atendidas (req/s).
 
@@ -113,7 +114,7 @@ Nas execuções de \textit{trace}, uma única medição de 30 requisições é f
 
 Os experimentos foram executados no PCAD nas partições descritas na Tabela~\ref{tab:nos}. Cada nó possui exatamente uma GPU, de modo que todo o tráfego de TP e PP atravessa a rede Ethernet de 1 Gbit/s.
 
-\begin{table}[H]
+\begin{table}[htb]
 	\caption{Especificações técnicas das máquinas utilizadas}
 	\label{tab:nos}
 	\begin{tabular}{ccccc}
@@ -127,19 +128,102 @@ Os experimentos foram executados no PCAD nas partições descritas na Tabela~\re
 	\end{tabular}
 \end{table}
 
+\newpage
+
 \section{Resultados}
 
+Esta seção descreve os resultados obtidos a partir dos experimentos realizados no trabalho. Começamos com as métricas da inferência do modelo, depois partimos para a utilização da GPU durante a inferência e por fim realizamos uma análise na comunicação entre as GPUs durante o particionamento TP e PP.
+
+
 \subsection{Inferência do modelo}
+
+A Figura~\ref{fig:metrics-tupi} apresenta as quatro métricas descritas na Seção~\ref{sec:metricas} para o nó tupi, na carga curta. A configuração \textit{Single GPU} domina em todas elas. Como o modelo cabe inteiro na RTX 4090, nenhuma estratégia de particionamento supera o baseline sem particionamento.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{../figures/inference_analysis/metrics-overview-tupi-short.png}
+	\caption{Métricas de inferência no cluster tupi: Single GPU vs.\ TP vs.\ PP.}
+	\label{fig:metrics-tupi}
+\end{figure}
+
+Na partição poti o modelo não cabe em uma única GPU, e todas as configurações exigem particionamento, conforme pode ser visto na Figura~\ref{fig:metrics-poti}. Aqui o TTFT do TP é 6,6--7,0$\times$ maior que o do PP em todas as combinações de $N$ e carga. Já a latência total de requisição está praticamente empatada entre as duas estratégias em N=2, mas passa a favorecer o PP em N=4.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{../figures/inference_analysis/metrics-overview-poti-short.png}
+	\caption{Métricas de inferência no nó poti: TP vs.\ PP.}
+	\label{fig:metrics-poti}
+\end{figure}
+
 \subsection{Utilização das GPUs}
+
+Para ir além das métricas de aplicação, cruzamos a telemetria do \texttt{nvidia-smi} com a janela real de inferência do \texttt{aiperf}. A Figura~\ref{fig:util-by-node-tupi} mostra a utilização média da GPU por nó no cluster tupi, na carga curta, onde o baseline opera a 86\%, o TP mantém as duas GPUs entre 93\% e 95\%, e o PP alterna entre 37\% e 79\%, pois é um comportamento comum onde um estágio ocioso à espera da ativação do outro.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../figures/gpu_telemetry/util-by-node-tupi.png}
+	\caption{Utilização média da GPU por nó, cluster tupi, carga curta.}
+	\label{fig:util-by-node-tupi}
+\end{figure}
+
+
+A utilização alta do TP não significa apenas computação, pois a decomposição de traços do \texttt{nsys} mostra que a maior parte desse tempo é o kernel NCCL bloqueado à espera da rede. A Figura~\ref{fig:util-power} mostra isso, cruzando utilização média com potência média por GPU, onde os pontos de TP no poti atingem 68--76\% de utilização consumindo apenas 37--43~W, bem abaixo do que se esperaria de uma GPU realizando trabalho de ponto flutuante equivalente. Por outro lado, a baseline da tupi com carga longa opera a 198,5~W, acima da potência de qualquer configuração particionada no mesmo cluster, porque toda a carga de trabalho está concentrada em uma única placa.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../figures/gpu_telemetry/utilization_vs_power.png}
+	\caption{Utilização média $\times$ potência média, um ponto por GPU/experimento.}
+	\label{fig:util-power}
+\end{figure}
+
 \subsection{Comunicação}
+\label{sec:comunicacao}
+
+A Figura~\ref{fig:comm-comp} decompõe o tempo de GPU entre kernels NCCL (comunicação) e os demais kernels CUDA (computação), na carga curta. O \textit{Single GPU} não tem nenhuma comunicação, como esperado. O TP é fortemente limitado pela comunicação, onde apresenta uma porcentagem de comunicação de 55\% no poti em N=2, subindo para 82\% em N=4, onde ao dobrar o número de nós praticamente triplica a fração de comunicação, porque o \textit{AllReduce} passa a incluir mais participantes. Na tupi, que possui uma GPU mais rápida, o mesmo TP em N=2 chega a 97\% de comunicação, porque a GPU termina sua fatia de computação mais cedo e passa a maior parte do tempo esperando o \textit{AllReduce}, expondo o gargalo de rede ainda mais que na poti. O PP fica abaixo de 5\% de comunicação em quase todas as células. Apenas a exceção sendo a carga longa na tupi, com 23,8\%, ainda 3--4$\times$ menor que o TP na mesma célula.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{../figures/communication_analysis/comm-comp-breakdown-short.png}
+	\caption{Decomposição comunicação (NCCL) vs.\ computação do tempo de GPU (rank 0), carga curta.}
+	\label{fig:comm-comp}
+\end{figure}
+
+A Figura~\ref{fig:net-saturation} mostra o pico de utilização da interface de rede por configuração, onde o TP satura o enlace em todas as células, enquanto o PP nunca ultrapassa 13\%. Isso fortalece ainda mais o argumento de que o gargalo é o enlace físico, e não outro recurso do sistema.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{../figures/communication_analysis/network-saturation.png}
+	\caption{Pico de utilização da interface de rede por configuração (esq.) e correlação com a fração de comunicação do \texttt{nsys} (dir.).}
+	\label{fig:net-saturation}
+\end{figure}
+
+
+Um modelo empírico, calibrado pelo ponto medido em 1~GbE ($TTFT_{TP}(B) = TTFT_{\text{single}} + K/B$, com $K=0{,}941$~Gbit/s via \texttt{iperf3}), projeta o \textit{break-even} de TTFT entre TP e PP (Figura~\ref{fig:breakeven}): só a partir de ${\approx}20$~Gbit/s (perto de uma 25~GbE) o TP alcançaria a latência que o PP já entrega hoje em 1~GbE. Para igualar o \textit{throughput} do \textit{Single GPU} bastariam ${\approx}1{,}5$~Gbit/s — valor tão próximo do enlace atual que sugere que o \textit{throughput} do TP já está quase alinhado ao do baseline, mesmo com seu TTFT permanecendo ordens de grandeza pior.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{../figures/statistical_analysis/network_break_even.png}
+	\caption{Projeção do TTFT do TP em função da banda de interconexão e ponto de \textit{break-even} com o PP.}
+	\label{fig:breakeven}
+\end{figure}
 
 \section{Limitações do trabalho}
 
+Este trabalho tem algumas limitações de escopo. Testamos apenas um modelo, o Qwen2.5-7B-Instruct, então não sabemos se os mesmos resultados valeriam para modelos maiores, menores ou de arquitetura diferente. A rede entre os nós do PCAD foi sempre Ethernet de 1~Gbit/s; as conclusões sobre redes mais rápidas, como o \textit{break-even} em ${\approx}20$~Gbit/s, vêm de um modelo matemático ajustado a um único ponto medido, e não de uma medição real nessas velocidades. Também ficou faltando uma célula do projeto experimental, N=4 no cluster tupi, por falta de nós homogêneos disponíveis durante a coleta.
+
 \section{Conclusão}
-Considerações finais e propostas de trabalhos futuros.
+
+Os resultados mostram que em um cluster com uma GPU por nó interligado por Ethernet de 1~Gbit/s, a comunicação é o fator dominante de desempenho do Tensor Parallelism entre nós. O TP chega a gastar 97\% do tempo de GPU em kernels NCCL e satura o enlace de rede. Além disso, essa fração de comunicação cresce com o número de nós, de modo que o TP piora, e não melhora, ao escalar. O Pipeline Parallelism, por transferir apenas ativações nas fronteiras de estágio, permanece majoritariamente compute-bound.
+
+Uma segunda conclusão que podemos tirar é que quando o modelo cabe em uma única GPU, nenhuma estratégia de particionamento supera o baseline sem particionamento. Ou seja, é melhor particionar apenas quando a memória obrigar, e preferir a estratégia PP em relação a TP sempre que a interconexão entre nós for Ethernet de 1~Gbit/s ou similar.
+
+O modelo de \textit{break-even} (Seção~\ref{sec:comunicacao}) converte essa recomendação em um número de rede concreto: o TP só se tornaria competitivo com o PP em latência a partir de ${\approx}20$~Gbit/s (uma 25~GbE). O efeito depende, curiosamente, da própria velocidade da GPU: a mesma configuração TP em N=2 passa de 55\% de comunicação no poti (RTX~4070) para 97\% no tupi (RTX~4090) — quanto mais rápida a GPU, mais cedo ela termina sua fatia de computação e mais o tempo total passa a ser dominado pela espera pela rede, um efeito análogo à Lei de Amdahl aplicada à comunicação. Em clusters PCAD futuros com GPUs mais rápidas, esse efeito tende a se agravar, não a se atenuar.
+
+Como trabalhos futuros, sugere-se validar o modelo de \textit{break-even} em um ponto intermediário real, medir a célula N=4 no cluster tupi, hoje ausente por restrições de disponibilidade de nós no PCAD e testar o particionamento com diferentes LLMs com diferentes tamanhos e pesos.
 
 \section{Uso de Inteligência Artificial}
 
+Usamos ferramentas de Inteligência Artificial baseadas em LLM como apoio neste trabalho. Mais especificamente o modelo Claude Opus 4.6 e Claude Opus 4.7. Ele foi utilizado tanto na redação e revisão do texto do relatório quanto na escrita do código dos scripts e notebooks de análise. O desenho experimental, a execução dos testes no PCAD, a interpretação dos resultados e as conclusões apresentadas são de responsabilidade dos autores, que revisaram e validaram todo o conteúdo produzido com auxílio de IA antes de incluí-lo no trabalho.
 
 % --- AGRADECIMENTOS ---
 \begin{acks}
