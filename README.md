@@ -1,5 +1,6 @@
 # Passos para rodar o projeto
 
+
 1. Instalar o `Nix`:
 
 ```bash
@@ -64,3 +65,9 @@ latexmk -pdf main.tex
 ## Scripts de experimentos
 
 Os experimentos são gerados a partir de jobs `Slurm`, onde as configurações dos experimentos ficam em [`scripts/config.sh`](scripts/config.sh) e os jobs são lançados a partir do [`scripts/submit_jobs.sh`](scripts/submit_jobs.sh).
+
+## Dados dos experimentos
+
+Os dados coletados pelos experimentos estão disponíveis para baixar em: https://drive.google.com/file/d/1wZK7vyx6AOMiDtQDW-h0CLH1byK27qu9/view?usp=drive_link
+
+Todo o histórico do trabalho está disponível também no repositório público: https://github.com/matregnago/comp-sys-perf-analysis

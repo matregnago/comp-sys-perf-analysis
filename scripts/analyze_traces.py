@@ -1,20 +1,4 @@
 #!/usr/bin/env python3
-"""Separa comunicacao (NCCL) de computacao nos traces nsys dos experimentos.
-
-Para cada run em data/N*/<rank>/ray_trace.nsys-rep:
-  - roda `nsys stats --report cuda_gpu_kern_sum` (reaproveita o .sqlite ja exportado);
-  - classifica cada kernel: nome contem "nccl" => comunicacao, senao computacao;
-  - soma o Total Time (ns) de cada classe e calcula a fracao comm/comp por rank;
-  - agrega por run e cruza com aiperf (ITL/throughput), sar (%ifutil) e iperf3 (teto).
-
-Saida: data_processed/comm_comp.csv (+ comm_comp_per_rank.csv) e figuras em
-figures/communication/. Roda onde o `nsys` esteja no PATH (ex.: nixw nix develop .#default,
-ou local). So precisa de stdlib; matplotlib e' opcional (apenas para as figuras).
-
-Metodo validado em docs/analise-comunicacao-computacao.md. Com 1 GPU/no os kernels
-serializam na mesma GPU, entao o tempo de kernel NCCL ~= comunicacao exposta (wall-clock).
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -64,8 +48,10 @@ def run_kern_sum(trace: Path, force: bool) -> str | None:
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True)
     except FileNotFoundError:
-        sys.exit("ERRO: `nsys` nao encontrado no PATH. Rode dentro de um shell com o "
-                 "Nsight Systems (ex.: nixw nix develop .#default).")
+        sys.exit(
+            "ERRO: `nsys` nao encontrado no PATH. Rode dentro de um shell com o "
+            "Nsight Systems (ex.: nixw nix develop .#default)."
+        )
     if proc.returncode != 0:
         print(f"  [warn] nsys falhou em {trace}: {proc.stderr.strip()[:200]}")
         return None
@@ -184,8 +170,10 @@ def analyze_run(run_dir: Path, force: bool, require_aiperf: bool):
 
     head = find_head_dir(rank_dirs)
     if require_aiperf and head is None:
-        print(f"  [skip] {run_dir.name}: sem profile_export_aiperf.json "
-              f"(inferencia nao rodou)")
+        print(
+            f"  [skip] {run_dir.name}: sem profile_export_aiperf.json "
+            f"(inferencia nao rodou)"
+        )
         return None, []
 
     per_rank = []
@@ -201,16 +189,18 @@ def analyze_run(run_dir: Path, force: bool, require_aiperf: bool):
             continue
         comm, comp = parsed["comm_ns"], parsed["comp_ns"]
         tot = comm + comp
-        per_rank.append({
-            "run": run_dir.name,
-            "rank": d.name,
-            "is_head": d == head,
-            "comm_s": comm / 1e9,
-            "comp_s": comp / 1e9,
-            "gpu_s": tot / 1e9,
-            "comm_pct": 100 * comm / tot if tot else None,
-            "dominant_collective": parsed["dominant"],
-        })
+        per_rank.append(
+            {
+                "run": run_dir.name,
+                "rank": d.name,
+                "is_head": d == head,
+                "comm_s": comm / 1e9,
+                "comp_s": comp / 1e9,
+                "gpu_s": tot / 1e9,
+                "comm_pct": 100 * comm / tot if tot else None,
+                "dominant_collective": parsed["dominant"],
+            }
+        )
 
     if not per_rank:
         return None, []
@@ -225,7 +215,9 @@ def analyze_run(run_dir: Path, force: bool, require_aiperf: bool):
         "n_ranks": len(per_rank),
         "comm_pct_head": head_row["comm_pct"],
         "comm_pct_mean": sum(comm_pcts) / len(comm_pcts) if comm_pcts else None,
-        "comp_pct_head": (100 - head_row["comm_pct"]) if head_row["comm_pct"] is not None else None,
+        "comp_pct_head": (100 - head_row["comm_pct"])
+        if head_row["comm_pct"] is not None
+        else None,
         "gpu_s_head": head_row["gpu_s"],
         "dominant_collective": head_row["dominant_collective"],
         "ifutil_peak": peak_ifutil(run_dir),
@@ -242,6 +234,7 @@ def analyze_run(run_dir: Path, force: bool, require_aiperf: bool):
 def make_figures(rows: list[dict], outdir: Path):
     try:
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except Exception:
@@ -254,11 +247,19 @@ def make_figures(rows: list[dict], outdir: Path):
         return
 
     order = {"none": 0, "TP": 1, "PP": 2}
-    rows = sorted(rows, key=lambda r: (order.get(r["strategy"], 9),
-                                       r["n_gpus"] or 0, r["workload"] or ""))
+    rows = sorted(
+        rows,
+        key=lambda r: (
+            order.get(r["strategy"], 9),
+            r["n_gpus"] or 0,
+            r["workload"] or "",
+        ),
+    )
 
     # 1) Barras empilhadas comm/comp por configuracao
-    labels = [f"{r['node']} N{r['n_gpus']}\n{r['strategy']} {r['workload']}" for r in rows]
+    labels = [
+        f"{r['node']} N{r['n_gpus']}\n{r['strategy']} {r['workload']}" for r in rows
+    ]
     comm = [r["comm_pct_head"] for r in rows]
     comp = [100 - c for c in comm]
     x = range(len(rows))
@@ -272,7 +273,9 @@ def make_figures(rows: list[dict], outdir: Path):
     ax.set_title("Comunicacao vs. computacao por configuracao (rank 0)")
     ax.legend(loc="lower right")
     for i, c in enumerate(comm):
-        ax.text(i, c / 2, f"{c:.0f}%", ha="center", va="center", color="white", fontsize=8)
+        ax.text(
+            i, c / 2, f"{c:.0f}%", ha="center", va="center", color="white", fontsize=8
+        )
     fig.tight_layout()
     fig.savefig(outdir / "comm-comp-stacked.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
@@ -282,11 +285,14 @@ def make_figures(rows: list[dict], outdir: Path):
     series = defaultdict(list)
     for r in rows:
         if r["strategy"] in ("TP", "PP"):
-            series[(r["strategy"], r["workload"])].append((r["n_gpus"], r["comm_pct_head"]))
+            series[(r["strategy"], r["workload"])].append(
+                (r["n_gpus"], r["comm_pct_head"])
+            )
     for (strat, wl), pts in sorted(series.items()):
         pts.sort()
-        ax.plot([p[0] for p in pts], [p[1] for p in pts],
-                marker="o", label=f"{strat} {wl}")
+        ax.plot(
+            [p[0] for p in pts], [p[1] for p in pts], marker="o", label=f"{strat} {wl}"
+        )
     ax.set_xlabel("numero de GPUs (= nodos, 1 GPU/no)")
     ax.set_ylabel("% comunicacao (rank 0)")
     ax.set_ylim(0, 100)
@@ -317,9 +323,18 @@ def _to_int(v):
 def load_summary_csv(path: Path) -> list[dict]:
     """Recarrega comm_comp.csv (para gerar figuras sem re-rodar o nsys)."""
     rows = []
-    num = ("comm_pct_head", "comm_pct_mean", "comp_pct_head", "gpu_s_head",
-           "throughput_req_s", "itl_ms", "ttft_ms", "latency_ms",
-           "ifutil_peak", "iperf3_gbps")
+    num = (
+        "comm_pct_head",
+        "comm_pct_mean",
+        "comp_pct_head",
+        "gpu_s_head",
+        "throughput_req_s",
+        "itl_ms",
+        "ttft_ms",
+        "latency_ms",
+        "ifutil_peak",
+        "iperf3_gbps",
+    )
     with path.open() as f:
         for r in csv.DictReader(f):
             for k in num:
@@ -339,24 +354,50 @@ def write_csv(path: Path, rows: list[dict], fields: list[str]):
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--data", type=Path, default=Path("data"),
-                    help="diretorio raiz dos runs (default: data)")
-    ap.add_argument("--out", type=Path, default=Path("data_processed"),
-                    help="diretorio de saida dos CSVs (default: data_processed)")
-    ap.add_argument("--figdir", type=Path, default=Path("figures/communication"),
-                    help="diretorio das figuras")
-    ap.add_argument("--only", default=None,
-                    help="processa apenas runs cujo nome contem esta substring")
-    ap.add_argument("--force-export", action="store_true",
-                    help="re-exporta o .sqlite do nsys (default: reaproveita)")
-    ap.add_argument("--include-no-aiperf", action="store_true",
-                    help="inclui runs sem aiperf (traces de startup sem inferencia)")
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument(
+        "--data",
+        type=Path,
+        default=Path("data"),
+        help="diretorio raiz dos runs (default: data)",
+    )
+    ap.add_argument(
+        "--out",
+        type=Path,
+        default=Path("data_processed"),
+        help="diretorio de saida dos CSVs (default: data_processed)",
+    )
+    ap.add_argument(
+        "--figdir",
+        type=Path,
+        default=Path("figures/communication"),
+        help="diretorio das figuras",
+    )
+    ap.add_argument(
+        "--only",
+        default=None,
+        help="processa apenas runs cujo nome contem esta substring",
+    )
+    ap.add_argument(
+        "--force-export",
+        action="store_true",
+        help="re-exporta o .sqlite do nsys (default: reaproveita)",
+    )
+    ap.add_argument(
+        "--include-no-aiperf",
+        action="store_true",
+        help="inclui runs sem aiperf (traces de startup sem inferencia)",
+    )
     ap.add_argument("--no-figures", action="store_true")
-    ap.add_argument("--figures-from", type=Path, default=None,
-                    help="gera so as figuras a partir de um comm_comp.csv existente "
-                         "(nao roda o nsys). Use dentro de `nix develop .#tools`.")
+    ap.add_argument(
+        "--figures-from",
+        type=Path,
+        default=None,
+        help="gera so as figuras a partir de um comm_comp.csv existente "
+        "(nao roda o nsys). Use dentro de `nix develop .#tools`.",
+    )
     args = ap.parse_args()
 
     if args.figures_from:
@@ -371,31 +412,60 @@ def main():
 
     summaries, per_rank_all = [], []
     for run_dir in run_dirs:
-        summary, per_rank = analyze_run(run_dir, args.force_export,
-                                        require_aiperf=not args.include_no_aiperf)
+        summary, per_rank = analyze_run(
+            run_dir, args.force_export, require_aiperf=not args.include_no_aiperf
+        )
         if summary:
             summaries.append(summary)
             per_rank_all.extend(per_rank)
-            print(f"  => {run_dir.name}: comm(head)={summary['comm_pct_head']:.1f}%  "
-                  f"coletivo={summary['dominant_collective']}  "
-                  f"ifutil_pico={summary['ifutil_peak']}  ITL={summary.get('itl_ms')}")
+            print(
+                f"  => {run_dir.name}: comm(head)={summary['comm_pct_head']:.1f}%  "
+                f"coletivo={summary['dominant_collective']}  "
+                f"ifutil_pico={summary['ifutil_peak']}  ITL={summary.get('itl_ms')}"
+            )
 
     if not summaries:
-        sys.exit("Nenhum run com dados utilizaveis (use --include-no-aiperf para ver startup-only).")
+        sys.exit(
+            "Nenhum run com dados utilizaveis (use --include-no-aiperf para ver startup-only)."
+        )
 
     summary_fields = [
-        "run", "node", "n_gpus", "strategy", "workload", "n_ranks",
-        "comm_pct_head", "comm_pct_mean", "comp_pct_head", "gpu_s_head",
-        "dominant_collective", "throughput_req_s", "itl_ms", "ttft_ms",
-        "latency_ms", "out_tok_throughput", "ifutil_peak", "iperf3_gbps",
+        "run",
+        "node",
+        "n_gpus",
+        "strategy",
+        "workload",
+        "n_ranks",
+        "comm_pct_head",
+        "comm_pct_mean",
+        "comp_pct_head",
+        "gpu_s_head",
+        "dominant_collective",
+        "throughput_req_s",
+        "itl_ms",
+        "ttft_ms",
+        "latency_ms",
+        "out_tok_throughput",
+        "ifutil_peak",
+        "iperf3_gbps",
     ]
-    per_rank_fields = ["run", "rank", "is_head", "comm_s", "comp_s", "gpu_s",
-                       "comm_pct", "dominant_collective"]
+    per_rank_fields = [
+        "run",
+        "rank",
+        "is_head",
+        "comm_s",
+        "comp_s",
+        "gpu_s",
+        "comm_pct",
+        "dominant_collective",
+    ]
 
     write_csv(args.out / "comm_comp.csv", summaries, summary_fields)
     write_csv(args.out / "comm_comp_per_rank.csv", per_rank_all, per_rank_fields)
     print(f"\nSalvo: {(args.out / 'comm_comp.csv').resolve()}  ({len(summaries)} runs)")
-    print(f"Salvo: {(args.out / 'comm_comp_per_rank.csv').resolve()}  ({len(per_rank_all)} ranks)")
+    print(
+        f"Salvo: {(args.out / 'comm_comp_per_rank.csv').resolve()}  ({len(per_rank_all)} ranks)"
+    )
 
     if not args.no_figures:
         make_figures(summaries, args.figdir)

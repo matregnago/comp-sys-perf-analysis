@@ -1,6 +1,5 @@
 #!/bin/bash
-#
-# head_benchmark.sh - entrypoint do `ray symmetric-run`, executado SO no head.
+
 # Sobe o `vllm serve` com a topologia TP/PP, espera o /v1/models responder e entao
 # roda o `aiperf profile` para medir a inferencia.
 set -euo pipefail
@@ -13,18 +12,13 @@ set -euo pipefail
 : "${VIRTUAL_ENV:?VIRTUAL_ENV obrigatorio (venv ativado pelo shellHook do flake)}"
 : "${ip_head:?ip_head obrigatorio (IP:porta do head Ray, definido pelo benchmark.slurm)}"
 
-# Sem isso o ray.init() interno do vLLM faz bootstrap de um cluster novo
-# em vez de conectar no que o symmetric-run ja subiu.
 export RAY_ADDRESS="$ip_head"
 
-# VLLM_HOST_IP deve ser definido por nodo no bootstrap do Ray (node_run.sh).
-# Aqui apenas garantimos fallback para o head caso nao venha setado.
 if [ -z "${VLLM_HOST_IP:-}" ]; then
     HEAD_IP="${ip_head%%:*}"
     export VLLM_HOST_IP="$HEAD_IP"
 fi
 
-# Evita warning/performance hit do matplotlib quando $HOME nao e gravavel no nodo.
 export MPLCONFIGDIR="${MPLCONFIGDIR:-$RESULTS_DIR/.mplcache}"
 
 HEAD_HOST="$(hostname)"
@@ -34,7 +28,6 @@ mkdir -p "$MPLCONFIGDIR"
 
 VLLM_LOG="$HEAD_RESULTS/vllm_server.log"
 
-# Topologia paralela: por padrao TP=GPUs/no, PP=numero de nodos.
 TP_SIZE="${TP_SIZE:-${SLURM_GPUS_PER_TASK:-1}}"
 PP_SIZE="${PP_SIZE:-${SLURM_JOB_NUM_NODES:-1}}"
 
@@ -53,11 +46,6 @@ if [ "${ENFORCE_EAGER:-0}" = "1" ]; then
     VLLM_ARGS+=(--enforce-eager)
 fi
 
-# MAX_NUM_SEQS (opcional) limita o batch maximo do vLLM. Default do vLLM = 256, o que
-# faz o warmup do sampler alocar 256 dummy requests; em GPU pequena (poti/RTX 4070 12GB)
-# com TP, isso estoura a memoria no startup (CUDA OOM no _dummy_sampler_run). Como a
-# varredura de concorrencia vai no maximo ate CONCURRENCY_LEVELS (<=32), capar aqui nao
-# muda nada nos niveis medidos e mantem CUDA graphs ligado (consistente com os demais runs).
 if [ -n "${MAX_NUM_SEQS:-}" ]; then
     VLLM_ARGS+=(--max-num-seqs "$MAX_NUM_SEQS")
 fi
@@ -109,8 +97,6 @@ if ! healthcheck > /dev/null 2>&1; then
     exit 1
 fi
 
-# Um run do aiperf. $1=concorrencia ("" = sem --concurrency), $2=dir de saida,
-# $3=request-count, $4=warmup-count. Reaproveita o vLLM ja quente entre niveis.
 run_aiperf() {
     local conc="$1" out_dir="$2" req="$3" warm="$4"
     mkdir -p "$out_dir"
@@ -133,10 +119,6 @@ run_aiperf() {
 
 if [ -n "${CONCURRENCY_LEVELS:-}" ]; then
     echo "[head] varredura de concorrencia: [$CONCURRENCY_LEVELS] -> $HEAD_RESULTS/concurrency_*"
-    # Teto de requests por nivel: evita runs proibitivamente longos em c alto
-    # (ex.: TP em c=128 com REQUESTS_PER_CONCURRENCY=10 -> 1280 requests x ~5s =
-    # 1.7h so de medicao). O decaimento abaixo limita `req` a MAX_REQUESTS a partir
-    # do nivel onde c * RPC passa do teto, mantendo o piso REQUEST_COUNT nos baixos.
     MAX_REQUESTS="${MAX_REQUESTS:-640}"
     for c in $CONCURRENCY_LEVELS; do
         req=$(( c * REQUESTS_PER_CONCURRENCY ))

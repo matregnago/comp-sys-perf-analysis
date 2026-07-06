@@ -1,9 +1,6 @@
 #!/bin/bash
-#
-# node_run.sh - roda por nodo (dentro do .#default). Fixa a interface de rede
-# interna (192.168.*) para Ray/NCCL/Gloo, mede a banda com iperf3 (multi-node),
-# inicia a telemetria (nvidia-smi + sar) e sobe o `ray symmetric-run` -- opcionalmente
-# sob o nsys -- com o head_benchmark.sh como entrypoint (executado so no head).
+
+
 set -euo pipefail
 
 [[ -f flake.nix ]] || { echo "rode da raiz do projeto"; exit 1; }
@@ -22,8 +19,6 @@ export RAY_TMPDIR="$SCRATCH/ray_$SLURM_JOB_ID"
 rm -rf "$RAY_TMPDIR"
 mkdir -p "$RAY_TMPDIR"
 
-# Roots de config/cache do vLLM (definidos em config.sh) precisam existir neste
-# nodo; os workers Ray herdam VLLM_CONFIG_ROOT/VLLM_CACHE_ROOT do env deste processo.
 mkdir -p "$VLLM_CONFIG_ROOT" "$VLLM_CACHE_ROOT"
 
 "$RAY_BIN" stop --force || true
@@ -34,7 +29,6 @@ export VLLM_HOST_IP="$NODE_IP"
 NODE_IFACE="$(ip -o -4 addr show | awk '$4 ~ /^192\.168\./ {print $2; exit}')"
 
 if [ -n "$NODE_IFACE" ]; then
-    # Evita o Gloo escolher loopback (127.0.0.1) no init distribuido.
     export GLOO_SOCKET_IFNAME="$NODE_IFACE"
     export NCCL_SOCKET_IFNAME="$NODE_IFACE"
     export UCX_NET_DEVICES="$NODE_IFACE"
@@ -47,10 +41,7 @@ echo "[$NODE_HOST] usando NODE_IP=$NODE_IP (RAY_NODE_IP_ADDRESS/VLLM_HOST_IP)"
 
 export RAY_ADDRESS="$ip_head"
 
-# iperf3 entre nodos (opt-in, multi-node apenas). Roda ANTES de iniciar
-# nvidia-smi e sar para nao poluir a telemetria com o trafego do teste.
-# Head (SLURM_NODEID=0) sobe servidor; workers conectam em sequencia
-# (escalonado por NODEID) para nao saturarem o head em paralelo.
+
 if [ "${IPERF:-0}" = "1" ] && [ "${SLURM_JOB_NUM_NODES:-1}" -gt 1 ]; then
     : "${HEAD_IP:?HEAD_IP obrigatorio para iperf3 (exportado pelo benchmark.slurm)}"
     NETDIR="$NODE_RESULTS_DIR/network"

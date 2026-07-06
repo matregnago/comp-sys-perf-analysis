@@ -57,7 +57,6 @@ Lucas Fraga Balbinot, Matheus Augusto Tregnago, Rafael Silva de Souza
 UFRGS — CMP223 — Análise de Desempenho
 </div>
 
-
 ---
 
 # Objetivo
@@ -190,7 +189,6 @@ Principais métricas analisadas:
 
 Em **TP** o tráfego atinge o teto de **~0,94 Gbit/s**; em **PP** a rede é subutilizada (~2%). O enlace de 1 GbE é o **gargalo físico** que limita os ganhos do TP.
 
-
 ---
 
 # Trade-offs de Paralelismo
@@ -212,7 +210,7 @@ Em **TP** o tráfego atinge o teto de **~0,94 Gbit/s**; em **PP** a rede é subu
 
 <div class="smaller">
 
-Modelo empírico: `TTFT_TP(B) = TTFT_single + K/B`, K calibrado pelo ponto medido em 1 GbE (iperf3 = 0,941 Gb/s). Ponto onde TP iguala PP é o **break-even**.
+Modelo empírico: `TTFT_TP(B) = TTFT_single + K/B`, K calibrado pelo ponto medido em 1 GbE.
 
 </div>
 
@@ -236,10 +234,14 @@ Modelo empírico: `TTFT_TP(B) = TTFT_single + K/B`, K calibrado pelo ponto medid
 
 # Uso de inteligência artificial
 
+Usamos ferramentas de IA baseadas em LLM como apoio neste trabalho: **Claude Opus 4.7**.
 
+- Apoio na **redação e revisão** do texto do relatório
+- Apoio na **escrita de código** dos scripts e notebooks de análise
+
+O design experimental, a execução dos testes no PCAD, a interpretação dos resultados e as conclusões apresentadas são de responsabilidade dos autores, que revisaram e validaram todo o conteúdo produzido com auxílio de IA antes de incluí-lo no trabalho.
 
 ---
-
 
 
 # Referências

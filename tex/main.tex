@@ -198,7 +198,7 @@ A Figura~\ref{fig:net-saturation} mostra o pico de utilização da interface de 
 \end{figure}
 
 
-Um modelo empírico, calibrado pelo ponto medido em 1~GbE ($TTFT_{TP}(B) = TTFT_{\text{single}} + K/B$, com $K=0{,}941$~Gbit/s via \texttt{iperf3}), projeta o \textit{break-even} de TTFT entre TP e PP (Figura~\ref{fig:breakeven}): só a partir de ${\approx}20$~Gbit/s (perto de uma 25~GbE) o TP alcançaria a latência que o PP já entrega hoje em 1~GbE. Para igualar o \textit{throughput} do \textit{Single GPU} bastariam ${\approx}1{,}5$~Gbit/s — valor tão próximo do enlace atual que sugere que o \textit{throughput} do TP já está quase alinhado ao do baseline, mesmo com seu TTFT permanecendo ordens de grandeza pior.
+Um modelo empírico, calibrado pelo ponto medido em 1~GbE ($TTFT_{TP}(B) = TTFT_{\text{single}} + K/B$, com $K=0{,}941$~Gbit/s), projeta o ponto de encontro do TTFT entre TP e PP representado na Figura~\ref{fig:breakeven}. Ela mostra que só a partir de 20~Gbit/s o TP alcançaria a latência que o PP já entrega hoje em 1~GbE. Para igualar o \textit{throughput} do \textit{Single GPU} bastariam $1{,}5$~Gbit/s.
 
 \begin{figure}[htb]
 	\centering
@@ -217,13 +217,13 @@ Os resultados mostram que em um cluster com uma GPU por nó interligado por Ethe
 
 Uma segunda conclusão que podemos tirar é que quando o modelo cabe em uma única GPU, nenhuma estratégia de particionamento supera o baseline sem particionamento. Ou seja, é melhor particionar apenas quando a memória obrigar, e preferir a estratégia PP em relação a TP sempre que a interconexão entre nós for Ethernet de 1~Gbit/s ou similar.
 
-O modelo de \textit{break-even} (Seção~\ref{sec:comunicacao}) converte essa recomendação em um número de rede concreto: o TP só se tornaria competitivo com o PP em latência a partir de ${\approx}20$~Gbit/s (uma 25~GbE). O efeito depende, curiosamente, da própria velocidade da GPU: a mesma configuração TP em N=2 passa de 55\% de comunicação no poti (RTX~4070) para 97\% no tupi (RTX~4090) — quanto mais rápida a GPU, mais cedo ela termina sua fatia de computação e mais o tempo total passa a ser dominado pela espera pela rede, um efeito análogo à Lei de Amdahl aplicada à comunicação. Em clusters PCAD futuros com GPUs mais rápidas, esse efeito tende a se agravar, não a se atenuar.
+O modelo empírico converte essa recomendação em um número de rede concreto, onde o TP só se tornaria competitivo com o PP em latência a partir de $20$~Gbit/s. O efeito depende da própria velocidade da GPU, onde a mesma configuração TP em N=2 passa de 55\% de comunicação na poti para 97\% na tupi, porque quanto mais rápida a GPU, mais cedo ela termina sua fatia de computação e mais o tempo total passa a ser dominado pela espera pela rede.
 
-Como trabalhos futuros, sugere-se validar o modelo de \textit{break-even} em um ponto intermediário real, medir a célula N=4 no cluster tupi, hoje ausente por restrições de disponibilidade de nós no PCAD e testar o particionamento com diferentes LLMs com diferentes tamanhos e pesos.
+Como trabalhos futuros, sugere-se validar o modelo empírico em um ponto intermediário real, medir a célula N=4 no cluster tupi, hoje ausente por restrições de disponibilidade de nós no PCAD e testar o particionamento com diferentes LLMs com diferentes tamanhos e pesos.
 
 \section{Uso de Inteligência Artificial}
 
-Usamos ferramentas de Inteligência Artificial baseadas em LLM como apoio neste trabalho. Mais especificamente o modelo Claude Opus 4.6 e Claude Opus 4.7. Ele foi utilizado tanto na redação e revisão do texto do relatório quanto na escrita do código dos scripts e notebooks de análise. O desenho experimental, a execução dos testes no PCAD, a interpretação dos resultados e as conclusões apresentadas são de responsabilidade dos autores, que revisaram e validaram todo o conteúdo produzido com auxílio de IA antes de incluí-lo no trabalho.
+Usamos ferramentas de Inteligência Artificial baseadas em LLM como apoio neste trabalho. Mais especificamente o modelo Claude Opus 4.7. Ele foi utilizado tanto na redação e revisão do texto do relatório quanto na escrita do código dos scripts e notebooks de análise. O desenho experimental, a execução dos testes no PCAD, a interpretação dos resultados e as conclusões apresentadas são de responsabilidade dos autores, que revisaram e validaram todo o conteúdo produzido com auxílio de IA antes de incluí-lo no trabalho.
 
 % --- AGRADECIMENTOS ---
 \begin{acks}
