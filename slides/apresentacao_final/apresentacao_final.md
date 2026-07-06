@@ -186,7 +186,7 @@ Principais métricas analisadas:
 
 # Análise de Comunicação
 
-![center w:820](../../figures/network_analysis/network_throughput_by_experiment_short.png)
+![center w:820](../../figures/network_analysis/network_throughput_by_experiment.png) 
 
 Em **TP** o tráfego atinge o teto de **~0,94 Gbit/s**; em **PP** a rede é subutilizada (~2%). O enlace de 1 GbE é o **gargalo físico** que limita os ganhos do TP.
 
