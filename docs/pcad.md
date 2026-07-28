@@ -22,8 +22,8 @@ No PCAD, o Nix deve ser instalado com o [`nixw`](nixw). Coloque `nixw` em `$HOME
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/matregnago/comp-sys-perf-analysis.git
-cd comp-sys-perf-analysis
+git clone https://github.com/matregnago/vllm-parallelism-benchmark.git
+cd vllm-parallelism-benchmark
 nixw nix develop .#tools
 ```
 
